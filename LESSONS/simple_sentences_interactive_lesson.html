@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Simple Sentences Lesson for ESL Students</title>
+    <!-- SCORM API Wrapper -->
+    <script src="../scorm-api-wrapper.js"></script>
     <style>
         * {
             margin: 0;
@@ -1101,6 +1103,15 @@
             const trackerStats = document.getElementById('trackerStats');
             
             const percentage = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+            
+            // Save progress to SCORM for dashboard
+            ScormAPI.saveLessonProgress('simple_sentences', {
+                percentage: Math.round(percentage),
+                correct: totalCorrect,
+                total: totalQuestions,
+                timestamp: new Date().toISOString()
+            });
+            ScormAPI.updateCourseProgress();
             
             trackerFill.classList.add('updating');
             setTimeout(() => trackerFill.classList.remove('updating'), 300);

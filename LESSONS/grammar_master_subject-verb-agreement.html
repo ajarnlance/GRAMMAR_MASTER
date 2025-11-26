@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subject-Verb Agreement - GrammarMaster</title>
+    <!-- SCORM API Wrapper -->
+    <script src="../scorm-api-wrapper.js"></script>
     <style>
         * {
             margin: 0;
@@ -586,7 +588,7 @@
         }
 
         .completion-message {
-            display: none;
+        display: none;
             text-align: center;
             margin-top: 40px;
             padding: 20px;
@@ -628,7 +630,7 @@
         }
     </style>
 </head>
-<body>
+  <body>
     <div class="container">
         <a href="../index.html" class="dashboard-btn">🏠 Dashboard</a>
         <h1>📝 Subject-Verb Agreement</h1>
@@ -776,14 +778,14 @@
                             <div class="rule-number">Rule #7</div>
                             <div class="rule-title">Collective Nouns</div>
                             <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
-                        </div>
+                </div>
                         <div class="rule-card-back">
                             <p><strong>Collective nouns</strong> (family, group, team, class) are <strong>singular</strong>.</p>
                             <p style="margin-top: 10px; font-style: italic;">✓ My family <u>walks</u> to the store.</p>
                             <p style="font-style: italic;">✓ The team <u>is</u> ready.</p>
                         </div>
                     </div>
-                </div>
+              </div>
 
                 <div class="rule-card" onclick="flipCard(this)">
                     <div class="rule-card-inner">
@@ -791,7 +793,7 @@
                             <div class="rule-number">Rule #8</div>
                             <div class="rule-title">Tricky "S" Nouns</div>
                             <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
-                        </div>
+                  </div>
                         <div class="rule-card-back">
                             <p>Nouns like <strong>economics, mumps, measles, news</strong> end in "s" but are <strong>singular</strong>.</p>
                             <p style="margin-top: 10px; font-style: italic;">✓ Economics <u>is</u> her favorite subject.</p>
@@ -813,7 +815,7 @@
                             <p style="font-style: italic;">✓ Five dollars <u>is</u> a good price.</p>
                         </div>
                     </div>
-            </div>
+                  </div>
 
                 <div class="rule-card" onclick="flipCard(this)">
                     <div class="rule-card-inner">
@@ -821,7 +823,7 @@
                             <div class="rule-number">Rule #10</div>
                             <div class="rule-title">Here & There</div>
                             <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
-                        </div>
+                    </div>
                         <div class="rule-card-back">
                             <p>In sentences starting with <strong>"There" or "Here"</strong>, the subject comes <strong>AFTER</strong> the verb.</p>
                             <p style="margin-top: 10px; font-style: italic;">✓ There <u>are</u> my sweaters. (sweaters = plural)</p>
@@ -836,13 +838,13 @@
                             <div class="rule-number">Rule #11</div>
                             <div class="rule-title">Distractions</div>
                             <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
-                        </div>
+                </div>
                         <div class="rule-card-back">
                             <p>Don't be fooled by other nouns! The verb must agree <strong>ONLY</strong> with the subject.</p>
                             <p style="margin-top: 10px; font-style: italic;">✓ The biggest problem we face <u>is</u> all the squirrels.</p>
-                        </div>
-                    </div>
+                </div>
               </div>
+          </div>
 
                 <div class="rule-card" onclick="flipCard(this)">
                     <div class="rule-card-inner">
@@ -876,7 +878,7 @@
             </div>
 
             <button class="nav-btn" onclick="showPage('page2')">Continue to Practice: Subject Sorter →</button>
-        </div>
+              </div>
 
         <!-- PAGE 2: Subject Sorter Exercise -->
         <div class="page" id="page2">
@@ -890,19 +892,19 @@
                     <h4>👥 PLURAL Subjects</h4>
                     <p style="font-size: 0.9em; color: #666; margin-bottom: 15px; font-weight: bold;">Verb has NO "S" (e.g., run, walk)</p>
                     <div class="sorter-items" id="pluralBox"></div>
-                </div>
+              </div>
 
                 <div class="interactive-section" style="flex: 0 0 200px; min-width: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <p style="font-weight: bold; margin-bottom: 15px;">Current Subject:</p>
                     <div id="currentSortItem" style="font-size: 1.2em; font-weight: bold; color: #667eea; min-height: 50px; display: flex; align-items: center; justify-content: center; text-align: center;"></div>
                     <p style="font-size: 0.9em; color: #666; margin-top: 15px;">👆 Click the correct box</p>
-                </div>
+                      </div>
 
                 <div class="sorter-box singular" onclick="sortItem('singular')">
                     <h4>👤 SINGULAR Subjects</h4>
                     <p style="font-size: 0.9em; color: #666; margin-bottom: 15px; font-weight: bold;">Verb ends in "S" (e.g., runs, walks)</p>
                     <div class="sorter-items" id="singularBox"></div>
-                </div>
+              </div>
             </div>
 
             <div id="sorterFeedback" class="feedback" style="text-align: center;"></div>
@@ -947,7 +949,7 @@
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q3', true)">walks</button>
                     </div>
                     <div class="feedback" id="feedback-q3"></div>
-                </div>
+            </div>
 
                 <div class="question" data-question="q4">
                     <div class="question-text">4. Neither Bob nor his brothers _____ home.</div>
@@ -963,7 +965,7 @@
                     <div class="options">
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q5', true)">is</button>
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q5', false)">are</button>
-            </div>
+                </div>
                     <div class="feedback" id="feedback-q5"></div>
           </div>
 
@@ -972,9 +974,9 @@
                     <div class="options">
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q6', true)">is</button>
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q6', false)">are</button>
-                    </div>
-                    <div class="feedback" id="feedback-q6"></div>
                 </div>
+                    <div class="feedback" id="feedback-q6"></div>
+              </div>
 
                 <div class="question" data-question="q7">
                     <div class="question-text">7. There _____ many reasons to smile.</div>
@@ -984,13 +986,13 @@
                     </div>
                     <div class="feedback" id="feedback-q7"></div>
               </div>
-              
+
                 <div class="question" data-question="q8">
                     <div class="question-text">8. Measles _____ a contagious disease.</div>
                     <div class="options">
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q8', true)">is</button>
                         <button class="option-btn" onclick="checkQuizAnswer(this, 'q8', false)">are</button>
-                      </div>
+                </div>
                     <div class="feedback" id="feedback-q8"></div>
                   </div>
 
@@ -1034,14 +1036,14 @@
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a1', false)">are</button>
                     </div>
                     <div class="feedback" id="feedback-a1"></div>
-                </div>
-
+              </div>
+              
                 <div class="question" data-question="a2">
                     <div class="question-text">2. Neither the teacher nor the students _____ the answer.</div>
                     <div class="options">
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a2', true)">know</button>
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a2', false)">knows</button>
-                    </div>
+                      </div>
                     <div class="feedback" id="feedback-a2"></div>
                   </div>
 
@@ -1052,7 +1054,7 @@
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a3', true)">is</button>
                     </div>
                     <div class="feedback" id="feedback-a3"></div>
-                  </div>
+                </div>
 
                 <div class="question" data-question="a4">
                     <div class="question-text">4. Some of the pie _____ eaten.</div>
@@ -1068,16 +1070,16 @@
                     <div class="options">
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a5', false)">was</button>
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a5', true)">were</button>
-                    </div>
-                    <div class="feedback" id="feedback-a5"></div>
               </div>
+                    <div class="feedback" id="feedback-a5"></div>
+            </div>
 
                 <div class="question" data-question="a6">
                     <div class="question-text">6. The news about the elections _____ surprising.</div>
                     <div class="options">
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a6', true)">is</button>
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a6', false)">are</button>
-                </div>
+          </div>
                     <div class="feedback" id="feedback-a6"></div>
                 </div>
 
@@ -1097,7 +1099,7 @@
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a8', false)">are</button>
                     </div>
                     <div class="feedback" id="feedback-a8"></div>
-              </div>
+                  </div>
 
                 <div class="question" data-question="a9">
                     <div class="question-text">9. The girl who _____ near me is my cousin.</div>
@@ -1106,17 +1108,17 @@
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a9', true)">sits</button>
                    </div>
                     <div class="feedback" id="feedback-a9"></div>
-                   </div>
+                  </div>
 
                 <div class="question" data-question="a10">
                     <div class="question-text">10. My family _____ moving to a new house.</div>
                     <div class="options">
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a10', true)">is</button>
                         <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a10', false)">are</button>
-                </div>
+                  </div>
                     <div class="feedback" id="feedback-a10"></div>
                 </div>
-            </div>
+              </div>
 
             <div class="nav-buttons">
                 <button class="back-btn" onclick="showPage('page3')">← Back to Quiz</button>
@@ -1146,7 +1148,7 @@
                     <div class="reference-item">somebody</div>
                     <div class="reference-item">someone</div>
                     <div class="reference-item">something</div>
-                </div>
+              </div>
 
                 <h3 style="margin-top: 20px;">📋 Common Prepositions (Subject is NEVER inside these phrases)</h3>
                 <div class="reference-grid">
@@ -1174,10 +1176,10 @@
                     <div class="reference-item">under</div>
                     <div class="reference-item">with</div>
                     <div class="reference-item">without</div>
-          </div>
-            </div>
-        </div>
-    </div>
+                   </div>
+                   </div>
+                </div>
+                </div>
 
     <script>
         // Global variables
@@ -1254,6 +1256,15 @@
             
             trackerFill.style.width = percentage + '%';
             trackerFill.textContent = percentage + '%';
+            
+            // Save progress to SCORM for dashboard
+            ScormAPI.saveLessonProgress('subject_verb', {
+                percentage: percentage,
+                correct: totalCorrect,
+                total: totalQuestions,
+                timestamp: new Date().toISOString()
+            });
+            ScormAPI.updateCourseProgress();
             
             // Remove all color classes
             trackerFill.classList.remove('low', 'medium', 'good', 'excellent');

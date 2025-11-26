@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matching Exercise: Clauses</title>
+    <!-- SCORM API Wrapper -->
+    <script src="../scorm-api-wrapper.js"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -133,10 +135,21 @@
                     text: `${firstClause.text} ${secondClause.text}`
                 };
 
-                setCompletedSentences([...completedSentences, newSentence]);
+                const newCompletedSentences = [...completedSentences, newSentence];
+                setCompletedSentences(newCompletedSentences);
                 setUsedFirstClauses([...usedFirstClauses, parseInt(firstClauseId)]);
                 setUsedSecondClauses([...usedSecondClauses, secondClauseId]);
                 setCurrentFirstClause('');
+                
+                // Save progress to SCORM for dashboard
+                const progressPercentage = Math.round((newCompletedSentences.length / 25) * 100);
+                ScormAPI.saveLessonProgress('clause_matching', {
+                    percentage: progressPercentage,
+                    completed: newCompletedSentences.length,
+                    total: 25,
+                    timestamp: new Date().toISOString()
+                });
+                ScormAPI.updateCourseProgress();
             };
 
             const availableFirstClauses = columnA.filter(clause => !usedFirstClauses.includes(clause.id));
@@ -154,6 +167,18 @@
                     ? Math.round((correctCount / completedSentences.length) * 100)
                     : 0;
                 setGrade(percentage);
+                
+                // Save progress to SCORM for dashboard (after checking answers)
+                const checkedProgressPercentage = Math.round((completedSentences.length / 25) * 100);
+                ScormAPI.saveLessonProgress('clause_matching', {
+                    percentage: checkedProgressPercentage,
+                    completed: completedSentences.length,
+                    total: 25,
+                    grade: percentage,
+                    correctCount: correctCount,
+                    timestamp: new Date().toISOString()
+                });
+                ScormAPI.updateCourseProgress();
             };
 
             const isCorrect = (sentence) => {

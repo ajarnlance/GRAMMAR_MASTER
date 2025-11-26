@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrammarMaster - Interactive Grammar Lessons</title>
+    <!-- SCORM API Wrapper -->
+    <script src="scorm-api-wrapper.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -341,6 +343,57 @@
             justify-content: space-between;
         }
 
+        /* Lesson Progress Bar */
+        .lesson-progress {
+            padding: 0 25px 15px;
+        }
+
+        .lesson-progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .lesson-progress-percentage {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .lesson-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .lesson-progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.6s ease;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .lesson-progress-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #ff5722 100%);
+        }
+
+        .lesson-progress-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .lesson-progress-fill.good {
+            background: linear-gradient(90deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .lesson-progress-fill.excellent {
+            background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
         .lesson-type {
             display: flex;
             align-items: center;
@@ -553,12 +606,21 @@
 
             <div class="lessons-grid">
                 <!-- Lesson 1: Simple Sentences -->
-                <a href="LESSONS/simple_sentences_interactive_lesson.html" class="lesson-card animate-in delay-1">
+                <a href="LESSONS/simple_sentences_interactive_lesson.html" class="lesson-card animate-in delay-1" data-lesson="simple_sentences">
                     <div class="lesson-card-header">
                         <div class="lesson-number">1</div>
                         <div class="lesson-icon-wrapper">📝</div>
                         <h3 class="lesson-title">Simple Sentences</h3>
                         <p class="lesson-description">Learn the fundamentals of sentence structure with subjects, verbs, and complete ideas.</p>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-label">
+                            <span>Progress</span>
+                            <span class="lesson-progress-percentage">0%</span>
+                        </div>
+                        <div class="lesson-progress-bar">
+                            <div class="lesson-progress-fill"></div>
+                        </div>
                     </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
@@ -573,12 +635,21 @@
                 </a>
 
                 <!-- Lesson 2: Compound Sentences -->
-                <a href="LESSONS/compound_sentences_interactive_lesson.html" class="lesson-card animate-in delay-2">
+                <a href="LESSONS/compound_sentences_interactive_lesson.html" class="lesson-card animate-in delay-2" data-lesson="compound_sentences">
                     <div class="lesson-card-header">
                         <div class="lesson-number">2</div>
                         <div class="lesson-icon-wrapper">🔗</div>
                         <h3 class="lesson-title">Compound Sentences</h3>
                         <p class="lesson-description">Master joining independent clauses with FANBOYS coordinating conjunctions.</p>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-label">
+                            <span>Progress</span>
+                            <span class="lesson-progress-percentage">0%</span>
+                        </div>
+                        <div class="lesson-progress-bar">
+                            <div class="lesson-progress-fill"></div>
+                        </div>
                     </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
@@ -593,12 +664,21 @@
                 </a>
 
                 <!-- Lesson 3: Complex Sentences -->
-                <a href="LESSONS/complex_sentences_interactive_lesson.html" class="lesson-card animate-in delay-3">
+                <a href="LESSONS/complex_sentences_interactive_lesson.html" class="lesson-card animate-in delay-3" data-lesson="complex_sentences">
                     <div class="lesson-card-header">
                         <div class="lesson-number">3</div>
                         <div class="lesson-icon-wrapper">🧩</div>
                         <h3 class="lesson-title">Complex Sentences</h3>
                         <p class="lesson-description">Explore dependent and independent clauses with subordinating conjunctions.</p>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-label">
+                            <span>Progress</span>
+                            <span class="lesson-progress-percentage">0%</span>
+                        </div>
+                        <div class="lesson-progress-bar">
+                            <div class="lesson-progress-fill"></div>
+                        </div>
                     </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
@@ -613,12 +693,21 @@
                 </a>
 
                 <!-- Lesson 4: Subject-Verb Agreement -->
-                <a href="LESSONS/grammar_master_subject-verb-agreement.html" class="lesson-card animate-in delay-4">
+                <a href="LESSONS/grammar_master_subject-verb-agreement.html" class="lesson-card animate-in delay-4" data-lesson="subject_verb">
                     <div class="lesson-card-header">
                         <div class="lesson-number">4</div>
                         <div class="lesson-icon-wrapper">✅</div>
                         <h3 class="lesson-title">Subject-Verb Agreement</h3>
                         <p class="lesson-description">Master the 13 essential rules for matching subjects with their verbs.</p>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-label">
+                            <span>Progress</span>
+                            <span class="lesson-progress-percentage">0%</span>
+                        </div>
+                        <div class="lesson-progress-bar">
+                            <div class="lesson-progress-fill"></div>
+                        </div>
                     </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
@@ -633,12 +722,21 @@
                 </a>
 
                 <!-- Lesson 5: Clause Matching Exercise -->
-                <a href="LESSONS/clause-matching-exercise.html" class="lesson-card animate-in delay-5">
+                <a href="LESSONS/clause-matching-exercise.html" class="lesson-card animate-in delay-5" data-lesson="clause_matching">
                     <div class="lesson-card-header">
                         <div class="lesson-number">5</div>
                         <div class="lesson-icon-wrapper">🎯</div>
                         <h3 class="lesson-title">Clause Matching Exercise</h3>
                         <p class="lesson-description">Practice identifying and matching clauses to build complete sentences.</p>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-progress-label">
+                            <span>Progress</span>
+                            <span class="lesson-progress-percentage">0%</span>
+                        </div>
+                        <div class="lesson-progress-bar">
+                            <div class="lesson-progress-fill"></div>
+                        </div>
                     </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
@@ -670,32 +768,95 @@
     </div>
 
     <script>
-        // Load saved student information on page load
+        // Load saved student information and lesson progress on page load
         document.addEventListener('DOMContentLoaded', function() {
-            const savedName = localStorage.getItem('grammarmaster_studentName');
-            const savedId = localStorage.getItem('grammarmaster_studentId');
-            const savedSection = localStorage.getItem('grammarmaster_sectionNumber');
-
-            if (savedName) document.getElementById('studentName').value = savedName;
-            if (savedId) document.getElementById('studentId').value = savedId;
-            if (savedSection) document.getElementById('sectionNumber').value = savedSection;
+            // Initialize SCORM and load data
+            ScormAPI.initialize();
+            loadStudentInfo();
+            loadLessonProgress();
         });
+
+        // Also load when navigating back to page (handles browser cache)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                loadLessonProgress();
+            }
+        });
+
+        // Load on focus (backup for when user returns to tab)
+        window.addEventListener('focus', function() {
+            loadLessonProgress();
+        });
+
+        function loadStudentInfo() {
+            // Try to get student info from SCORM/LMS first
+            var scormName = ScormAPI.getStudentName();
+            var scormId = ScormAPI.getStudentId();
+            
+            if (scormName && scormName !== '') {
+                document.getElementById('studentName').value = scormName;
+                document.getElementById('studentName').disabled = true; // LMS provides this
+            }
+            
+            if (scormId && scormId !== '') {
+                document.getElementById('studentId').value = scormId;
+                document.getElementById('studentId').disabled = true; // LMS provides this
+            }
+            
+            // Get section from suspend data
+            var suspendData = ScormAPI.getSuspendData();
+            if (suspendData.sectionNumber) {
+                document.getElementById('sectionNumber').value = suspendData.sectionNumber;
+            }
+        }
+
+        // Function to load and display lesson progress from SCORM
+        function loadLessonProgress() {
+            var allProgress = ScormAPI.getAllLessonProgress();
+            
+            var lessonCards = document.querySelectorAll('.lesson-card[data-lesson]');
+            
+            lessonCards.forEach(function(card) {
+                var lessonKey = card.getAttribute('data-lesson');
+                var lessonData = allProgress[lessonKey];
+                
+                var progressFill = card.querySelector('.lesson-progress-fill');
+                var progressPercentage = card.querySelector('.lesson-progress-percentage');
+                
+                if (progressFill && progressPercentage) {
+                    var percentage = (lessonData && lessonData.percentage) ? parseInt(lessonData.percentage) : 0;
+                    progressFill.style.width = percentage + '%';
+                    progressPercentage.textContent = percentage + '%';
+                    
+                    // Apply color class based on percentage
+                    progressFill.classList.remove('low', 'medium', 'good', 'excellent');
+                    if (percentage >= 90) {
+                        progressFill.classList.add('excellent');
+                    } else if (percentage >= 70) {
+                        progressFill.classList.add('good');
+                    } else if (percentage >= 50) {
+                        progressFill.classList.add('medium');
+                    } else if (percentage > 0) {
+                        progressFill.classList.add('low');
+                    }
+                }
+            });
+        }
 
         // Handle form submission
         document.getElementById('studentForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const studentName = document.getElementById('studentName').value;
-            const studentId = document.getElementById('studentId').value;
-            const sectionNumber = document.getElementById('sectionNumber').value;
+            var sectionNumber = document.getElementById('sectionNumber').value;
 
-            // Save to localStorage
-            localStorage.setItem('grammarmaster_studentName', studentName);
-            localStorage.setItem('grammarmaster_studentId', studentId);
-            localStorage.setItem('grammarmaster_sectionNumber', sectionNumber);
+            // Save section to SCORM suspend data
+            var suspendData = ScormAPI.getSuspendData();
+            suspendData.sectionNumber = sectionNumber;
+            ScormAPI.setSuspendData(suspendData);
+            ScormAPI.commit();
 
             // Show confirmation
-            const confirmation = document.getElementById('saveConfirmation');
+            var confirmation = document.getElementById('saveConfirmation');
             confirmation.classList.add('show');
 
             // Hide confirmation after 3 seconds
@@ -705,9 +866,8 @@
         });
 
         // Prevent button clicks inside cards from navigating twice
-        document.querySelectorAll('.start-lesson-btn').forEach(btn => {
+        document.querySelectorAll('.start-lesson-btn').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
-                // Let the parent anchor handle navigation
                 e.stopPropagation();
             });
         });

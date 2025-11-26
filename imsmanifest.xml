@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="GrammarMaster_Course" version="1.0"
+    xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+    xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                        http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd
+                        http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+
+    <metadata>
+        <schema>ADL SCORM</schema>
+        <schemaversion>1.2</schemaversion>
+    </metadata>
+
+    <organizations default="GrammarMaster_Org">
+        <organization identifier="GrammarMaster_Org">
+            <title>GrammarMaster - Interactive Grammar Lessons</title>
+            
+            <!-- Main Dashboard -->
+            <item identifier="ITEM_Dashboard" identifierref="RES_Dashboard">
+                <title>Course Dashboard</title>
+            </item>
+            
+            <!-- Lesson 1: Simple Sentences -->
+            <item identifier="ITEM_SimpleSentences" identifierref="RES_SimpleSentences">
+                <title>Lesson 1: Simple Sentences</title>
+                <adlcp:prerequisites>ITEM_Dashboard</adlcp:prerequisites>
+            </item>
+            
+            <!-- Lesson 2: Compound Sentences -->
+            <item identifier="ITEM_CompoundSentences" identifierref="RES_CompoundSentences">
+                <title>Lesson 2: Compound Sentences</title>
+            </item>
+            
+            <!-- Lesson 3: Complex Sentences -->
+            <item identifier="ITEM_ComplexSentences" identifierref="RES_ComplexSentences">
+                <title>Lesson 3: Complex Sentences</title>
+            </item>
+            
+            <!-- Lesson 4: Subject-Verb Agreement -->
+            <item identifier="ITEM_SubjectVerbAgreement" identifierref="RES_SubjectVerbAgreement">
+                <title>Lesson 4: Subject-Verb Agreement</title>
+            </item>
+            
+            <!-- Lesson 5: Clause Matching Exercise -->
+            <item identifier="ITEM_ClauseMatching" identifierref="RES_ClauseMatching">
+                <title>Lesson 5: Clause Matching Exercise</title>
+            </item>
+            
+        </organization>
+    </organizations>
+
+    <resources>
+        <!-- Dashboard Resource -->
+        <resource identifier="RES_Dashboard" type="webcontent" adlcp:scormtype="sco" href="index.html">
+            <file href="index.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+        <!-- Lesson 1: Simple Sentences -->
+        <resource identifier="RES_SimpleSentences" type="webcontent" adlcp:scormtype="sco" href="LESSONS/simple_sentences_interactive_lesson.html">
+            <file href="LESSONS/simple_sentences_interactive_lesson.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+        <!-- Lesson 2: Compound Sentences -->
+        <resource identifier="RES_CompoundSentences" type="webcontent" adlcp:scormtype="sco" href="LESSONS/compound_sentences_interactive_lesson.html">
+            <file href="LESSONS/compound_sentences_interactive_lesson.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+        <!-- Lesson 3: Complex Sentences -->
+        <resource identifier="RES_ComplexSentences" type="webcontent" adlcp:scormtype="sco" href="LESSONS/complex_sentences_interactive_lesson.html">
+            <file href="LESSONS/complex_sentences_interactive_lesson.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+        <!-- Lesson 4: Subject-Verb Agreement -->
+        <resource identifier="RES_SubjectVerbAgreement" type="webcontent" adlcp:scormtype="sco" href="LESSONS/grammar_master_subject-verb-agreement.html">
+            <file href="LESSONS/grammar_master_subject-verb-agreement.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+        <!-- Lesson 5: Clause Matching -->
+        <resource identifier="RES_ClauseMatching" type="webcontent" adlcp:scormtype="sco" href="LESSONS/clause-matching-exercise.html">
+            <file href="LESSONS/clause-matching-exercise.html"/>
+            <file href="scorm-api-wrapper.js"/>
+        </resource>
+        
+    </resources>
+
+</manifest>
+
