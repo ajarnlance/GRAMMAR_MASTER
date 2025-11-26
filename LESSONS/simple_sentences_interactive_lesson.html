@@ -83,16 +83,21 @@
         .tracker-fill {
             height: 100%;
             width: 0%;
+            min-width: 0;
             background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
-            transition: width 0.6s ease, background 0.3s ease;
+            transition: width 0.6s ease, background 0.3s ease, min-width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 1em;
+            font-size: 0.85em;
             border-radius: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tracker-fill:not(:empty) {
+            min-width: 45px;
         }
 
         .tracker-fill.low {
@@ -109,6 +114,31 @@
 
         .tracker-fill.excellent {
             background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .accuracy-fill {
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+            min-width: 0;
+        }
+        
+        .accuracy-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .accuracy-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .accuracy-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .accuracy-fill.good {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .accuracy-fill.excellent {
+            background: linear-gradient(90deg, #2196F3 0%, #1565C0 100%);
         }
 
         .tracker-stats {
@@ -640,12 +670,22 @@
         <p class="subtitle">An Interactive Lesson for ESL Students</p>
 
         <div class="tracker-container">
-            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-label">Overall Progress</div>
             <div class="tracker-bar">
                 <div class="tracker-fill" id="trackerFill">0%</div>
             </div>
             <div class="tracker-stats">
-                <span id="trackerStats">0 correct out of 21 questions | 0% complete</span>
+                <span id="trackerStats">0 correct out of 0 attempted | 0% complete</span>
+            </div>
+        </div>
+        
+        <div class="tracker-container" style="margin-top: 10px;">
+            <div class="tracker-label">Accuracy</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill accuracy-fill" id="accuracyFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="accuracyStats">0 correct out of 0 questions | 0% accuracy</span>
             </div>
         </div>
 
@@ -1083,10 +1123,16 @@
     <script>
         let currentPage = 1;
         let score = 0;
-        let totalQuestions = 21; // 7 FANBOYS cards + 8 multiple choice + 3 sentence builder + 10 matching = 28, but we'll count 21 for parity
-        let answeredQuestions = 0;
+        const totalCards = 7;           // 7 FANBOYS cards
+        const totalOtherQuestions = 14; // 8 multiple choice + 3 sentence builder + 3 matching exercises
+        const totalQuestions = totalCards + totalOtherQuestions; // 21 total
+        const cardProgressValue = 1;    // Each card flip = 1%
+        const questionProgressValue = (100 - (totalCards * cardProgressValue)) / totalOtherQuestions; // ~6.64% per question
+        let totalProgress = 0;   // Track overall progress percentage
         let totalCorrect = 0;
         let flippedCards = new Set();
+        let answeredQuestions = new Set(); // Track answered questions to prevent double-counting
+        let correctQuestions = new Set();  // Track correct answers for accuracy (can be updated on retry)
 
         function goToPage(pageNumber) {
             const pages = document.querySelectorAll('.page');
@@ -1102,12 +1148,20 @@
             const trackerFill = document.getElementById('trackerFill');
             const trackerStats = document.getElementById('trackerStats');
             
-            const percentage = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+            // Calculate progress based on answered questions (any answer counts)
+            const percentage = Math.min(Math.round(totalProgress), 100);
+            const totalAttempted = answeredQuestions.size;
+            const totalCorrectAnswers = correctQuestions.size;
+            
+            // Calculate accuracy
+            const accuracyPercentage = totalQuestions > 0 ? Math.round((totalCorrectAnswers / totalQuestions) * 100) : 0;
             
             // Save progress to SCORM for dashboard
             ScormAPI.saveLessonProgress('simple_sentences', {
-                percentage: Math.round(percentage),
-                correct: totalCorrect,
+                percentage: percentage,
+                accuracy: accuracyPercentage,
+                correct: totalCorrectAnswers,
+                attempted: totalAttempted,
                 total: totalQuestions,
                 timestamp: new Date().toISOString()
             });
@@ -1117,7 +1171,7 @@
             setTimeout(() => trackerFill.classList.remove('updating'), 300);
             
             trackerFill.style.width = percentage + '%';
-            trackerFill.textContent = Math.round(percentage) + '%';
+            trackerFill.textContent = percentage + '%';
             
             trackerFill.className = 'tracker-fill';
             if (percentage >= 90) {
@@ -1130,16 +1184,48 @@
                 trackerFill.classList.add('low');
             }
             
-            if (percentage === 100) {
-                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% PERFECT SCORE! 🎉</span>`;
+            if (percentage >= 100) {
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% COMPLETE! 🎉</span>`;
                 // Show the completion message
                 const completionMsg = document.getElementById('completionMessage');
                 if (completionMsg) {
                     completionMsg.classList.add('show');
                 }
             } else {
-                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% complete`;
+                trackerStats.textContent = `${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% complete`;
             }
+            
+            // Update accuracy bar
+            updateAccuracyTracker(totalCorrectAnswers, totalQuestions, accuracyPercentage);
+        }
+        
+        function updateAccuracyTracker(correct, total, percentage) {
+            const accuracyFill = document.getElementById('accuracyFill');
+            const accuracyStats = document.getElementById('accuracyStats');
+            
+            accuracyFill.style.width = percentage + '%';
+            accuracyFill.textContent = percentage + '%';
+            
+            // Remove all color classes
+            accuracyFill.classList.remove('low', 'medium', 'good', 'excellent');
+            
+            // Add appropriate color class based on accuracy
+            if (percentage >= 90) {
+                accuracyFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                accuracyFill.classList.add('good');
+            } else if (percentage >= 50) {
+                accuracyFill.classList.add('medium');
+            } else if (percentage > 0) {
+                accuracyFill.classList.add('low');
+            }
+            
+            // Add pulse animation
+            accuracyFill.classList.add('updating');
+            setTimeout(() => accuracyFill.classList.remove('updating'), 300);
+            
+            // Update stats text
+            accuracyStats.textContent = `${correct} correct out of ${total} questions | ${percentage}% accuracy`;
         }
 
         const fanboyExamples = {
@@ -1189,7 +1275,7 @@
             
             if (cardElement.classList.contains('flipped') && !flippedCards.has(conjunction)) {
                 flippedCards.add(conjunction);
-                totalCorrect++;
+                totalProgress += cardProgressValue; // Add 1% per card flipped
                 updateOverallTracker();
             }
             
@@ -1215,6 +1301,12 @@
                 'q6': 'Try again!'
             };
 
+            // Track any answer as progress (only first attempt counts)
+            if (!answeredQuestions.has(questionId)) {
+                answeredQuestions.add(questionId);
+                totalProgress += questionProgressValue; // ~6.64% per question
+            }
+
             if (isCorrect) {
                 allButtons.forEach(btn => {
                     btn.classList.add('disabled');
@@ -1237,9 +1329,9 @@
                 }
                 
                 score++;
-                answeredQuestions++;
                 totalCorrect++;
-                updateOverallTracker();
+                // Track correct answer for accuracy (can update from incorrect to correct on retry)
+                correctQuestions.add(questionId);
             } else {
                 button.classList.add('incorrect');
                 button.classList.add('disabled');
@@ -1248,6 +1340,9 @@
                 feedback.className = 'feedback incorrect';
                 feedback.textContent = '✗ Not quite. ' + (feedbackMessages[questionId] || 'Try again!');
             }
+            
+            // Always update tracker (any answer counts as progress)
+            updateOverallTracker();
         }
 
         // Drag and Drop functionality
@@ -1403,7 +1498,16 @@
                 feedback.style.display = 'block';
                 feedback.innerHTML = `✓ Excellent! Perfect punctuation!<br><strong>"${sentence}."</strong><br><em>${currentQuestion.explanation}</em>`;
                 
-                totalCorrect++;
+                // Track progress for this builder question
+                const builderQuestionId = 'builder_' + currentBuilderQuestion;
+                if (!answeredQuestions.has(builderQuestionId)) {
+                    answeredQuestions.add(builderQuestionId);
+                    totalProgress += questionProgressValue;
+                }
+                if (!correctQuestions.has(builderQuestionId)) {
+                    correctQuestions.add(builderQuestionId);
+                    totalCorrect++;
+                }
                 updateOverallTracker();
                 
                 if (currentBuilderQuestion < builderQuestions.length - 1) {
@@ -1610,7 +1714,17 @@
                 if (!completedPairs.includes(questionId)) {
                     completedPairs.push(questionId);
                     correctMatches++;
-                    totalCorrect++;
+                    
+                    // Track progress for this matching question
+                    const matchQuestionId = 'match_' + questionId;
+                    if (!answeredQuestions.has(matchQuestionId)) {
+                        answeredQuestions.add(matchQuestionId);
+                        totalProgress += questionProgressValue;
+                    }
+                    if (!correctQuestions.has(matchQuestionId)) {
+                        correctQuestions.add(matchQuestionId);
+                        totalCorrect++;
+                    }
                     updateMatchingScore();
                     updateOverallTracker();
                     

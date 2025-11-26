@@ -83,16 +83,21 @@
         .tracker-fill {
             height: 100%;
             width: 0%;
+            min-width: 0;
             background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
-            transition: width 0.6s ease, background 0.3s ease;
+            transition: width 0.6s ease, background 0.3s ease, min-width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 1em;
+            font-size: 0.85em;
             border-radius: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tracker-fill:not(:empty) {
+            min-width: 45px;
         }
 
         .tracker-fill.low {
@@ -109,6 +114,31 @@
 
         .tracker-fill.excellent {
             background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .accuracy-fill {
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+            min-width: 0;
+        }
+        
+        .accuracy-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .accuracy-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .accuracy-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .accuracy-fill.good {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .accuracy-fill.excellent {
+            background: linear-gradient(90deg, #2196F3 0%, #1565C0 100%);
         }
 
         .tracker-stats {
@@ -637,12 +667,22 @@
         <p class="subtitle">Master the Rules of Matching Subjects and Verbs</p>
 
         <div class="tracker-container">
-            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-label">Overall Progress</div>
             <div class="tracker-bar">
                 <div class="tracker-fill" id="trackerFill">0%</div>
             </div>
             <div class="tracker-stats">
-                <span id="trackerStats">0 correct out of 30 questions | 0% complete</span>
+                <span id="trackerStats">0 correct out of 0 attempted | 0% complete</span>
+            </div>
+        </div>
+        
+        <div class="tracker-container" style="margin-top: 10px;">
+            <div class="tracker-label">Accuracy</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill accuracy-fill" id="accuracyFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="accuracyStats">0 correct out of 0 total questions | 0% accuracy</span>
             </div>
         </div>
 
@@ -1183,8 +1223,23 @@
 
     <script>
         // Global variables
-        let totalCorrect = 0;
-        const totalQuestions = 30;
+        let totalCorrect = 0;        // Track correct answers (for display)
+        let totalProgress = 0;       // Track overall progress (any answer counts)
+        const totalCards = 13;       // Number of rule cards
+        const totalOtherItems = 30;  // Sorter (10) + Quiz (10) + Advanced (10)
+        const cardProgressValue = 0.5;  // Each card flip = 0.5%
+        const itemProgressValue = (100 - (totalCards * cardProgressValue)) / totalOtherItems; // ~3.12% per item
+        
+        // Track what has been completed (prevent double-counting)
+        let flippedCards = new Set();      // Track flipped card indices
+        let answeredSorter = new Set();    // Track answered sorter items
+        let answeredQuiz = new Set();      // Track answered quiz questions
+        let answeredAdvanced = new Set();  // Track answered advanced questions
+        
+        // Track correct answers for accuracy (can be updated on retry)
+        let correctSorter = new Set();     // Track correct sorter answers
+        let correctQuiz = new Set();       // Track correct quiz answers  
+        let correctAdvanced = new Set();   // Track correct advanced answers
 
         // Sorter variables
         let sorterCorrect = 0;
@@ -1246,22 +1301,41 @@
         // Flip card function
         function flipCard(card) {
             card.classList.toggle('flipped');
+            
+            // Track card flip for progress (only first flip counts)
+            const cardIndex = Array.from(document.querySelectorAll('.rule-card')).indexOf(card);
+            if (card.classList.contains('flipped') && !flippedCards.has(cardIndex)) {
+                flippedCards.add(cardIndex);
+                totalProgress += cardProgressValue;
+                updateOverallTracker();
+            }
         }
 
         // Update overall tracker
         function updateOverallTracker() {
-            const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+            const percentage = Math.min(Math.round(totalProgress), 100);
             const trackerFill = document.getElementById('trackerFill');
             const trackerStats = document.getElementById('trackerStats');
             
             trackerFill.style.width = percentage + '%';
             trackerFill.textContent = percentage + '%';
             
+            // Calculate total items attempted
+            const totalAttempted = flippedCards.size + answeredSorter.size + answeredQuiz.size + answeredAdvanced.size;
+            const totalItems = totalCards + totalOtherItems;
+            
+            // Calculate accuracy (correct answers / total questions)
+            const totalCorrectAnswers = correctSorter.size + correctQuiz.size + correctAdvanced.size;
+            const accuracyPercentage = totalOtherItems > 0 ? Math.round((totalCorrectAnswers / totalOtherItems) * 100) : 0;
+            
             // Save progress to SCORM for dashboard
             ScormAPI.saveLessonProgress('subject_verb', {
                 percentage: percentage,
-                correct: totalCorrect,
-                total: totalQuestions,
+                accuracy: accuracyPercentage,
+                correct: totalCorrectAnswers,
+                attempted: totalAttempted,
+                total: totalItems,
+                totalQuestions: totalOtherItems,
                 timestamp: new Date().toISOString()
             });
             ScormAPI.updateCourseProgress();
@@ -1286,11 +1360,43 @@
             
             // Update stats text
             if (percentage === 100) {
-                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${percentage}% PERFECT SCORE! 🎉</span>`;
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% COMPLETE! 🎉</span>`;
                 document.getElementById('completionMessage').classList.add('show');
             } else {
-                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${percentage}% complete`;
+                trackerStats.textContent = `${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% complete`;
             }
+            
+            // Update accuracy bar
+            updateAccuracyTracker(totalCorrectAnswers, totalOtherItems, accuracyPercentage);
+        }
+        
+        function updateAccuracyTracker(correct, total, percentage) {
+            const accuracyFill = document.getElementById('accuracyFill');
+            const accuracyStats = document.getElementById('accuracyStats');
+            
+            accuracyFill.style.width = percentage + '%';
+            accuracyFill.textContent = percentage + '%';
+            
+            // Remove all color classes
+            accuracyFill.classList.remove('low', 'medium', 'good', 'excellent');
+            
+            // Add appropriate color class based on accuracy
+            if (percentage >= 90) {
+                accuracyFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                accuracyFill.classList.add('good');
+            } else if (percentage >= 50) {
+                accuracyFill.classList.add('medium');
+            } else if (percentage > 0) {
+                accuracyFill.classList.add('low');
+            }
+            
+            // Add pulse animation
+            accuracyFill.classList.add('updating');
+            setTimeout(() => accuracyFill.classList.remove('updating'), 300);
+            
+            // Update stats text
+            accuracyStats.textContent = `${correct} correct out of ${total} questions | ${percentage}% accuracy`;
         }
 
         // Sorter functions
@@ -1328,15 +1434,22 @@
             itemDiv.className = 'sort-item';
             itemDiv.textContent = item.text;
             
+            // Track this item as answered (for progress) - only first attempt counts
+            if (!answeredSorter.has(currentSortIndex)) {
+                answeredSorter.add(currentSortIndex);
+                totalProgress += itemProgressValue;
+            }
+            
             if (item.type === selectedType) {
                 itemDiv.classList.add('correct');
                 targetBox.appendChild(itemDiv);
                 sorterCorrect++;
                 totalCorrect++;
+                // Track correct answer for accuracy
+                correctSorter.add(currentSortIndex);
                 feedback.className = 'feedback correct';
                 feedback.textContent = '✓ Correct! "' + item.text + '" is ' + selectedType + '.';
                 feedback.style.display = 'block';
-                updateOverallTracker();
             } else {
                 itemDiv.classList.add('incorrect');
                 const correctBox = document.getElementById(item.type + 'Box');
@@ -1346,6 +1459,9 @@
                 feedback.textContent = '✗ Not quite. "' + item.text + '" is actually ' + item.type + '.';
                 feedback.style.display = 'block';
             }
+            
+            // Always update tracker (progress counts for any answer)
+            updateOverallTracker();
             
             currentSortIndex++;
             updateSorterScore();
@@ -1373,30 +1489,36 @@
             const allButtons = question.querySelectorAll('.option-btn');
             const feedback = document.getElementById('feedback-' + questionId);
             
-            allButtons.forEach(btn => {
-                btn.classList.add('disabled');
-                btn.disabled = true;
-            });
+            // Track this question as answered (for progress) - only first attempt counts
+            if (!answeredQuiz.has(questionId)) {
+                answeredQuiz.add(questionId);
+                totalProgress += itemProgressValue;
+            }
             
             if (isCorrect) {
+                // Disable all buttons after correct answer
+                allButtons.forEach(btn => {
+                    btn.classList.add('disabled');
+                    btn.disabled = true;
+                });
                 button.classList.add('correct');
                 feedback.className = 'feedback correct';
                 feedback.innerHTML = '✓ Correct! ' + quizExplanations[questionId];
                 quizCorrect++;
                 totalCorrect++;
-                updateOverallTracker();
+                // Track correct answer for accuracy (can update from incorrect to correct on retry)
+                correctQuiz.add(questionId);
             } else {
+                // Only disable the wrong button, allow retry
                 button.classList.add('incorrect');
-                // Find and highlight the correct answer
-                allButtons.forEach(btn => {
-                    if (!btn.classList.contains('incorrect')) {
-                        btn.classList.add('correct');
-                    }
-                });
+                button.classList.add('disabled');
+                button.disabled = true;
                 feedback.className = 'feedback incorrect';
-                feedback.innerHTML = '✗ Not quite. ' + quizExplanations[questionId];
+                feedback.innerHTML = '✗ Not quite. Try again! ' + quizExplanations[questionId];
             }
             
+            // Always update tracker (progress counts for any answer)
+            updateOverallTracker();
             updateQuizScore();
             checkQuizComplete();
         }
@@ -1418,29 +1540,36 @@
             const allButtons = question.querySelectorAll('.option-btn');
             const feedback = document.getElementById('feedback-' + questionId);
             
-            allButtons.forEach(btn => {
-                btn.classList.add('disabled');
-                btn.disabled = true;
-            });
+            // Track this question as answered (for progress) - only first attempt counts
+            if (!answeredAdvanced.has(questionId)) {
+                answeredAdvanced.add(questionId);
+                totalProgress += itemProgressValue;
+            }
             
             if (isCorrect) {
+                // Disable all buttons after correct answer
+                allButtons.forEach(btn => {
+                    btn.classList.add('disabled');
+                    btn.disabled = true;
+                });
                 button.classList.add('correct');
                 feedback.className = 'feedback correct';
                 feedback.innerHTML = '✓ Correct! ' + advancedExplanations[questionId];
                 advancedCorrect++;
                 totalCorrect++;
-                updateOverallTracker();
+                // Track correct answer for accuracy (can update from incorrect to correct on retry)
+                correctAdvanced.add(questionId);
             } else {
+                // Only disable the wrong button, allow retry
                 button.classList.add('incorrect');
-                allButtons.forEach(btn => {
-                    if (!btn.classList.contains('incorrect')) {
-                        btn.classList.add('correct');
-                    }
-                });
+                button.classList.add('disabled');
+                button.disabled = true;
                 feedback.className = 'feedback incorrect';
-                feedback.innerHTML = '✗ Not quite. ' + advancedExplanations[questionId];
+                feedback.innerHTML = '✗ Not quite. Try again! ' + advancedExplanations[questionId];
             }
             
+            // Always update tracker (progress counts for any answer)
+            updateOverallTracker();
             updateAdvancedScore();
         }
 

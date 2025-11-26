@@ -83,16 +83,21 @@
         .tracker-fill {
             height: 100%;
             width: 0%;
+            min-width: 0;
             background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
-            transition: width 0.6s ease, background 0.3s ease;
+            transition: width 0.6s ease, background 0.3s ease, min-width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 1em;
+            font-size: 0.85em;
             border-radius: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tracker-fill:not(:empty) {
+            min-width: 45px;
         }
 
         .tracker-fill.low {
@@ -109,6 +114,31 @@
 
         .tracker-fill.excellent {
             background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .accuracy-fill {
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+            min-width: 0;
+        }
+        
+        .accuracy-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .accuracy-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .accuracy-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .accuracy-fill.good {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .accuracy-fill.excellent {
+            background: linear-gradient(90deg, #2196F3 0%, #1565C0 100%);
         }
 
         .tracker-stats {
@@ -624,12 +654,22 @@
         <p class="subtitle">An Interactive Lesson for ESL Students</p>
 
         <div class="tracker-container">
-            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-label">Overall Progress</div>
             <div class="tracker-bar">
                 <div class="tracker-fill" id="trackerFill">0%</div>
             </div>
             <div class="tracker-stats">
-                <span id="trackerStats">0 correct out of 28 questions | 0% complete</span>
+                <span id="trackerStats">0 correct out of 0 attempted | 0% complete</span>
+            </div>
+        </div>
+        
+        <div class="tracker-container" style="margin-top: 10px;">
+            <div class="tracker-label">Accuracy</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill accuracy-fill" id="accuracyFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="accuracyStats">0 correct out of 0 questions | 0% accuracy</span>
             </div>
         </div>
 
@@ -1028,10 +1068,16 @@
     <script>
         let currentPage = 1;
         let score = 0;
-        let totalQuestions = 28; // 7 FANBOYS cards + 8 multiple choice + 3 sentence builder + 10 matching
-        let answeredQuestions = 0;
+        const totalCards = 7;           // 7 FANBOYS cards
+        const totalOtherQuestions = 21; // 8 multiple choice + 3 sentence builder + 10 matching
+        const totalQuestions = totalCards + totalOtherQuestions; // 28 total
+        const cardProgressValue = 1;    // Each card flip = 1%
+        const questionProgressValue = (100 - (totalCards * cardProgressValue)) / totalOtherQuestions; // ~4.43% per question
+        let totalProgress = 0;   // Track overall progress percentage
         let totalCorrect = 0; // Track correct answers across all question types
         let flippedCards = new Set(); // Track which FANBOYS cards have been flipped
+        let answeredQuestions = new Set(); // Track answered questions to prevent double-counting
+        let correctQuestions = new Set();  // Track correct answers for accuracy (can be updated on retry)
 
         function goToPage(pageNumber) {
             // Hide all pages
@@ -1050,12 +1096,20 @@
             const trackerFill = document.getElementById('trackerFill');
             const trackerStats = document.getElementById('trackerStats');
             
-            const percentage = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+            // Calculate progress based on answered questions (any answer counts)
+            const percentage = Math.min(Math.round(totalProgress), 100);
+            const totalAttempted = answeredQuestions.size;
+            const totalCorrectAnswers = correctQuestions.size;
+            
+            // Calculate accuracy
+            const accuracyPercentage = totalQuestions > 0 ? Math.round((totalCorrectAnswers / totalQuestions) * 100) : 0;
             
             // Save progress to SCORM for dashboard
             ScormAPI.saveLessonProgress('compound_sentences', {
-                percentage: Math.round(percentage),
-                correct: totalCorrect,
+                percentage: percentage,
+                accuracy: accuracyPercentage,
+                correct: totalCorrectAnswers,
+                attempted: totalAttempted,
                 total: totalQuestions,
                 timestamp: new Date().toISOString()
             });
@@ -1066,7 +1120,7 @@
             setTimeout(() => trackerFill.classList.remove('updating'), 300);
             
             trackerFill.style.width = percentage + '%';
-            trackerFill.textContent = Math.round(percentage) + '%';
+            trackerFill.textContent = percentage + '%';
             
             // Update color based on percentage
             trackerFill.className = 'tracker-fill';
@@ -1081,11 +1135,43 @@
             }
             
             // Show celebration when 100% complete
-            if (percentage === 100) {
-                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% PERFECT SCORE! 🎉</span>`;
+            if (percentage >= 100) {
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% COMPLETE! 🎉</span>`;
             } else {
-                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% complete`;
+                trackerStats.textContent = `${totalCorrectAnswers} correct out of ${totalAttempted} attempted | ${percentage}% complete`;
             }
+            
+            // Update accuracy bar
+            updateAccuracyTracker(totalCorrectAnswers, totalQuestions, accuracyPercentage);
+        }
+        
+        function updateAccuracyTracker(correct, total, percentage) {
+            const accuracyFill = document.getElementById('accuracyFill');
+            const accuracyStats = document.getElementById('accuracyStats');
+            
+            accuracyFill.style.width = percentage + '%';
+            accuracyFill.textContent = percentage + '%';
+            
+            // Remove all color classes
+            accuracyFill.classList.remove('low', 'medium', 'good', 'excellent');
+            
+            // Add appropriate color class based on accuracy
+            if (percentage >= 90) {
+                accuracyFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                accuracyFill.classList.add('good');
+            } else if (percentage >= 50) {
+                accuracyFill.classList.add('medium');
+            } else if (percentage > 0) {
+                accuracyFill.classList.add('low');
+            }
+            
+            // Add pulse animation
+            accuracyFill.classList.add('updating');
+            setTimeout(() => accuracyFill.classList.remove('updating'), 300);
+            
+            // Update stats text
+            accuracyStats.textContent = `${correct} correct out of ${total} questions | ${percentage}% accuracy`;
         }
 
         const fanboyExamples = {
@@ -1137,7 +1223,7 @@
             // Check if this is the first time this card is being flipped
             if (cardElement.classList.contains('flipped') && !flippedCards.has(conjunction)) {
                 flippedCards.add(conjunction);
-                totalCorrect++; // Count this as a completed activity
+                totalProgress += cardProgressValue; // Add 1% per card flipped
                 updateOverallTracker(); // Update the progress bar
                 
                 // Add a visual indicator that this card has been counted
@@ -1171,11 +1257,17 @@
                 'q1b': 'Look for two independent clauses (each with a subject and verb) joined by a comma and FANBOYS.',
                 'q2': 'A comma is needed before the FANBOYS when joining two independent clauses.',
                 'q2b': 'A comma is needed before the FANBOYS when joining two independent clauses.',
-                'q3': 'Think about the relationship: studying hard led to passing the test - that\'s a result.',
-                'q4': '"But" shows contrast or opposition between two ideas (e.g., "I like coffee, but she prefers tea").',
-                'q5': '"So" shows a result or consequence - what happened because of the first clause (e.g., "It was raining, so we stayed inside").',
-                'q6': '"Yet" shows unexpected contrast - despite the movie being very long (usually boring), you weren\'t bored. This is surprising!'
+                'q3': 'Try again! Think about what conjunction shows a result.',
+                'q4': 'Try again! Think about which conjunction shows contrast.',
+                'q5': 'Try again! Think about which conjunction shows a result or consequence.',
+                'q6': 'Try again! Think about which conjunction shows unexpected contrast.'
             };
+
+            // Track any answer as progress (only first attempt counts)
+            if (!answeredQuestions.has(questionId)) {
+                answeredQuestions.add(questionId);
+                totalProgress += questionProgressValue; // ~4.43% per question
+            }
 
             if (isCorrect) {
                 // Disable all buttons after correct answer
@@ -1211,9 +1303,9 @@
                 }
                 
                 score++;
-                answeredQuestions++;
                 totalCorrect++; // Update overall tracker count
-                updateOverallTracker(); // Update the tracker bar
+                // Track correct answer for accuracy (can update from incorrect to correct on retry)
+                correctQuestions.add(questionId);
             } else {
                 // Only disable the wrong button clicked, allow retry
                 button.classList.add('incorrect');
@@ -1223,6 +1315,9 @@
                 feedback.className = 'feedback incorrect';
                 feedback.textContent = '✗ Not quite. ' + (feedbackMessages[questionId] || 'Try again!');
             }
+            
+            // Always update tracker (any answer counts as progress)
+            updateOverallTracker();
         }
 
         function updateScore() {
@@ -1475,7 +1570,16 @@
                 feedback.style.display = 'block';
                 feedback.innerHTML = `✔ Excellent! Perfect compound sentence!<br><strong>"${items[0].textContent}${items[1].textContent} ${items[2].textContent}."</strong><br><em>${correctAnswer.explanation}</em>`;
                 
-                totalCorrect++; // Update overall tracker count
+                // Track progress for this builder question
+                const builderQuestionId = 'builder_' + currentBuilderQuestion;
+                if (!answeredQuestions.has(builderQuestionId)) {
+                    answeredQuestions.add(builderQuestionId);
+                    totalProgress += questionProgressValue;
+                }
+                if (!correctQuestions.has(builderQuestionId)) {
+                    correctQuestions.add(builderQuestionId);
+                    totalCorrect++;
+                }
                 updateOverallTracker(); // Update the tracker bar
                 
                 // Change button text based on question progress
@@ -1681,7 +1785,17 @@
                 if (!completedPairs.includes(questionId)) {
                     completedPairs.push(questionId);
                     correctMatches++;
-                    totalCorrect++; // Update overall tracker count
+                    
+                    // Track progress for this matching question
+                    const matchQuestionId = 'match_' + questionId;
+                    if (!answeredQuestions.has(matchQuestionId)) {
+                        answeredQuestions.add(matchQuestionId);
+                        totalProgress += questionProgressValue;
+                    }
+                    if (!correctQuestions.has(matchQuestionId)) {
+                        correctQuestions.add(matchQuestionId);
+                        totalCorrect++;
+                    }
                     updateMatchingScore();
                     updateOverallTracker(); // Update the tracker bar
                     

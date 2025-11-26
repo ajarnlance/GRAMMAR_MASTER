@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matching Exercise: Clauses</title>
+    <title>Matching Clauses Review</title>
     <!-- SCORM API Wrapper -->
     <script src="../scorm-api-wrapper.js"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -170,8 +170,10 @@
                 
                 // Save progress to SCORM for dashboard (after checking answers)
                 const checkedProgressPercentage = Math.round((completedSentences.length / 25) * 100);
+                const accuracyPercentage = Math.round((correctCount / 25) * 100); // Accuracy based on total questions
                 ScormAPI.saveLessonProgress('clause_matching', {
                     percentage: checkedProgressPercentage,
+                    accuracy: accuracyPercentage,
                     completed: completedSentences.length,
                     total: 25,
                     grade: percentage,
@@ -216,7 +218,7 @@
                         {/* Header */}
                         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
                             <h1 className="text-4xl font-bold text-indigo-900 mb-4">
-                                Matching Exercise: Clauses
+                                Matching Clauses Review
                             </h1>
                             <p className="text-gray-700 text-lg mb-6">
                                 Match each clause from Column A with the correct clause from Column B to form a grammatically correct and meaningful sentence.
@@ -225,7 +227,7 @@
                             {/* Progress Tracker */}
                             <div className="max-w-xl mx-auto">
                                 <div className="text-center text-sm font-semibold text-gray-600 mb-2">
-                                    Overall Progress Tracker
+                                    Overall Progress
                                 </div>
                                 <div className="w-full h-9 bg-gray-200 rounded-full overflow-hidden shadow-inner">
                                     <div 
@@ -242,12 +244,36 @@
                                     </div>
                                 </div>
                                 <div className="text-center text-sm text-gray-500 mt-2">
+                                    <span>{completedSentences.length} out of 25 sentences completed | {Math.round((completedSentences.length / 25) * 100)}% complete</span>
+                                </div>
+                            </div>
+                            
+                            {/* Accuracy Tracker */}
+                            <div className="max-w-xl mx-auto mt-4">
+                                <div className="text-center text-sm font-semibold text-gray-600 mb-2">
+                                    Accuracy
+                                </div>
+                                <div className="w-full h-9 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                                    <div 
+                                        className={`h-full rounded-full flex items-center justify-center text-white font-bold text-sm transition-all duration-500 shadow-md ${
+                                            !showAnswers || grade === null ? 'bg-gray-400' :
+                                            grade >= 90 ? 'bg-gradient-to-r from-blue-500 to-blue-600' :
+                                            grade >= 70 ? 'bg-gradient-to-r from-green-400 to-green-500' :
+                                            grade >= 50 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' :
+                                            'bg-gradient-to-r from-red-400 to-orange-500'
+                                        }`}
+                                        style={{ width: `${showAnswers && grade !== null ? Math.max(grade, 8) : 0}%` }}
+                                    >
+                                        {showAnswers && grade !== null && `${grade}%`}
+                                    </div>
+                                </div>
+                                <div className="text-center text-sm text-gray-500 mt-2">
                                     {showAnswers && grade !== null ? (
                                         <span className={`font-bold ${grade >= 80 ? 'text-green-600' : grade >= 60 ? 'text-yellow-600' : 'text-red-600'}`}>
-                                            🎯 Score: {grade}% ({completedSentences.filter(s => isCorrect(s)).length} correct out of {completedSentences.length} attempted)
+                                            🎯 {completedSentences.filter(s => isCorrect(s)).length} correct out of {completedSentences.length} attempted | {grade}% accuracy
                                         </span>
                                     ) : (
-                                        <span>{completedSentences.length} out of 25 sentences completed | {Math.round((completedSentences.length / 25) * 100)}% complete</span>
+                                        <span>Check your answers to see accuracy</span>
                                     )}
                                 </div>
                             </div>

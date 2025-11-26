@@ -202,6 +202,231 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Video Lessons Section */
+        .video-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .video-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .video-section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .video-section-header-left h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #1a1a2e;
+        }
+
+        .video-icon {
+            font-size: 1.8em;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .video-card {
+            background: linear-gradient(145deg, #f8fafc 0%, #eef2f7 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            aspect-ratio: 16/9;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .video-overlay:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .video-overlay.hidden {
+            display: none;
+        }
+
+        .play-button {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #667eea;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .video-overlay:hover .play-button {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-control-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            transition: background 0.2s ease;
+        }
+
+        .video-control-btn:hover {
+            background: rgba(102,126,234,0.9);
+        }
+
+        .video-info {
+            padding: 15px 20px;
+        }
+
+        .video-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin: 0 0 5px 0;
+        }
+
+        .video-duration {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .video-quiz-link {
+            display: block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .video-quiz-link:hover {
+            background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+        }
+
+        .video-quiz-link .quiz-icon {
+            margin-right: 8px;
+        }
+
+        .video-quiz-progress {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .video-quiz-progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .video-quiz-progress-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .video-quiz-progress-label {
+            font-size: 0.75em;
+            color: #666;
+            width: 60px;
+            flex-shrink: 0;
+        }
+
+        .video-quiz-progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .video-quiz-progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .video-quiz-progress-fill.accuracy {
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .video-quiz-progress-percent {
+            font-size: 0.75em;
+            color: #666;
+            width: 35px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
         /* Lessons Section */
         .lessons-section {
             background: white;
@@ -394,6 +619,57 @@
             background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
         }
 
+        /* Lesson Accuracy Bar */
+        .lesson-accuracy {
+            padding: 0 25px 15px;
+        }
+
+        .lesson-accuracy-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .lesson-accuracy-percentage {
+            font-weight: 600;
+            color: #2196F3;
+        }
+
+        .lesson-accuracy-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .lesson-accuracy-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.6s ease;
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .lesson-accuracy-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .lesson-accuracy-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .lesson-accuracy-fill.good {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .lesson-accuracy-fill.excellent {
+            background: linear-gradient(90deg, #2196F3 0%, #1565C0 100%);
+        }
+
         .lesson-type {
             display: flex;
             align-items: center;
@@ -501,11 +777,13 @@
             }
 
             .student-info-card,
-            .lessons-section {
+            .lessons-section,
+            .video-section {
                 padding: 25px 20px;
             }
 
-            .lessons-grid {
+            .lessons-grid,
+            .videos-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -594,6 +872,137 @@
             </form>
         </section>
 
+        <!-- Video Lessons Section -->
+        <section class="video-section animate-in delay-2">
+            <div class="video-section-header">
+                <div class="video-section-header-left">
+                    <span class="video-icon">🎬</span>
+                    <h2>Video Lessons</h2>
+                </div>
+                <span class="lessons-count">4 Videos Available</span>
+            </div>
+
+            <div class="videos-grid">
+                <!-- Video 1: Sentence Structure -->
+                <div class="video-card" data-quiz="sentence_structure_quiz">
+                    <div class="video-container">
+                        <video id="video1" preload="metadata">
+                            <source src="GRAMMAR VIDEOS/Sentence_Structure.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="playVideo('video1', this)">
+                            <div class="play-button">▶</div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="video-control-btn" onclick="toggleFullscreen('video1')" title="Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Sentence Structure</h3>
+                        <p class="video-duration">Learn about sentence components</p>
+                    </div>
+                    <div class="video-quiz-progress">
+                        <div class="video-quiz-progress-row">
+                            <span class="video-quiz-progress-label">Progress</span>
+                            <div class="video-quiz-progress-bar">
+                                <div class="video-quiz-progress-fill" id="quiz1-progress-fill"></div>
+                            </div>
+                            <span class="video-quiz-progress-percent" id="quiz1-progress-percent">0%</span>
+                        </div>
+                        <div class="video-quiz-progress-row">
+                            <span class="video-quiz-progress-label">Accuracy</span>
+                            <div class="video-quiz-progress-bar">
+                                <div class="video-quiz-progress-fill accuracy" id="quiz1-accuracy-fill"></div>
+                            </div>
+                            <span class="video-quiz-progress-percent" id="quiz1-accuracy-percent">0%</span>
+                        </div>
+                    </div>
+                    <a href="VIDEO REVIEW QUIZZES/sentence_structure_review_quiz.html" class="video-quiz-link">
+                        <span class="quiz-icon">📝</span>Take Review Quiz
+                    </a>
+                </div>
+
+                <!-- Video 2: Subject-Verb Agreement -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <video id="video2" preload="metadata">
+                            <source src="GRAMMAR VIDEOS/Subject-Verb_Agreement.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="playVideo('video2', this)">
+                            <div class="play-button">▶</div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="video-control-btn" onclick="toggleFullscreen('video2')" title="Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Subject-Verb Agreement</h3>
+                        <p class="video-duration">Master matching subjects and verbs</p>
+                    </div>
+                </div>
+
+                <!-- Video 3: Relative Clauses -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <video id="video3" preload="metadata">
+                            <source src="GRAMMAR VIDEOS/Relative Clauses.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="playVideo('video3', this)">
+                            <div class="play-button">▶</div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="video-control-btn" onclick="toggleFullscreen('video3')" title="Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Relative Clauses</h3>
+                        <p class="video-duration">Understanding clause relationships</p>
+                    </div>
+                </div>
+
+                <!-- Video 4: Fragments & Run-ons -->
+                <div class="video-card" data-quiz="fragments_runons_quiz">
+                    <div class="video-container">
+                        <video id="video4" preload="metadata">
+                            <source src="GRAMMAR VIDEOS/Fragments_&_Run-ons.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="playVideo('video4', this)">
+                            <div class="play-button">▶</div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="video-control-btn" onclick="toggleFullscreen('video4')" title="Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Fragments & Run-ons</h3>
+                        <p class="video-duration">Avoiding common sentence errors</p>
+                    </div>
+                    <div class="video-quiz-progress">
+                        <div class="video-quiz-progress-row">
+                            <span class="video-quiz-progress-label">Progress</span>
+                            <div class="video-quiz-progress-bar">
+                                <div class="video-quiz-progress-fill" id="quiz4-progress-fill"></div>
+                            </div>
+                            <span class="video-quiz-progress-percent" id="quiz4-progress-percent">0%</span>
+                        </div>
+                        <div class="video-quiz-progress-row">
+                            <span class="video-quiz-progress-label">Accuracy</span>
+                            <div class="video-quiz-progress-bar">
+                                <div class="video-quiz-progress-fill accuracy" id="quiz4-accuracy-fill"></div>
+                            </div>
+                            <span class="video-quiz-progress-percent" id="quiz4-accuracy-percent">0%</span>
+                        </div>
+                    </div>
+                    <a href="VIDEO REVIEW QUIZZES/fragments_runons_review_quiz.html" class="video-quiz-link">
+                        <span class="quiz-icon">📝</span>Take Review Quiz
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Lessons Section -->
         <section class="lessons-section animate-in delay-2">
             <div class="lessons-header">
@@ -601,7 +1010,7 @@
                     <div class="lessons-icon">📖</div>
                     <h2>Available Lessons</h2>
                 </div>
-                <span class="lessons-count">5 Lessons Available</span>
+                <span class="lessons-count">4 Lessons Available</span>
             </div>
 
             <div class="lessons-grid">
@@ -611,7 +1020,7 @@
                         <div class="lesson-number">1</div>
                         <div class="lesson-icon-wrapper">📝</div>
                         <h3 class="lesson-title">Simple Sentences</h3>
-                        <p class="lesson-description">Learn the fundamentals of sentence structure with subjects, verbs, and complete ideas.</p>
+                        <p class="lesson-description">Learn sentence structure with subjects, verbs, and complete ideas.</p>
                     </div>
                     <div class="lesson-progress">
                         <div class="lesson-progress-label">
@@ -620,6 +1029,15 @@
                         </div>
                         <div class="lesson-progress-bar">
                             <div class="lesson-progress-fill"></div>
+                        </div>
+                    </div>
+                    <div class="lesson-accuracy">
+                        <div class="lesson-accuracy-label">
+                            <span>Accuracy</span>
+                            <span class="lesson-accuracy-percentage">0%</span>
+                        </div>
+                        <div class="lesson-accuracy-bar">
+                            <div class="lesson-accuracy-fill"></div>
                         </div>
                     </div>
                     <div class="lesson-card-footer">
@@ -651,6 +1069,15 @@
                             <div class="lesson-progress-fill"></div>
                         </div>
                     </div>
+                    <div class="lesson-accuracy">
+                        <div class="lesson-accuracy-label">
+                            <span>Accuracy</span>
+                            <span class="lesson-accuracy-percentage">0%</span>
+                        </div>
+                        <div class="lesson-accuracy-bar">
+                            <div class="lesson-accuracy-fill"></div>
+                        </div>
+                    </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
                             <span class="lesson-type-dot"></span>
@@ -678,6 +1105,15 @@
                         </div>
                         <div class="lesson-progress-bar">
                             <div class="lesson-progress-fill"></div>
+                        </div>
+                    </div>
+                    <div class="lesson-accuracy">
+                        <div class="lesson-accuracy-label">
+                            <span>Accuracy</span>
+                            <span class="lesson-accuracy-percentage">0%</span>
+                        </div>
+                        <div class="lesson-accuracy-bar">
+                            <div class="lesson-accuracy-fill"></div>
                         </div>
                     </div>
                     <div class="lesson-card-footer">
@@ -709,6 +1145,15 @@
                             <div class="lesson-progress-fill"></div>
                         </div>
                     </div>
+                    <div class="lesson-accuracy">
+                        <div class="lesson-accuracy-label">
+                            <span>Accuracy</span>
+                            <span class="lesson-accuracy-percentage">0%</span>
+                        </div>
+                        <div class="lesson-accuracy-bar">
+                            <div class="lesson-accuracy-fill"></div>
+                        </div>
+                    </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
                             <span class="lesson-type-dot"></span>
@@ -721,12 +1166,35 @@
                     </div>
                 </a>
 
-                <!-- Lesson 5: Clause Matching Exercise -->
-                <a href="LESSONS/clause-matching-exercise.html" class="lesson-card animate-in delay-5" data-lesson="clause_matching">
+                </div>
+
+            <!-- Progress Banner -->
+            <div class="progress-banner">
+                <div class="progress-text">
+                    <span>🚀</span>
+                    <p>More lessons coming soon! Stay tuned for additional grammar topics.</p>
+                </div>
+                <span class="coming-soon-badge">More Coming Soon</span>
+            </div>
+        </section>
+
+        <!-- Review Quizzes Section -->
+        <section class="lessons-section">
+            <div class="lessons-header">
+                <div class="lessons-title">
+                    <span class="lessons-icon">📋</span>
+                    <h2>Review Quizzes</h2>
+                </div>
+                <span class="lessons-count">1 Quiz Available</span>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- Matching Clauses Review -->
+                <a href="LESSONS/clause-matching-exercise.html" class="lesson-card animate-in delay-1" data-lesson="clause_matching">
                     <div class="lesson-card-header">
-                        <div class="lesson-number">5</div>
+                        <div class="lesson-number">1</div>
                         <div class="lesson-icon-wrapper">🎯</div>
-                        <h3 class="lesson-title">Clause Matching Exercise</h3>
+                        <h3 class="lesson-title">Matching Clauses Review</h3>
                         <p class="lesson-description">Practice identifying and matching clauses to build complete sentences.</p>
                     </div>
                     <div class="lesson-progress">
@@ -738,10 +1206,19 @@
                             <div class="lesson-progress-fill"></div>
                         </div>
                     </div>
+                    <div class="lesson-accuracy">
+                        <div class="lesson-accuracy-label">
+                            <span>Accuracy</span>
+                            <span class="lesson-accuracy-percentage">0%</span>
+                        </div>
+                        <div class="lesson-accuracy-bar">
+                            <div class="lesson-accuracy-fill"></div>
+                        </div>
+                    </div>
                     <div class="lesson-card-footer">
                         <span class="lesson-type">
                             <span class="lesson-type-dot"></span>
-                            Practice Exercise
+                            Review Quiz
                         </span>
                         <button class="start-lesson-btn">
                             Start
@@ -749,15 +1226,6 @@
                         </button>
                     </div>
                 </a>
-            </div>
-
-            <!-- Progress Banner -->
-            <div class="progress-banner">
-                <div class="progress-text">
-                    <span>🚀</span>
-                    <p>More lessons coming soon! Stay tuned for additional grammar topics.</p>
-                </div>
-                <span class="coming-soon-badge">More Coming Soon</span>
             </div>
         </section>
 
@@ -819,7 +1287,9 @@
             lessonCards.forEach(function(card) {
                 var lessonKey = card.getAttribute('data-lesson');
                 var lessonData = allProgress[lessonKey];
+                console.log("Lesson:", lessonKey, "Data:", JSON.stringify(lessonData));
                 
+                // Update Progress bar
                 var progressFill = card.querySelector('.lesson-progress-fill');
                 var progressPercentage = card.querySelector('.lesson-progress-percentage');
                 
@@ -839,6 +1309,53 @@
                     } else if (percentage > 0) {
                         progressFill.classList.add('low');
                     }
+                }
+                
+                // Update Accuracy bar
+                var accuracyFill = card.querySelector('.lesson-accuracy-fill');
+                var accuracyPercentage = card.querySelector('.lesson-accuracy-percentage');
+                
+                if (accuracyFill && accuracyPercentage) {
+                    var accuracy = (lessonData && lessonData.accuracy) ? parseInt(lessonData.accuracy) : 0;
+                    accuracyFill.style.width = accuracy + '%';
+                    accuracyPercentage.textContent = accuracy + '%';
+                    
+                    // Apply color class based on accuracy
+                    accuracyFill.classList.remove('low', 'medium', 'good', 'excellent');
+                    if (accuracy >= 90) {
+                        accuracyFill.classList.add('excellent');
+                    } else if (accuracy >= 70) {
+                        accuracyFill.classList.add('good');
+                    } else if (accuracy >= 50) {
+                        accuracyFill.classList.add('medium');
+                    } else if (accuracy > 0) {
+                        accuracyFill.classList.add('low');
+                    }
+                }
+            });
+            
+            // Load video quiz progress
+            var videoCards = document.querySelectorAll('.video-card[data-quiz]');
+            videoCards.forEach(function(card) {
+                var quizKey = card.getAttribute('data-quiz');
+                var quizData = allProgress[quizKey];
+                
+                // Find the progress elements by looking for specific IDs
+                var progressFill = card.querySelector('.video-quiz-progress-fill:not(.accuracy)');
+                var progressPercent = card.querySelector('.video-quiz-progress-percent');
+                var accuracyFill = card.querySelector('.video-quiz-progress-fill.accuracy');
+                var accuracyPercent = card.querySelectorAll('.video-quiz-progress-percent')[1];
+                
+                if (progressFill && progressPercent) {
+                    var percentage = (quizData && quizData.percentage) ? parseInt(quizData.percentage) : 0;
+                    progressFill.style.width = percentage + '%';
+                    progressPercent.textContent = percentage + '%';
+                }
+                
+                if (accuracyFill && accuracyPercent) {
+                    var accuracy = (quizData && quizData.accuracy) ? parseInt(quizData.accuracy) : 0;
+                    accuracyFill.style.width = accuracy + '%';
+                    accuracyPercent.textContent = accuracy + '%';
                 }
             });
         }
@@ -869,6 +1386,81 @@
         document.querySelectorAll('.start-lesson-btn').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
+            });
+        });
+
+        // Video playback functions
+        function playVideo(videoId, overlay) {
+            var video = document.getElementById(videoId);
+            if (video.paused) {
+                // Pause all other videos first
+                document.querySelectorAll('video').forEach(function(v) {
+                    if (v.id !== videoId) {
+                        v.pause();
+                        var otherOverlay = v.parentElement.querySelector('.video-overlay');
+                        if (otherOverlay) {
+                            otherOverlay.classList.remove('hidden');
+                            otherOverlay.querySelector('.play-button').textContent = '▶';
+                        }
+                    }
+                });
+                
+                video.play();
+                overlay.classList.add('hidden');
+            } else {
+                video.pause();
+                overlay.classList.remove('hidden');
+            }
+        }
+
+        // Toggle fullscreen for video
+        function toggleFullscreen(videoId) {
+            var video = document.getElementById(videoId);
+            
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else if (document.webkitFullscreenElement) {
+                document.webkitExitFullscreen();
+            } else if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
+            }
+        }
+
+        // Show overlay when video ends or is paused
+        document.querySelectorAll('video').forEach(function(video) {
+            video.addEventListener('ended', function() {
+                var overlay = this.parentElement.querySelector('.video-overlay');
+                if (overlay) {
+                    overlay.classList.remove('hidden');
+                }
+            });
+            
+            video.addEventListener('pause', function() {
+                var overlay = this.parentElement.querySelector('.video-overlay');
+                if (overlay && !document.fullscreenElement) {
+                    overlay.classList.remove('hidden');
+                }
+            });
+            
+            video.addEventListener('play', function() {
+                var overlay = this.parentElement.querySelector('.video-overlay');
+                if (overlay) {
+                    overlay.classList.add('hidden');
+                }
+            });
+
+            // Add click to toggle play/pause on video itself
+            video.addEventListener('click', function() {
+                var overlay = this.parentElement.querySelector('.video-overlay');
+                if (this.paused) {
+                    this.play();
+                } else {
+                    this.pause();
+                }
             });
         });
     </script>

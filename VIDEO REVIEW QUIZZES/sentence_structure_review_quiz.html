@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentence Structure Review Quiz</title>
+    <!-- SCORM API Wrapper -->
+    <script src="../scorm-api-wrapper.js"></script>
     <style>
         * {
             margin: 0;
@@ -93,6 +95,118 @@
 
         .progress-fill.excellent {
             background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .progress-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .accuracy-fill {
+            background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .accuracy-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .accuracy-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .accuracy-fill.good {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .accuracy-fill.excellent {
+            background: linear-gradient(90deg, #2196F3 0%, #1565C0 100%);
+        }
+
+        .accuracy-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tracker-container {
+            max-width: 600px;
+            margin: 0 auto 15px auto;
+            text-align: center;
+        }
+
+        .tracker-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tracker-bar {
+            width: 100%;
+            height: 35px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tracker-fill {
+            height: 100%;
+            width: 0%;
+            min-width: 0;
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
+            transition: width 0.6s ease, background 0.3s ease, min-width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85em;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tracker-fill:not(:empty) {
+            min-width: 45px;
+        }
+
+        .tracker-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #ff5722 100%);
+        }
+
+        .tracker-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .tracker-fill.good {
+            background: linear-gradient(90deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .tracker-fill.excellent {
+            background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .tracker-stats {
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
         }
 
         .progress-stats {
@@ -327,8 +441,32 @@
 </head>
 <body>
     <div class="container">
+        <a href="../index.html" class="dashboard-btn" onclick="saveAndExit(event)">← Dashboard</a>
+        
         <h1>📝 Sentence Structure Review Quiz</h1>
         <p class="subtitle">Test Your Understanding of Simple, Compound, and Complex Sentences</p>
+
+        <!-- Progress Tracker -->
+        <div class="tracker-container">
+            <div class="tracker-label">Overall Progress</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill" id="trackerFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="trackerStats">0 correct out of 0 attempted | 0% complete</span>
+            </div>
+        </div>
+        
+        <!-- Accuracy Tracker -->
+        <div class="tracker-container">
+            <div class="tracker-label">Accuracy</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill accuracy-fill" id="accuracyFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="accuracyStats">0 correct out of 10 questions | 0% accuracy</span>
+            </div>
+        </div>
 
         <div class="instructions">
             <h3>📚 Instructions</h3>
@@ -489,6 +627,9 @@
         let currentQuestion = 0;
         let correctAnswers = 0;
         let answeredQuestions = 0;
+        const totalQuestions = 10;
+        let answeredSet = new Set();  // Track answered questions
+        let correctSet = new Set();   // Track correct answers
 
         function renderQuiz() {
             const container = document.getElementById('quizContainer');
@@ -534,12 +675,18 @@
 
             answeredQuestions++;
 
+            // Track this question as answered
+            if (!answeredSet.has(questionId)) {
+                answeredSet.add(questionId);
+            }
+
             if (selectedIndex === question.correct) {
                 // Correct answer
                 selectedButton.classList.add('correct');
                 feedback.className = 'feedback correct';
                 feedback.innerHTML = `<strong>✓ Correct!</strong> ${question.explanation}`;
                 correctAnswers++;
+                correctSet.add(questionId);
             } else {
                 // Incorrect answer
                 selectedButton.classList.add('incorrect');
@@ -548,7 +695,7 @@
                 feedback.innerHTML = `<strong>✗ Not quite.</strong> ${question.explanation}`;
             }
 
-            updateProgress();
+            updateProgressTracker();
 
             // Show results when all questions are answered
             if (answeredQuestions === questions.length) {
@@ -556,8 +703,60 @@
             }
         }
 
-        function updateProgress() {
-            // Progress tracker removed - tracking internally only
+        function updateProgressTracker() {
+            const progressPercentage = Math.round((answeredSet.size / totalQuestions) * 100);
+            const accuracyPercentage = Math.round((correctSet.size / totalQuestions) * 100);
+            
+            // Update progress bar
+            const trackerFill = document.getElementById('trackerFill');
+            const trackerStats = document.getElementById('trackerStats');
+            
+            trackerFill.style.width = progressPercentage + '%';
+            trackerFill.textContent = progressPercentage + '%';
+            
+            trackerFill.classList.remove('low', 'medium', 'good', 'excellent');
+            if (progressPercentage >= 90) {
+                trackerFill.classList.add('excellent');
+            } else if (progressPercentage >= 70) {
+                trackerFill.classList.add('good');
+            } else if (progressPercentage >= 50) {
+                trackerFill.classList.add('medium');
+            } else if (progressPercentage > 0) {
+                trackerFill.classList.add('low');
+            }
+            
+            trackerStats.textContent = `${correctSet.size} correct out of ${answeredSet.size} attempted | ${progressPercentage}% complete`;
+            
+            // Update accuracy bar
+            const accuracyFill = document.getElementById('accuracyFill');
+            const accuracyStats = document.getElementById('accuracyStats');
+            
+            accuracyFill.style.width = accuracyPercentage + '%';
+            accuracyFill.textContent = accuracyPercentage + '%';
+            
+            accuracyFill.classList.remove('low', 'medium', 'good', 'excellent');
+            if (accuracyPercentage >= 90) {
+                accuracyFill.classList.add('excellent');
+            } else if (accuracyPercentage >= 70) {
+                accuracyFill.classList.add('good');
+            } else if (accuracyPercentage >= 50) {
+                accuracyFill.classList.add('medium');
+            } else if (accuracyPercentage > 0) {
+                accuracyFill.classList.add('low');
+            }
+            
+            accuracyStats.textContent = `${correctSet.size} correct out of ${totalQuestions} questions | ${accuracyPercentage}% accuracy`;
+            
+            // Save to SCORM
+            ScormAPI.saveLessonProgress('sentence_structure_quiz', {
+                percentage: progressPercentage,
+                accuracy: accuracyPercentage,
+                correct: correctSet.size,
+                attempted: answeredSet.size,
+                total: totalQuestions,
+                timestamp: new Date().toISOString()
+            });
+            ScormAPI.updateCourseProgress();
         }
 
         function showResults() {
@@ -599,8 +798,16 @@
             exitBtn.style.cursor = 'pointer';
         }
 
+        // Save and exit function
+        function saveAndExit(event) {
+            event.preventDefault();
+            ScormAPI.commit();
+            window.location.href = '../index.html';
+        }
+
         // Initialize quiz on page load
         document.addEventListener('DOMContentLoaded', function() {
+            ScormAPI.initialize();
             renderQuiz();
         });
     </script>
