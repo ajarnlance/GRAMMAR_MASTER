@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrammarMaster - Interactive Grammar Lessons</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .app-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.5em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3em;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        /* Student Info Card */
+        .student-info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .student-info-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .student-info-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: #667eea;
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+
+        .student-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label .label-icon {
+            color: #667eea;
+        }
+
+        .form-group input {
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #a0aec0;
+        }
+
+        .save-info-btn {
+            margin-top: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .save-info-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .save-info-btn:active {
+            transform: translateY(0);
+        }
+
+        .save-confirmation {
+            display: none;
+            color: #38a169;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #f0fff4;
+            border-radius: 10px;
+            border-left: 4px solid #38a169;
+        }
+
+        .save-confirmation.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Lessons Section */
+        .lessons-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .lessons-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .lessons-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lessons-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .lessons-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: #667eea;
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+
+        .lessons-count {
+            background: #f0f7ff;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        /* Lesson Cards Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .lesson-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .lesson-card-header {
+            padding: 25px 25px 20px;
+            position: relative;
+        }
+
+        .lesson-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        .lesson-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .lesson-card:nth-child(1) .lesson-icon-wrapper { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
+        .lesson-card:nth-child(2) .lesson-icon-wrapper { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); }
+        .lesson-card:nth-child(3) .lesson-icon-wrapper { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); }
+        .lesson-card:nth-child(4) .lesson-icon-wrapper { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+        .lesson-card:nth-child(5) .lesson-icon-wrapper { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); }
+
+        .lesson-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.35em;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .lesson-description {
+            color: #718096;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .lesson-card-footer {
+            padding: 18px 25px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .lesson-type {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .lesson-type-dot {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+
+        .start-lesson-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .start-lesson-btn:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-card:hover .arrow-icon {
+            transform: translateX(4px);
+        }
+
+        /* Progress Banner */
+        .progress-banner {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 1px dashed #667eea50;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .progress-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progress-text span {
+            font-size: 1.5em;
+        }
+
+        .coming-soon-badge {
+            background: #ffc107;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .app-title {
+                font-size: 2.5em;
+            }
+
+            .tagline {
+                font-size: 1.1em;
+            }
+
+            .student-info-card,
+            .lessons-section {
+                padding: 25px 20px;
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Welcome animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        .delay-5 { animation-delay: 0.5s; opacity: 0; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header animate-in">
+            <div class="logo-container">
+                <div class="logo-icon">📚</div>
+                <h1 class="app-title">GrammarMaster</h1>
+            </div>
+            <p class="tagline">Interactive Grammar Lessons for ESL Students</p>
+        </header>
+
+        <!-- Student Information Card -->
+        <section class="student-info-card animate-in delay-1">
+            <div class="student-info-header">
+                <div class="student-icon">👤</div>
+                <h2>Student Information</h2>
+            </div>
+            <form id="studentForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">📝</span>
+                            Full Name
+                        </label>
+                        <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">🎓</span>
+                            Student ID
+                        </label>
+                        <input type="text" id="studentId" placeholder="Enter your student ID" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">📋</span>
+                            Section Number
+                        </label>
+                        <input type="text" id="sectionNumber" placeholder="Enter your section number" autocomplete="off">
+                    </div>
+                </div>
+                <button type="submit" class="save-info-btn">
+                    <span>💾</span>
+                    Save Information
+                </button>
+                <div id="saveConfirmation" class="save-confirmation">
+                    <span>✓</span>
+                    Information saved successfully!
+                </div>
+            </form>
+        </section>
+
+        <!-- Lessons Section -->
+        <section class="lessons-section animate-in delay-2">
+            <div class="lessons-header">
+                <div class="lessons-header-left">
+                    <div class="lessons-icon">📖</div>
+                    <h2>Available Lessons</h2>
+                </div>
+                <span class="lessons-count">5 Lessons Available</span>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- Lesson 1: Simple Sentences -->
+                <a href="LESSONS/simple_sentences_interactive_lesson.html" class="lesson-card animate-in delay-1">
+                    <div class="lesson-card-header">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-icon-wrapper">📝</div>
+                        <h3 class="lesson-title">Simple Sentences</h3>
+                        <p class="lesson-description">Learn the fundamentals of sentence structure with subjects, verbs, and complete ideas.</p>
+                    </div>
+                    <div class="lesson-card-footer">
+                        <span class="lesson-type">
+                            <span class="lesson-type-dot"></span>
+                            Interactive Lesson
+                        </span>
+                        <button class="start-lesson-btn">
+                            Start
+                            <span class="arrow-icon">→</span>
+                        </button>
+                    </div>
+                </a>
+
+                <!-- Lesson 2: Compound Sentences -->
+                <a href="LESSONS/compound_sentences_interactive_lesson.html" class="lesson-card animate-in delay-2">
+                    <div class="lesson-card-header">
+                        <div class="lesson-number">2</div>
+                        <div class="lesson-icon-wrapper">🔗</div>
+                        <h3 class="lesson-title">Compound Sentences</h3>
+                        <p class="lesson-description">Master joining independent clauses with FANBOYS coordinating conjunctions.</p>
+                    </div>
+                    <div class="lesson-card-footer">
+                        <span class="lesson-type">
+                            <span class="lesson-type-dot"></span>
+                            Interactive Lesson
+                        </span>
+                        <button class="start-lesson-btn">
+                            Start
+                            <span class="arrow-icon">→</span>
+                        </button>
+                    </div>
+                </a>
+
+                <!-- Lesson 3: Complex Sentences -->
+                <a href="LESSONS/complex_sentences_interactive_lesson.html" class="lesson-card animate-in delay-3">
+                    <div class="lesson-card-header">
+                        <div class="lesson-number">3</div>
+                        <div class="lesson-icon-wrapper">🧩</div>
+                        <h3 class="lesson-title">Complex Sentences</h3>
+                        <p class="lesson-description">Explore dependent and independent clauses with subordinating conjunctions.</p>
+                    </div>
+                    <div class="lesson-card-footer">
+                        <span class="lesson-type">
+                            <span class="lesson-type-dot"></span>
+                            Interactive Lesson
+                        </span>
+                        <button class="start-lesson-btn">
+                            Start
+                            <span class="arrow-icon">→</span>
+                        </button>
+                    </div>
+                </a>
+
+                <!-- Lesson 4: Subject-Verb Agreement -->
+                <a href="LESSONS/grammar_master_subject-verb-agreement.html" class="lesson-card animate-in delay-4">
+                    <div class="lesson-card-header">
+                        <div class="lesson-number">4</div>
+                        <div class="lesson-icon-wrapper">✅</div>
+                        <h3 class="lesson-title">Subject-Verb Agreement</h3>
+                        <p class="lesson-description">Master the 13 essential rules for matching subjects with their verbs.</p>
+                    </div>
+                    <div class="lesson-card-footer">
+                        <span class="lesson-type">
+                            <span class="lesson-type-dot"></span>
+                            Interactive Lesson
+                        </span>
+                        <button class="start-lesson-btn">
+                            Start
+                            <span class="arrow-icon">→</span>
+                        </button>
+                    </div>
+                </a>
+
+                <!-- Lesson 5: Clause Matching Exercise -->
+                <a href="LESSONS/clause-matching-exercise.html" class="lesson-card animate-in delay-5">
+                    <div class="lesson-card-header">
+                        <div class="lesson-number">5</div>
+                        <div class="lesson-icon-wrapper">🎯</div>
+                        <h3 class="lesson-title">Clause Matching Exercise</h3>
+                        <p class="lesson-description">Practice identifying and matching clauses to build complete sentences.</p>
+                    </div>
+                    <div class="lesson-card-footer">
+                        <span class="lesson-type">
+                            <span class="lesson-type-dot"></span>
+                            Practice Exercise
+                        </span>
+                        <button class="start-lesson-btn">
+                            Start
+                            <span class="arrow-icon">→</span>
+                        </button>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Progress Banner -->
+            <div class="progress-banner">
+                <div class="progress-text">
+                    <span>🚀</span>
+                    <p>More lessons coming soon! Stay tuned for additional grammar topics.</p>
+                </div>
+                <span class="coming-soon-badge">More Coming Soon</span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 GrammarMaster | Designed for ESL Students</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load saved student information on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedName = localStorage.getItem('grammarmaster_studentName');
+            const savedId = localStorage.getItem('grammarmaster_studentId');
+            const savedSection = localStorage.getItem('grammarmaster_sectionNumber');
+
+            if (savedName) document.getElementById('studentName').value = savedName;
+            if (savedId) document.getElementById('studentId').value = savedId;
+            if (savedSection) document.getElementById('sectionNumber').value = savedSection;
+        });
+
+        // Handle form submission
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            const sectionNumber = document.getElementById('sectionNumber').value;
+
+            // Save to localStorage
+            localStorage.setItem('grammarmaster_studentName', studentName);
+            localStorage.setItem('grammarmaster_studentId', studentId);
+            localStorage.setItem('grammarmaster_sectionNumber', sectionNumber);
+
+            // Show confirmation
+            const confirmation = document.getElementById('saveConfirmation');
+            confirmation.classList.add('show');
+
+            // Hide confirmation after 3 seconds
+            setTimeout(function() {
+                confirmation.classList.remove('show');
+            }, 3000);
+        });
+
+        // Prevent button clicks inside cards from navigating twice
+        document.querySelectorAll('.start-lesson-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Let the parent anchor handle navigation
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html>
+

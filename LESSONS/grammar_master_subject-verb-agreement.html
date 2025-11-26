@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject-Verb Agreement - GrammarMaster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .tracker-container {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+
+        .tracker-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tracker-bar {
+            width: 100%;
+            height: 35px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .tracker-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
+            transition: width 0.6s ease, background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tracker-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #ff5722 100%);
+        }
+
+        .tracker-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .tracker-fill.good {
+            background: linear-gradient(90deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .tracker-fill.excellent {
+            background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .tracker-stats {
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .learning-objectives {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .learning-objectives h3 {
+            margin-top: 0;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .learning-objectives li {
+            margin: 8px 0;
+        }
+
+        .definition-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .incorrect-box {
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #f44336;
+        }
+
+        .rule-card {
+            background: transparent;
+            perspective: 1000px;
+            height: 220px;
+            cursor: pointer;
+        }
+
+        .rule-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .rule-card.flipped .rule-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .rule-card-front, .rule-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .rule-card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .rule-card-back {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            transform: rotateY(180deg);
+            text-align: left;
+            overflow-y: auto;
+        }
+
+        .rule-card:hover .rule-card-front,
+        .rule-card:hover .rule-card-back {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .rule-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .rule-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .rule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .interactive-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .option-btn.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+
+        .sorter-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .sorter-box {
+            flex: 1;
+            min-width: 280px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .sorter-box.singular {
+            border: 3px solid #ff9800;
+            background: #fff8e1;
+        }
+
+        .sorter-box.plural {
+            border: 3px solid #2196f3;
+            background: #e3f2fd;
+        }
+
+        .sorter-box h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .sorter-box.singular h4 {
+            color: #e65100;
+        }
+
+        .sorter-box.plural h4 {
+            color: #1565c0;
+        }
+
+        .sorter-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 100px;
+        }
+
+        .sort-item {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .sort-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .sort-item.correct {
+            background: #4caf50;
+        }
+
+        .sort-item.incorrect {
+            background: #f44336;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .sort-item.placed {
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #d32f2f;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .tip-box {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+        }
+
+        .highlight-singular {
+            background: #fff3e0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .highlight-plural {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #1565c0;
+        }
+
+        /* Page Navigation Styles */
+        .page {
+        display: none;
+      }
+
+        .page.active {
+            display: block;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .rule-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rule-card {
+                height: 200px;
+            }
+
+            .sorter-container {
+                flex-direction: column;
+            }
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .tracker-fill.updating {
+            animation: pulse 0.3s ease;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .completion-message {
+            display: none;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 10px;
+        }
+
+        .completion-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reference-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .reference-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="dashboard-btn">🏠 Dashboard</a>
+        <h1>📝 Subject-Verb Agreement</h1>
+        <p class="subtitle">Master the Rules of Matching Subjects and Verbs</p>
+
+        <div class="tracker-container">
+            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill" id="trackerFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="trackerStats">0 correct out of 30 questions | 0% complete</span>
+            </div>
+        </div>
+
+        <!-- PAGE 1: Introduction and Rules -->
+        <div class="page active" id="page1">
+            <div class="learning-objectives">
+                <h3>📚 Learning Objectives</h3>
+                <ul>
+                    <li>Understand the basic principle of subject-verb agreement</li>
+                    <li>Learn the 13 essential rules for matching subjects and verbs</li>
+                    <li>Identify singular and plural subjects correctly</li>
+                    <li>Apply agreement rules in various sentence structures</li>
+                    <li>Avoid common agreement errors in writing</li>
+                </ul>
+            </div>
+
+            <h2>The Basic Principle</h2>
+            
+            <div class="definition-box">
+                <h3>Subject-Verb Agreement Rule:</h3>
+                <p>Subjects and verbs must always <strong>agree in number</strong>.</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li>A <span class="highlight-singular">singular subject</span> takes a <span class="highlight-singular">singular verb</span> (usually ends in "s")</li>
+                    <li>A <span class="highlight-plural">plural subject</span> takes a <span class="highlight-plural">plural verb</span> (no "s")</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>✅ Examples:</h4>
+                <p><span class="highlight-singular">The cat</span> <span class="highlight-singular">runs</span> fast. (singular + singular)</p>
+                <p><span class="highlight-plural">The cats</span> <span class="highlight-plural">run</span> fast. (plural + plural)</p>
+                <p><span class="highlight-singular">She</span> <span class="highlight-singular">walks</span> to school. (singular + singular)</p>
+                <p><span class="highlight-plural">They</span> <span class="highlight-plural">walk</span> to school. (plural + plural)</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Memory Tip:</strong> It seems backwards, but remember: singular verbs usually END in "S" while plural verbs do NOT. Think: "The dog run<strong>s</strong>" vs "The dog<strong>s</strong> run"
+            </div>
+
+            <h2>The 13 Essential Rules</h2>
+            <p style="color: #666; margin-bottom: 15px;">Click each card to flip and reveal the rule!</p>
+
+            <div class="rule-grid">
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #1</div>
+                            <div class="rule-title">The "And" Rule</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                </div>
+                        <div class="rule-card-back">
+                            <p><strong>Two or more subjects joined by "and"</strong> are considered <strong>plural</strong> and require a verb WITHOUT an "s".</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Jan, John, and Bob <u>walk</u> to the store.</p>
+                        </div>
+                    </div>
+              </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #2</div>
+                            <div class="rule-title">Each & Every</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                  </div>
+                        <div class="rule-card-back">
+                            <p>If a subject is modified by <strong>"each" or "every"</strong>, it is <strong>singular</strong> and takes a verb ending in "s".</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Each boy and girl <u>walks</u> to the store.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #3</div>
+                            <div class="rule-title">Or, Nor, But</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p>If subjects are joined by <strong>"or", "nor", or "but"</strong>, the verb agrees with the <strong>closest subject</strong>.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Neither Bob nor his brothers <u>walk</u> home. (brothers is closest = plural)</p>
+                        </div>
+                    </div>
+                  </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #4</div>
+                            <div class="rule-title">Indefinite Pronouns</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                    </div>
+                        <div class="rule-card-back">
+                            <p>Words like <strong>everyone, someone, nothing, each</strong> are usually <strong>singular</strong>.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Everyone <u>walks</u> to the store.</p>
+                            <p style="font-style: italic;">✓ Nobody <u>knows</u> the answer.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #5</div>
+                            <div class="rule-title">Prepositional Phrases</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                </div>
+                        <div class="rule-card-back">
+                            <p>The subject is <strong>NEVER</strong> in a prepositional phrase. <strong>Ignore</strong> words between subject and verb!</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ The mother duck (with all her ducklings) <u>walks</u> to the store.</p>
+                </div>
+              </div>
+          </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #6</div>
+                            <div class="rule-title">Some/All Exception</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p>For <strong>some, all, most, none</strong> - look at the <strong>object of the preposition</strong> to decide.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Some of the cake <u>is</u> gone.</p>
+                            <p style="font-style: italic;">✓ Some of the students <u>are</u> gone.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #7</div>
+                            <div class="rule-title">Collective Nouns</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p><strong>Collective nouns</strong> (family, group, team, class) are <strong>singular</strong>.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ My family <u>walks</u> to the store.</p>
+                            <p style="font-style: italic;">✓ The team <u>is</u> ready.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #8</div>
+                            <div class="rule-title">Tricky "S" Nouns</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p>Nouns like <strong>economics, mumps, measles, news</strong> end in "s" but are <strong>singular</strong>.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Economics <u>is</u> her favorite subject.</p>
+                            <p style="font-style: italic;">✓ The news <u>is</u> shocking.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #9</div>
+                            <div class="rule-title">Units of Measurement</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p><strong>Time, distance, money, and weight</strong> units are <strong>singular</strong> when referring to one amount.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Ten pounds of chocolate <u>is</u> too much.</p>
+                            <p style="font-style: italic;">✓ Five dollars <u>is</u> a good price.</p>
+                        </div>
+                    </div>
+            </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #10</div>
+                            <div class="rule-title">Here & There</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p>In sentences starting with <strong>"There" or "Here"</strong>, the subject comes <strong>AFTER</strong> the verb.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ There <u>are</u> my sweaters. (sweaters = plural)</p>
+                            <p style="font-style: italic;">✓ Here <u>is</u> the book. (book = singular)</p>
+                        </div>
+                    </div>
+              </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #11</div>
+                            <div class="rule-title">Distractions</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                        </div>
+                        <div class="rule-card-back">
+                            <p>Don't be fooled by other nouns! The verb must agree <strong>ONLY</strong> with the subject.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ The biggest problem we face <u>is</u> all the squirrels.</p>
+                        </div>
+                    </div>
+              </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #12</div>
+                            <div class="rule-title">Gerunds (-ing)</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+                      </div>
+                        <div class="rule-card-back">
+                            <p><strong>Gerunds</strong> used as subjects are <strong>singular</strong>.</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ Running with ducks <u>is</u> my favorite sport.</p>
+                            <p style="font-style: italic;">✓ Swimming <u>helps</u> build endurance.</p>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="rule-card" onclick="flipCard(this)">
+                    <div class="rule-card-inner">
+                        <div class="rule-card-front">
+                            <div class="rule-number">Rule #13</div>
+                            <div class="rule-title">Relative Pronouns</div>
+                            <p style="font-size: 0.9em; margin-top: 10px;">👆 Tap to reveal</p>
+              </div>
+                        <div class="rule-card-back">
+                            <p>For <strong>"who, that, which"</strong> - look at the noun they refer to (antecedent).</p>
+                            <p style="margin-top: 10px; font-style: italic;">✓ The girls who <u>eat</u> cake are happy.</p>
+                            <p style="font-style: italic;">✓ The girl who <u>eats</u> cake is happy.</p>
+            </div>
+          </div>
+                </div>
+            </div>
+
+            <button class="nav-btn" onclick="showPage('page2')">Continue to Practice: Subject Sorter →</button>
+        </div>
+
+        <!-- PAGE 2: Subject Sorter Exercise -->
+        <div class="page" id="page2">
+            <h2>🎯 Practice: Subject Sorter</h2>
+            <p style="color: #666; margin-bottom: 20px;">Click on each subject to sort it into the correct category - Singular (verb ends in S) or Plural (verb has no S).</p>
+
+            <div class="score-display" id="sorterScore">Sorted: 0/10</div>
+
+            <div class="sorter-container">
+                <div class="sorter-box plural" onclick="sortItem('plural')">
+                    <h4>👥 PLURAL Subjects</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 15px; font-weight: bold;">Verb has NO "S" (e.g., run, walk)</p>
+                    <div class="sorter-items" id="pluralBox"></div>
+                </div>
+
+                <div class="interactive-section" style="flex: 0 0 200px; min-width: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <p style="font-weight: bold; margin-bottom: 15px;">Current Subject:</p>
+                    <div id="currentSortItem" style="font-size: 1.2em; font-weight: bold; color: #667eea; min-height: 50px; display: flex; align-items: center; justify-content: center; text-align: center;"></div>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 15px;">👆 Click the correct box</p>
+                </div>
+
+                <div class="sorter-box singular" onclick="sortItem('singular')">
+                    <h4>👤 SINGULAR Subjects</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 15px; font-weight: bold;">Verb ends in "S" (e.g., runs, walks)</p>
+                    <div class="sorter-items" id="singularBox"></div>
+                </div>
+            </div>
+
+            <div id="sorterFeedback" class="feedback" style="text-align: center;"></div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="reset-btn" onclick="resetSorter()">🔄 Reset Sorter</button>
+                </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="showPage('page1')">← Back to Rules</button>
+                <button class="nav-btn" id="sorterNextBtn" onclick="showPage('page3')" style="display: none;">Continue to Quiz →</button>
+                </div>
+              </div>
+
+        <!-- PAGE 3: Quiz Section -->
+        <div class="page" id="page3">
+            <h2>📝 Quiz: Choose the Correct Verb</h2>
+            <p style="color: #666; margin-bottom: 20px;">Select the verb form that correctly agrees with the subject in each sentence.</p>
+
+            <div class="score-display" id="quizScore">Score: 0/10</div>
+
+            <div class="interactive-section">
+                <div class="question" data-question="q1">
+                    <div class="question-text">1. The cat _____ very fast.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q1', false)">run</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q1', true)">runs</button>
+                    </div>
+                    <div class="feedback" id="feedback-q1"></div>
+              </div>
+
+                <div class="question" data-question="q2">
+                    <div class="question-text">2. Bob and his brothers _____ to the store.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q2', true)">walk</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q2', false)">walks</button>
+                </div>
+                    <div class="feedback" id="feedback-q2"></div>
+                </div>
+
+                <div class="question" data-question="q3">
+                    <div class="question-text">3. Each boy and girl _____ to the store.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q3', false)">walk</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q3', true)">walks</button>
+                    </div>
+                    <div class="feedback" id="feedback-q3"></div>
+                </div>
+
+                <div class="question" data-question="q4">
+                    <div class="question-text">4. Neither Bob nor his brothers _____ home.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q4', true)">walk</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q4', false)">walks</button>
+                    </div>
+                    <div class="feedback" id="feedback-q4"></div>
+              </div>
+
+                <div class="question" data-question="q5">
+                    <div class="question-text">5. The box of chocolates _____ missing.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q5', true)">is</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q5', false)">are</button>
+            </div>
+                    <div class="feedback" id="feedback-q5"></div>
+          </div>
+
+                <div class="question" data-question="q6">
+                    <div class="question-text">6. Running to the store _____ exhausting.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q6', true)">is</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q6', false)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-q6"></div>
+                </div>
+
+                <div class="question" data-question="q7">
+                    <div class="question-text">7. There _____ many reasons to smile.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q7', false)">is</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q7', true)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-q7"></div>
+              </div>
+              
+                <div class="question" data-question="q8">
+                    <div class="question-text">8. Measles _____ a contagious disease.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q8', true)">is</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q8', false)">are</button>
+                      </div>
+                    <div class="feedback" id="feedback-q8"></div>
+                  </div>
+
+                <div class="question" data-question="q9">
+                    <div class="question-text">9. Ten dollars _____ a fair price.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q9', true)">is</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q9', false)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-q9"></div>
+                </div>
+
+                <div class="question" data-question="q10">
+                    <div class="question-text">10. The students who _____ hard will pass.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q10', true)">study</button>
+                        <button class="option-btn" onclick="checkQuizAnswer(this, 'q10', false)">studies</button>
+                  </div>
+                    <div class="feedback" id="feedback-q10"></div>
+                </div>
+              </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="showPage('page2')">← Back to Sorter</button>
+                <button class="nav-btn" id="quizNextBtn" onclick="showPage('page4')" style="display: none;">Continue to Advanced →</button>
+            </div>
+          </div>
+
+        <!-- PAGE 4: Advanced Quiz -->
+        <div class="page" id="page4">
+            <h2>🏆 Advanced Challenge</h2>
+            <p style="color: #666; margin-bottom: 20px;">These questions are trickier! Apply all the rules you've learned.</p>
+
+            <div class="score-display" id="advancedScore">Score: 0/10</div>
+
+            <div class="interactive-section">
+                <div class="question" data-question="a1">
+                    <div class="question-text">1. The team _____ ready for the game.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a1', true)">is</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a1', false)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-a1"></div>
+                </div>
+
+                <div class="question" data-question="a2">
+                    <div class="question-text">2. Neither the teacher nor the students _____ the answer.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a2', true)">know</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a2', false)">knows</button>
+                    </div>
+                    <div class="feedback" id="feedback-a2"></div>
+                  </div>
+
+                <div class="question" data-question="a3">
+                    <div class="question-text">3. Everyone in the classes _____ excited.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a3', false)">are</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a3', true)">is</button>
+                    </div>
+                    <div class="feedback" id="feedback-a3"></div>
+                  </div>
+
+                <div class="question" data-question="a4">
+                    <div class="question-text">4. Some of the pie _____ eaten.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a4', true)">was</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a4', false)">were</button>
+                  </div>
+                    <div class="feedback" id="feedback-a4"></div>
+                </div>
+
+                <div class="question" data-question="a5">
+                    <div class="question-text">5. Some of the cookies _____ eaten.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a5', false)">was</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a5', true)">were</button>
+                    </div>
+                    <div class="feedback" id="feedback-a5"></div>
+              </div>
+
+                <div class="question" data-question="a6">
+                    <div class="question-text">6. The news about the elections _____ surprising.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a6', true)">is</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a6', false)">are</button>
+                </div>
+                    <div class="feedback" id="feedback-a6"></div>
+                </div>
+
+                <div class="question" data-question="a7">
+                    <div class="question-text">7. Here _____ the books you ordered.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a7', false)">is</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a7', true)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-a7"></div>
+                </div>
+
+                <div class="question" data-question="a8">
+                    <div class="question-text">8. Two hours _____ a long time to wait.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a8', true)">is</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a8', false)">are</button>
+                    </div>
+                    <div class="feedback" id="feedback-a8"></div>
+              </div>
+
+                <div class="question" data-question="a9">
+                    <div class="question-text">9. The girl who _____ near me is my cousin.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a9', false)">sit</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a9', true)">sits</button>
+                   </div>
+                    <div class="feedback" id="feedback-a9"></div>
+                   </div>
+
+                <div class="question" data-question="a10">
+                    <div class="question-text">10. My family _____ moving to a new house.</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a10', true)">is</button>
+                        <button class="option-btn" onclick="checkAdvancedAnswer(this, 'a10', false)">are</button>
+                </div>
+                    <div class="feedback" id="feedback-a10"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="showPage('page3')">← Back to Quiz</button>
+                </div>
+
+            <div class="completion-message" id="completionMessage">
+                <h3 style="color: #667eea;">🌟 Excellent Work!</h3>
+                <p>You've mastered subject-verb agreement! These rules are essential for clear, professional writing. Keep practicing to make them automatic!</p>
+                </div>
+
+            <div class="reference-section">
+                <h3>📋 Quick Reference: Indefinite Pronouns (Usually Singular)</h3>
+                <div class="reference-grid">
+                    <div class="reference-item">anybody</div>
+                    <div class="reference-item">anyone</div>
+                    <div class="reference-item">anything</div>
+                    <div class="reference-item">each</div>
+                    <div class="reference-item">either</div>
+                    <div class="reference-item">everybody</div>
+                    <div class="reference-item">everyone</div>
+                    <div class="reference-item">everything</div>
+                    <div class="reference-item">neither</div>
+                    <div class="reference-item">nobody</div>
+                    <div class="reference-item">no one</div>
+                    <div class="reference-item">nothing</div>
+                    <div class="reference-item">one</div>
+                    <div class="reference-item">somebody</div>
+                    <div class="reference-item">someone</div>
+                    <div class="reference-item">something</div>
+                </div>
+
+                <h3 style="margin-top: 20px;">📋 Common Prepositions (Subject is NEVER inside these phrases)</h3>
+                <div class="reference-grid">
+                    <div class="reference-item">about</div>
+                    <div class="reference-item">above</div>
+                    <div class="reference-item">across</div>
+                    <div class="reference-item">after</div>
+                    <div class="reference-item">among</div>
+                    <div class="reference-item">at</div>
+                    <div class="reference-item">before</div>
+                    <div class="reference-item">behind</div>
+                    <div class="reference-item">below</div>
+                    <div class="reference-item">between</div>
+                    <div class="reference-item">by</div>
+                    <div class="reference-item">during</div>
+                    <div class="reference-item">for</div>
+                    <div class="reference-item">from</div>
+                    <div class="reference-item">in</div>
+                    <div class="reference-item">into</div>
+                    <div class="reference-item">of</div>
+                    <div class="reference-item">on</div>
+                    <div class="reference-item">over</div>
+                    <div class="reference-item">through</div>
+                    <div class="reference-item">to</div>
+                    <div class="reference-item">under</div>
+                    <div class="reference-item">with</div>
+                    <div class="reference-item">without</div>
+          </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let totalCorrect = 0;
+        const totalQuestions = 30;
+
+        // Sorter variables
+        let sorterCorrect = 0;
+        let currentSortIndex = 0;
+        const sortItems = [
+            { text: "The cat", type: "singular" },
+            { text: "They", type: "plural" },
+            { text: "Everyone", type: "singular" },
+            { text: "Bob and John", type: "plural" },
+            { text: "The team", type: "singular" },
+            { text: "Economics", type: "singular" },
+            { text: "Ten dollars", type: "singular" },
+            { text: "My shoes", type: "plural" },
+            { text: "Each student", type: "singular" },
+            { text: "Few", type: "plural" }
+        ];
+        let shuffledItems = [];
+
+        // Quiz variables
+        let quizCorrect = 0;
+        let advancedCorrect = 0;
+
+        // Quiz explanations
+        const quizExplanations = {
+            'q1': 'The subject "cat" is singular (Third Person), so we add an "s".',
+            'q2': 'Subjects joined by "and" are plural. No "s" on the verb.',
+            'q3': '"Each" makes the subject singular.',
+            'q4': 'With "nor", agree with the closest subject ("brothers" = plural).',
+            'q5': 'Ignore the prepositional phrase "of chocolates". The subject is "box" (Singular).',
+            'q6': 'Gerunds ("Running") act as singular subjects.',
+            'q7': 'The subject is "reasons" (plural), which comes after the verb.',
+            'q8': 'Words like "measles", "mumps", and "news" end in "s" but are singular.',
+            'q9': 'Units of money, time, and distance are considered singular.',
+            'q10': 'For relative pronouns (who/that/which), the verb agrees with the antecedent ("students" = plural).'
+        };
+
+        const advancedExplanations = {
+            'a1': 'Collective nouns like "team" are singular.',
+            'a2': 'With "nor", agree with the closest subject ("students" = plural).',
+            'a3': '"Everyone" is always singular, even with prepositional phrases.',
+            'a4': 'For "some", look at the object: "pie" is singular.',
+            'a5': 'For "some", look at the object: "cookies" is plural.',
+            'a6': '"News" is always singular, even though it ends in "s".',
+            'a7': 'The subject "books" comes after the verb and is plural.',
+            'a8': 'Time as a single amount is singular.',
+            'a9': '"Who" refers to "girl" (singular), so use "sits".',
+            'a10': 'Collective nouns like "family" are singular.'
+        };
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Flip card function
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // Update overall tracker
+        function updateOverallTracker() {
+            const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+            const trackerFill = document.getElementById('trackerFill');
+            const trackerStats = document.getElementById('trackerStats');
+            
+            trackerFill.style.width = percentage + '%';
+            trackerFill.textContent = percentage + '%';
+            
+            // Remove all color classes
+            trackerFill.classList.remove('low', 'medium', 'good', 'excellent');
+            
+            // Add appropriate color class
+            if (percentage >= 90) {
+                trackerFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                trackerFill.classList.add('good');
+            } else if (percentage >= 50) {
+                trackerFill.classList.add('medium');
+            } else if (percentage > 0) {
+                trackerFill.classList.add('low');
+            }
+            
+            // Add pulse animation
+            trackerFill.classList.add('updating');
+            setTimeout(() => trackerFill.classList.remove('updating'), 300);
+            
+            // Update stats text
+            if (percentage === 100) {
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${percentage}% PERFECT SCORE! 🎉</span>`;
+                document.getElementById('completionMessage').classList.add('show');
+            } else {
+                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${percentage}% complete`;
+            }
+        }
+
+        // Sorter functions
+        function initSorter() {
+            shuffledItems = [...sortItems].sort(() => Math.random() - 0.5);
+            currentSortIndex = 0;
+            sorterCorrect = 0;
+            document.getElementById('pluralBox').innerHTML = '';
+            document.getElementById('singularBox').innerHTML = '';
+            document.getElementById('sorterFeedback').className = 'feedback';
+            document.getElementById('sorterFeedback').style.display = 'none';
+            document.getElementById('sorterNextBtn').style.display = 'none';
+            updateSorterScore();
+            showCurrentSortItem();
+        }
+
+        function showCurrentSortItem() {
+            const currentItem = document.getElementById('currentSortItem');
+            if (currentSortIndex < shuffledItems.length) {
+                currentItem.textContent = shuffledItems[currentSortIndex].text;
+            } else {
+                currentItem.innerHTML = '🎉 All done!';
+                document.getElementById('sorterNextBtn').style.display = 'block';
+            }
+        }
+
+        function sortItem(selectedType) {
+            if (currentSortIndex >= shuffledItems.length) return;
+            
+            const item = shuffledItems[currentSortIndex];
+            const feedback = document.getElementById('sorterFeedback');
+            const targetBox = document.getElementById(selectedType + 'Box');
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'sort-item';
+            itemDiv.textContent = item.text;
+            
+            if (item.type === selectedType) {
+                itemDiv.classList.add('correct');
+                targetBox.appendChild(itemDiv);
+                sorterCorrect++;
+                totalCorrect++;
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ Correct! "' + item.text + '" is ' + selectedType + '.';
+                feedback.style.display = 'block';
+                updateOverallTracker();
+            } else {
+                itemDiv.classList.add('incorrect');
+                const correctBox = document.getElementById(item.type + 'Box');
+                correctBox.appendChild(itemDiv);
+                setTimeout(() => itemDiv.classList.remove('incorrect'), 500);
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Not quite. "' + item.text + '" is actually ' + item.type + '.';
+                feedback.style.display = 'block';
+            }
+            
+            currentSortIndex++;
+            updateSorterScore();
+            
+            setTimeout(() => {
+                showCurrentSortItem();
+            }, 800);
+        }
+
+        function updateSorterScore() {
+            document.getElementById('sorterScore').textContent = `Sorted: ${currentSortIndex}/${sortItems.length} (${sorterCorrect} correct)`;
+        }
+
+        function resetSorter() {
+            // Reset totalCorrect for sorter items
+            totalCorrect -= sorterCorrect;
+            if (totalCorrect < 0) totalCorrect = 0;
+            updateOverallTracker();
+            initSorter();
+        }
+
+        // Quiz functions
+        function checkQuizAnswer(button, questionId, isCorrect) {
+            const question = button.closest('.question');
+            const allButtons = question.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback-' + questionId);
+            
+            allButtons.forEach(btn => {
+                btn.classList.add('disabled');
+                btn.disabled = true;
+            });
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '✓ Correct! ' + quizExplanations[questionId];
+                quizCorrect++;
+                totalCorrect++;
+                updateOverallTracker();
+            } else {
+                button.classList.add('incorrect');
+                // Find and highlight the correct answer
+                allButtons.forEach(btn => {
+                    if (!btn.classList.contains('incorrect')) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '✗ Not quite. ' + quizExplanations[questionId];
+            }
+            
+            updateQuizScore();
+            checkQuizComplete();
+        }
+
+        function updateQuizScore() {
+            document.getElementById('quizScore').textContent = `Score: ${quizCorrect}/10`;
+        }
+
+        function checkQuizComplete() {
+            const allAnswered = document.querySelectorAll('#page3 .option-btn:not(.disabled)').length === 0;
+            if (allAnswered) {
+                document.getElementById('quizNextBtn').style.display = 'block';
+            }
+        }
+
+        // Advanced quiz functions
+        function checkAdvancedAnswer(button, questionId, isCorrect) {
+            const question = button.closest('.question');
+            const allButtons = question.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback-' + questionId);
+            
+            allButtons.forEach(btn => {
+                btn.classList.add('disabled');
+                btn.disabled = true;
+            });
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '✓ Correct! ' + advancedExplanations[questionId];
+                advancedCorrect++;
+                totalCorrect++;
+                updateOverallTracker();
+            } else {
+                button.classList.add('incorrect');
+                allButtons.forEach(btn => {
+                    if (!btn.classList.contains('incorrect')) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '✗ Not quite. ' + advancedExplanations[questionId];
+            }
+            
+            updateAdvancedScore();
+        }
+
+        function updateAdvancedScore() {
+            document.getElementById('advancedScore').textContent = `Score: ${advancedCorrect}/10`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initSorter();
+        });
+    </script>
+</body>
+</html>

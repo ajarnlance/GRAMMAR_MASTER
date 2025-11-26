@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Exercise: Clauses</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const CheckCircle = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        );
+
+        const XCircle = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        );
+
+        const SentenceMatchingExercise = () => {
+            const columnA = [
+                { id: 1, text: "Many students struggle with time management" },
+                { id: 2, text: "Lab-grown meat is produced in a controlled environment" },
+                { id: 3, text: "Because solar power depends on sunlight" },
+                { id: 4, text: "The university library provides online resources" },
+                { id: 5, text: "Lab-grown meat may be better for the environment" },
+                { id: 6, text: "Climate change is accelerating" },
+                { id: 7, text: "Wind turbines generate electricity" },
+                { id: 8, text: "Although nuclear energy is highly efficient" },
+                { id: 9, text: "The professor extended the deadline" },
+                { id: 10, text: "University courses require independent study" },
+                { id: 11, text: "While some students prefer studying in groups" },
+                { id: 12, text: "Fossil fuels are still widely used" },
+                { id: 13, text: "Scientists continue to develop lab-grown meat" },
+                { id: 14, text: "Due to rising CO2 levels in the atmosphere" },
+                { id: 15, text: "The campus cafeteria only offers plant-based options" },
+                { id: 16, text: "Students must complete their assignments before the deadline" },
+                { id: 17, text: "As climate policies become stricter" },
+                { id: 18, text: "The new research lab is fully equipped" },
+                { id: 19, text: "Universities provide career counseling" },
+                { id: 20, text: "Some students attend lectures in person" },
+                { id: 21, text: "Given that university fees are rising" },
+                { id: 22, text: "Given the increasing demand for renewable energy" },
+                { id: 23, text: "Given the advancements in lab-grown meat" },
+                { id: 24, text: "While some universities offer free online courses" },
+                { id: 25, text: "Whereas traditional meat production requires extensive resources" }
+            ];
+
+            const columnB = [
+                { id: 'A', text: "so students can access journals anytime." },
+                { id: 'B', text: "but the cost remains a major challenge." },
+                { id: 'C', text: "which helps students develop critical thinking skills." },
+                { id: 'D', text: "it is much more expensive than fossil fuels." },
+                { id: 'E', text: "and global temperatures are rising every year." },
+                { id: 'F', text: "because some students still submitted their work late." },
+                { id: 'G', text: "or they will receive a 10% deduction." },
+                { id: 'H', text: "and it does not require traditional farming methods." },
+                { id: 'I', text: "so that students can make informed decisions about their future." },
+                { id: 'J', text: "others work better alone." },
+                { id: 'K', text: "despite their environmental impact." },
+                { id: 'L', text: "while others prefer online learning." },
+                { id: 'M', text: "weather patterns are changing." },
+                { id: 'N', text: "so they find it challenging to balance their workload" },
+                { id: 'O', text: "its efficiency varies in different regions." },
+                { id: 'P', text: "and they do not produce carbon emissions." },
+                { id: 'Q', text: "which is why most students eat in the student mall." },
+                { id: 'R', text: "as it is designed for advanced research." },
+                { id: 'S', text: "because it requires fewer resources." },
+                { id: 'T', text: "but some students still submitted their work late." },
+                { id: 'U', text: "wind and solar power are becoming more popular worldwide." },
+                { id: 'V', text: "many students rely on scholarships and part-time jobs to afford tuition." },
+                { id: 'W', text: "lab-grown meat is becoming much cheaper." },
+                { id: 'X', text: "others require students to pay for certifications." },
+                { id: 'Y', text: "lab-grown meat requires significantly less land and water" },
+                { id: 'Z', text: "are reducing fossil fuel use and investing in renewable energy." }
+            ];
+
+            const correctAnswers = {
+                1: { secondClause: 'N', fullSentence: "Many students struggle with time management, so they find it challenging to balance their workload." },
+                2: { secondClause: 'H', fullSentence: "Lab-grown meat is produced in a controlled environment, and it does not require traditional farming methods." },
+                3: { secondClause: 'O', fullSentence: "Because solar power depends on sunlight, its efficiency varies in different regions." },
+                4: { secondClause: 'A', fullSentence: "The university library provides online resources, so students can access journals anytime." },
+                5: { secondClause: 'S', fullSentence: "Lab-grown meat may be better for the environment because it requires fewer resources." },
+                6: { secondClause: 'E', fullSentence: "Climate change is accelerating, and global temperatures are rising every year." },
+                7: { secondClause: 'P', fullSentence: "Wind turbines generate electricity, and they do not produce carbon emissions." },
+                8: { secondClause: 'D', fullSentence: "Although nuclear energy is highly efficient, it is much more expensive than fossil fuels." },
+                9: { secondClause: 'T', fullSentence: "The professor extended the deadline, but some students still submitted their work late." },
+                10: { secondClause: 'C', fullSentence: "University courses require independent study, which helps students develop critical thinking skills." },
+                11: { secondClause: 'J', fullSentence: "While some students prefer studying in groups, others work better alone." },
+                12: { secondClause: 'K', fullSentence: "Fossil fuels are still widely used despite their environmental impact." },
+                13: { secondClause: 'B', fullSentence: "Scientists continue to develop lab-grown meat, but the cost remains a major challenge." },
+                14: { secondClause: 'M', fullSentence: "Due to rising CO2 levels in the atmosphere, weather patterns are changing." },
+                15: { secondClause: 'Q', fullSentence: "The campus cafeteria only offers plant-based options, which is why most students eat in the student mall." },
+                16: { secondClause: 'G', fullSentence: "Students must complete their assignments before the deadline, or they will receive a 10% deduction." },
+                17: { secondClause: 'Z', fullSentence: "As climate policies become stricter, companies are reducing fossil fuel use and investing in renewable energy." },
+                18: { secondClause: 'R', fullSentence: "The new research lab is fully equipped as it is designed for advanced research." },
+                19: { secondClause: 'I', fullSentence: "Universities provide career counseling so that students can make informed decisions about their future." },
+                20: { secondClause: 'L', fullSentence: "Some students attend lectures in person, while others prefer online learning." },
+                21: { secondClause: 'V', fullSentence: "Given that university fees are rising, many students rely on scholarships and part-time jobs to afford tuition." },
+                22: { secondClause: 'U', fullSentence: "Given the increasing demand for renewable energy, wind and solar power are becoming more popular worldwide." },
+                23: { secondClause: 'W', fullSentence: "Given the advancements in lab-grown meat, lab-grown meat is becoming much cheaper." },
+                24: { secondClause: 'X', fullSentence: "While some universities offer free online courses, others require students to pay for certifications." },
+                25: { secondClause: 'Y', fullSentence: "Whereas traditional meat production requires extensive resources, lab-grown meat requires significantly less land and water." }
+            };
+
+            const [currentFirstClause, setCurrentFirstClause] = useState('');
+            const [completedSentences, setCompletedSentences] = useState([]);
+            const [showAnswers, setShowAnswers] = useState(false);
+            const [grade, setGrade] = useState(null);
+            const [usedFirstClauses, setUsedFirstClauses] = useState([]);
+            const [usedSecondClauses, setUsedSecondClauses] = useState([]);
+
+            const handleAddSentence = (firstClauseId, secondClauseId) => {
+                if (!firstClauseId || !secondClauseId) return;
+
+                const firstClause = columnA.find(c => c.id === parseInt(firstClauseId));
+                const secondClause = columnB.find(c => c.id === secondClauseId);
+
+                const newSentence = {
+                    number: completedSentences.length + 1,
+                    firstClauseId: parseInt(firstClauseId),
+                    secondClauseId: secondClauseId,
+                    text: `${firstClause.text} ${secondClause.text}`
+                };
+
+                setCompletedSentences([...completedSentences, newSentence]);
+                setUsedFirstClauses([...usedFirstClauses, parseInt(firstClauseId)]);
+                setUsedSecondClauses([...usedSecondClauses, secondClauseId]);
+                setCurrentFirstClause('');
+            };
+
+            const availableFirstClauses = columnA.filter(clause => !usedFirstClauses.includes(clause.id));
+            const availableSecondClauses = columnB.filter(clause => !usedSecondClauses.includes(clause.id));
+
+            const checkAnswers = () => {
+                setShowAnswers(true);
+                
+                const correctCount = completedSentences.filter(sentence => {
+                    const correct = correctAnswers[sentence.firstClauseId];
+                    return correct && correct.secondClause === sentence.secondClauseId;
+                }).length;
+
+                const percentage = completedSentences.length > 0 
+                    ? Math.round((correctCount / completedSentences.length) * 100)
+                    : 0;
+                setGrade(percentage);
+            };
+
+            const isCorrect = (sentence) => {
+                const correct = correctAnswers[sentence.firstClauseId];
+                return correct && correct.secondClause === sentence.secondClauseId;
+            };
+
+            const getCorrectSentence = (firstClauseId) => {
+                return correctAnswers[firstClauseId]?.fullSentence || '';
+            };
+
+            const highlightCommas = (sentence) => {
+                const parts = sentence.split(',');
+                if (parts.length === 1) return sentence;
+                
+                return parts.map((part, index) => (
+                    <React.Fragment key={index}>
+                        {part}
+                        {index < parts.length - 1 && <span className="bg-yellow-300">,</span>}
+                    </React.Fragment>
+                ));
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-6xl mx-auto">
+                        {/* Dashboard Button */}
+                        <a 
+                            href="../index.html" 
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all mb-6"
+                        >
+                            🏠 Dashboard
+                        </a>
+                        
+                        {/* Header */}
+                        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+                            <h1 className="text-4xl font-bold text-indigo-900 mb-4">
+                                Matching Exercise: Clauses
+                            </h1>
+                            <p className="text-gray-700 text-lg mb-6">
+                                Match each clause from Column A with the correct clause from Column B to form a grammatically correct and meaningful sentence.
+                            </p>
+                            
+                            {/* Progress Tracker */}
+                            <div className="max-w-xl mx-auto">
+                                <div className="text-center text-sm font-semibold text-gray-600 mb-2">
+                                    Overall Progress Tracker
+                                </div>
+                                <div className="w-full h-9 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                                    <div 
+                                        className={`h-full rounded-full flex items-center justify-center text-white font-bold text-sm transition-all duration-500 shadow-md ${
+                                            completedSentences.length === 0 ? 'bg-gray-400' :
+                                            (completedSentences.length / 25) * 100 >= 90 ? 'bg-gradient-to-r from-green-500 to-green-600' :
+                                            (completedSentences.length / 25) * 100 >= 70 ? 'bg-gradient-to-r from-green-400 to-green-500' :
+                                            (completedSentences.length / 25) * 100 >= 50 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' :
+                                            'bg-gradient-to-r from-red-400 to-orange-500'
+                                        }`}
+                                        style={{ width: `${Math.max((completedSentences.length / 25) * 100, completedSentences.length > 0 ? 8 : 0)}%` }}
+                                    >
+                                        {completedSentences.length > 0 && `${Math.round((completedSentences.length / 25) * 100)}%`}
+                                    </div>
+                                </div>
+                                <div className="text-center text-sm text-gray-500 mt-2">
+                                    {showAnswers && grade !== null ? (
+                                        <span className={`font-bold ${grade >= 80 ? 'text-green-600' : grade >= 60 ? 'text-yellow-600' : 'text-red-600'}`}>
+                                            🎯 Score: {grade}% ({completedSentences.filter(s => isCorrect(s)).length} correct out of {completedSentences.length} attempted)
+                                        </span>
+                                    ) : (
+                                        <span>{completedSentences.length} out of 25 sentences completed | {Math.round((completedSentences.length / 25) * 100)}% complete</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Matching Interface */}
+                        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+                            <h2 className="text-2xl font-bold text-indigo-800 mb-6">Build Your Sentences</h2>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                {/* First Clause Dropdown */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                        Step 1: Select First Clause (Column A)
+                                    </label>
+                                    <select
+                                        value={currentFirstClause}
+                                        onChange={(e) => setCurrentFirstClause(e.target.value)}
+                                        className="w-full p-3 border-2 border-indigo-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                                    >
+                                        <option value="">-- Select a first clause --</option>
+                                        {availableFirstClauses.map(clause => (
+                                            <option key={clause.id} value={clause.id}>
+                                                {clause.id}. {clause.text}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Second Clause Dropdown */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                        Step 2: Select Second Clause (Column B)
+                                    </label>
+                                    <select
+                                        disabled={!currentFirstClause}
+                                        onChange={(e) => {
+                                            if (e.target.value) {
+                                                handleAddSentence(currentFirstClause, e.target.value);
+                                                e.target.value = '';
+                                            }
+                                        }}
+                                        className="w-full p-3 border-2 border-indigo-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                    >
+                                        <option value="">-- Select a second clause --</option>
+                                        {availableSecondClauses.map(clause => (
+                                            <option key={clause.id} value={clause.id}>
+                                                {clause.id}. {clause.text}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Current Selection Display */}
+                            {currentFirstClause && (
+                                <div className="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-4 mb-6">
+                                    <p className="text-sm font-semibold text-indigo-700 mb-2">Current Selection:</p>
+                                    <p className="text-gray-800">
+                                        {columnA.find(c => c.id === parseInt(currentFirstClause))?.text}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Completed Sentences */}
+                        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-bold text-indigo-800">
+                                    Your Sentences ({completedSentences.length}/25)
+                                </h2>
+                                <button
+                                    onClick={checkAnswers}
+                                    disabled={completedSentences.length === 0}
+                                    className={`font-bold py-3 px-8 rounded-lg transition-all transform shadow-lg ${
+                                        completedSentences.length === 0
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            : 'bg-green-600 hover:bg-green-700 text-white hover:scale-105'
+                                    }`}
+                                >
+                                    Check Answers
+                                </button>
+                            </div>
+
+                            {completedSentences.length === 0 ? (
+                                <p className="text-gray-500 text-center py-8 italic">
+                                    No sentences created yet. Start by selecting clauses above.
+                                </p>
+                            ) : (
+                                <div className="space-y-4">
+                                    {completedSentences.map((sentence) => (
+                                        <div key={sentence.number} className="border-l-4 border-indigo-400 pl-4 py-2">
+                                            <div className="flex items-start gap-3">
+                                                {showAnswers && (
+                                                    <div className="flex-shrink-0 mt-1">
+                                                        {isCorrect(sentence) ? (
+                                                            <CheckCircle className="text-green-600 w-6 h-6" />
+                                                        ) : (
+                                                            <XCircle className="text-red-600 w-6 h-6" />
+                                                        )}
+                                                    </div>
+                                                )}
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 leading-relaxed">
+                                                        <span className="font-semibold text-indigo-600">{sentence.number}.</span>{' '}
+                                                        {showAnswers && isCorrect(sentence) ? highlightCommas(getCorrectSentence(sentence.firstClauseId)) : sentence.text}
+                                                    </p>
+                                                    {showAnswers && !isCorrect(sentence) && (
+                                                        <div className="mt-2 pl-6 border-l-2 border-green-400 bg-green-50 p-3 rounded">
+                                                            <p className="text-sm font-semibold text-green-800 mb-1">Correct Answer:</p>
+                                                            <p className="text-gray-800">{highlightCommas(getCorrectSentence(sentence.firstClauseId))}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Grade Display */}
+                            {showAnswers && grade !== null && (
+                                <div className="mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg p-6 text-center">
+                                    <h3 className="text-2xl font-bold mb-2">Your Score</h3>
+                                    <p className="text-5xl font-bold">{grade}%</p>
+                                    <p className="text-lg mt-2">
+                                        {completedSentences.filter(s => isCorrect(s)).length} out of {completedSentences.length}
+                                    </p>
+                                    <p className="text-lg mt-2">
+                                        Correct punctuation highlighted
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Instructions */}
+                        <div className="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                            <h3 className="text-lg font-bold text-indigo-900 mb-3">📝 Instructions</h3>
+                            <ul className="space-y-2 text-gray-700">
+                                <li>• Select a first clause from Column A using the left dropdown</li>
+                                <li>• Select the matching second clause from Column B using the right dropdown</li>
+                                <li>• Your completed sentence will appear in the list below</li>
+                                <li>• Click "Check Answers" anytime to see your results</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<SentenceMatchingExercise />);
+    </script>
+</body>
+</html>

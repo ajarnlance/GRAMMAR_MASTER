@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Complex Sentences Lesson for ESL Students</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .tracker-container {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+
+        .tracker-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tracker-bar {
+            width: 100%;
+            height: 35px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .tracker-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
+            transition: width 0.6s ease, background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tracker-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #ff5722 100%);
+        }
+
+        .tracker-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .tracker-fill.good {
+            background: linear-gradient(90deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .tracker-fill.excellent {
+            background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .tracker-stats {
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .learning-objectives {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .learning-objectives h3 {
+            margin-top: 0;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .learning-objectives li {
+            margin: 8px 0;
+        }
+
+        .definition-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .subordinator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .subordinator-card {
+            background: transparent;
+            perspective: 1000px;
+            height: 120px;
+            cursor: pointer;
+        }
+
+        .subordinator-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .subordinator-card.flipped .subordinator-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .subordinator-card-front, .subordinator-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .subordinator-card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .subordinator-card-back {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .subordinator-card:hover .subordinator-card-front,
+        .subordinator-card:hover .subordinator-card-back {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .subordinator-word {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subordinator-meaning {
+            font-size: 0.95em;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .interactive-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .option-btn.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+
+        .sentence-builder {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .clause-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            min-height: 80px;
+        }
+
+        .clause-item, .subordinator-item {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .subordinator-item {
+            background: #ffc107;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .clause-item:hover, .subordinator-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .drop-zone {
+            border: 3px dashed #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 80px;
+            margin: 15px 0;
+            background: #f9f9f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .drop-zone.drag-over {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #d32f2f;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .tip-box {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+        }
+
+        .practice-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            margin: 10px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        select.practice-input {
+            cursor: pointer;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        select.practice-input:disabled {
+            cursor: not-allowed;
+            background-color: #f5f5f5;
+        }
+
+        select.practice-input option {
+            padding: 10px;
+        }
+
+        .comma {
+            color: #f44336;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .highlight-dependent {
+            background: #fff9c4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #f57f17;
+        }
+
+        .highlight-independent {
+            background: #e3f2fd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .highlight-subordinator {
+            background: #ffccbc;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #d84315;
+        }
+
+        /* Page Navigation Styles */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subordinator-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+
+            .subordinator-card {
+                height: 100px;
+            }
+
+            .subordinator-word {
+                font-size: 1.2em;
+            }
+
+            .subordinator-meaning {
+                font-size: 0.85em;
+            }
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .tracker-fill.updating {
+            animation: pulse 0.3s ease;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="dashboard-btn">🏠 Dashboard</a>
+        <h1>🎓 Complex Sentences</h1>
+        <p class="subtitle">An Interactive Lesson for ESL Students</p>
+
+        <div class="tracker-container">
+            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill" id="trackerFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="trackerStats">0 correct out of 21 questions | 0% complete</span>
+            </div>
+        </div>
+
+        <!-- PAGE 1: Introduction and Subordinating Conjunctions -->
+        <div class="page active" id="page1">
+            <div class="learning-objectives">
+                <h3>📚 Learning Objectives</h3>
+                <ul>
+                    <li>Understand what complex sentences are and how they differ from simple and compound sentences</li>
+                    <li>Learn subordinating conjunctions and their meanings</li>
+                    <li>Know when to use complex sentences in your writing</li>
+                    <li>Master the punctuation rules for complex sentences</li>
+                    <li>Practice creating your own complex sentences</li>
+                </ul>
+            </div>
+
+            <h2>What is a Complex Sentence?</h2>
+            
+            <div class="definition-box">
+                <h3>Definition:</h3>
+                <p>A <strong>complex sentence</strong> is made by joining a <strong>dependent clause</strong> (incomplete thought) with an <strong>independent clause</strong> (complete sentence) using a subordinating conjunction.</p>
+                <p style="margin-top: 10px;"><strong>Dependent Clause:</strong> A group of words that has a subject and a verb but does NOT express a complete thought. It cannot stand alone as a sentence.</p>
+                <p style="margin-top: 10px;"><strong>Independent Clause:</strong> A group of words that has a subject and a verb and DOES express a complete thought. It can stand alone as a sentence.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Examples:</h4>
+                <p><span class="highlight-subordinator">Although</span> <span class="highlight-dependent">Ali likes ice cream</span><span class="comma">,</span> <span class="highlight-independent">he prefers gelato</span>.</p>
+                <p><span class="highlight-independent">I love London</span> <span class="highlight-subordinator">although</span> <span class="highlight-dependent">the weather is bad</span>.</p>
+                <p><span class="highlight-subordinator">Because</span> <span class="highlight-dependent">she studied hard</span><span class="comma">,</span> <span class="highlight-independent">she passed the exam</span>.</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Key Difference:</strong> In compound sentences, you join TWO independent clauses (both can stand alone). In complex sentences, you join ONE independent clause with ONE dependent clause (only one part can stand alone).
+            </div>
+
+            <button class="nav-btn" onclick="goToPage(2)">Next</button>
+        </div>
+
+        <!-- PAGE 2: Subordinating Conjunctions -->
+        <div class="page" id="page2">
+            <h2>Subordinating Conjunctions</h2>
+            
+            <p>To create complex sentences, we use <strong>subordinating conjunctions</strong>. These words show relationships like time, cause, contrast, or condition between the dependent and independent clauses.</p>
+
+            <div class="tip-box" style="background: #e3f2fd; border-left: 5px solid #2196f3;">
+                <strong>👆 Click on each card below to flip it and see what it means!</strong>
+            </div>
+
+            <div class="subordinator-grid" id="subordinatorGrid">
+                <div class="subordinator-card" onclick="flipCard(this, 'although')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">although</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">although</div>
+                            <div class="subordinator-meaning">Contrast/Despite</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'because')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">because</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">because</div>
+                            <div class="subordinator-meaning">Reason/Cause</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'when')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">when</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">when</div>
+                            <div class="subordinator-meaning">Time</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'if')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">if</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">if</div>
+                            <div class="subordinator-meaning">Condition</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'since')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">since</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">since</div>
+                            <div class="subordinator-meaning">Reason/Time</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'while')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">while</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">while</div>
+                            <div class="subordinator-meaning">Time/Contrast</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'after')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">after</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">after</div>
+                            <div class="subordinator-meaning">Time sequence</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'before')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">before</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">before</div>
+                            <div class="subordinator-meaning">Time sequence</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'unless')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">unless</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">unless</div>
+                            <div class="subordinator-meaning">Negative condition</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'until')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">until</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">until</div>
+                            <div class="subordinator-meaning">Time limit</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'wherever')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">wherever</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">wherever</div>
+                            <div class="subordinator-meaning">Place</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'whereas')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">whereas</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">whereas</div>
+                            <div class="subordinator-meaning">Contrast</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'even though')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">even though</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">even though</div>
+                            <div class="subordinator-meaning">Strong contrast</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'as')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">as</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">as</div>
+                            <div class="subordinator-meaning">Time/Reason</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subordinator-card" onclick="flipCard(this, 'so that')">
+                    <div class="subordinator-card-inner">
+                        <div class="subordinator-card-front">
+                            <div class="subordinator-word">so that</div>
+                        </div>
+                        <div class="subordinator-card-back">
+                            <div class="subordinator-word">so that</div>
+                            <div class="subordinator-meaning">Purpose</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="subordinatorExample" class="example-box" style="display: none;">
+                <h4 id="exampleTitle"></h4>
+                <p id="exampleSentence"></p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(1)">Back</button>
+                <button class="nav-btn" onclick="goToPage(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Punctuation Rules and When to Use -->
+        <div class="page" id="page3">
+            <h2>Punctuation Rules</h2>
+
+            <div class="definition-box">
+                <h3>Rule 1: Dependent Clause FIRST</h3>
+                <p>When the <strong>dependent clause comes at the beginning</strong> of the sentence, place a <strong>comma after it</strong>.</p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> <span class="highlight-subordinator">Even though</span> sales in gelato have increased<span class="comma">,</span> profits are marginal.</p>
+                    <p><strong>❌ Incorrect:</strong> Even though sales in gelato have increased profits are marginal. <em>(missing comma)</em></p>
+                </div>
+            </div>
+
+            <div class="definition-box">
+                <h3>Rule 2: Dependent Clause LAST</h3>
+                <p>When the <strong>dependent clause comes at the end</strong> of the sentence, <strong>generally do NOT use a comma</strong>.</p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> Profits are marginal <span class="highlight-subordinator">even though</span> sales in gelato have increased.</p>
+                    <p><strong>Exception 1:</strong> Use a comma with <strong>"whereas"</strong> to show contrast.</p>
+                    <p style="margin-left: 20px;"><em>Some people prefer chocolate<span class="comma">,</span> <span class="highlight-subordinator">whereas</span> others prefer simpler flavors.</em></p>
+                    <p><strong>Exception 2:</strong> Use commas with <strong>non-defining relative clauses</strong> (which, who, whom).</p>
+                    <p style="margin-left: 20px;"><em>I painted my house<span class="comma">,</span> <span class="highlight-subordinator">which</span> desperately needed some attention.</em></p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>⚠️ Common Mistake:</strong> Remember the position of the dependent clause!<br><br>
+                <strong>Dependent clause FIRST = COMMA:</strong> <span class="highlight-subordinator">Because</span> it was raining<span class="comma">,</span> we stayed inside.<br>
+                <strong>Dependent clause LAST = NO COMMA:</strong> We stayed inside <span class="highlight-subordinator">because</span> it was raining.
+            </div>
+
+            <h2>When to Use Complex Sentences</h2>
+
+            <div class="learning-objectives">
+                <h3>Use complex sentences to:</h3>
+                <ul>
+                    <li><strong>Show cause and effect</strong> relationships (because, since, as)</li>
+                    <li><strong>Express conditions</strong> (if, unless, provided that)</li>
+                    <li><strong>Indicate time</strong> relationships (when, after, before, until, while)</li>
+                    <li><strong>Show contrast</strong> (although, even though, whereas, while)</li>
+                    <li><strong>Add variety</strong> to your writing and show sophisticated thinking</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>Compare these:</h4>
+                <p><strong>Simple sentences only:</strong><br>
+                The weather was bad. I went to the park. I wanted to exercise.</p>
+                
+                <p style="margin-top: 10px;"><strong>Better (With complex sentence):</strong><br>
+                Although the weather was bad, I went to the park because I wanted to exercise.</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(2)">Back</button>
+                <button class="nav-btn" onclick="goToPage(4)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Practice Quizzes -->
+        <div class="page" id="page4">
+            <h2>📝 Practice</h2>
+
+            <div class="interactive-section">
+                <h3>Quiz 1: Identify Complex Sentences</h3>
+                <p>Click on the sentence that is a complex sentence (has ONE dependent clause + ONE independent clause):</p>
+
+                <div class="question" id="q1">
+                    <div class="question-text">Which is a complex sentence?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">I like ice cream and gelato.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, true)">Although Ali likes ice cream, he prefers gelato.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">I like ice cream, but Ali prefers gelato.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">Ice cream and gelato are popular desserts.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q1b">
+                    <div class="question-text">Which is a complex sentence?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">The students studied hard, so they passed the exam.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, true)">Because she practiced every day, she improved her skills.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">He plays soccer and basketball on weekends.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">The movie was long, yet it was interesting.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <h3>Quiz 2: Comma Punctuation</h3>
+                <p>Identify which sentence needs a comma:</p>
+
+                <div class="question" id="q2">
+                    <div class="question-text">Which sentence needs a comma?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q2', this, true)">Although the weather was perfect we decided to stay home.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">We decided to stay home although the weather was perfect.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">The students passed the test because they studied hard.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">She went to the store and bought some groceries.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q2b">
+                    <div class="question-text">Which sentence needs a comma?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">I will go to the party if I finish my homework.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, true)">When the bell rang the students left the classroom.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">He couldn't attend the meeting because he was sick.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">The children played outside until it got dark.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <h3>Quiz 3: Subordinating Conjunctions</h3>
+                <p>Choose the correct subordinating conjunction:</p>
+
+                <div class="question" id="q3">
+                    <div class="question-text">Which subordinator shows CAUSE/REASON?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q3', this, false)">although</button>
+                        <button class="option-btn" onclick="checkAnswer('q3', this, true)">because</button>
+                        <button class="option-btn" onclick="checkAnswer('q3', this, false)">when</button>
+                        <button class="option-btn" onclick="checkAnswer('q3', this, false)">unless</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q4">
+                    <div class="question-text">Which subordinator shows CONTRAST?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">since</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">if</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, true)">although</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">after</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q5">
+                    <div class="question-text">Choose the correct subordinator: "_____ I finish my homework, I can't go out."</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q5', this, false)">Because</button>
+                        <button class="option-btn" onclick="checkAnswer('q5', this, false)">Although</button>
+                        <button class="option-btn" onclick="checkAnswer('q5', this, true)">Until</button>
+                        <button class="option-btn" onclick="checkAnswer('q5', this, false)">While</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q6">
+                    <div class="question-text">Choose the correct subordinator: "_____ it was expensive, she bought the dress."</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">Because</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, true)">Although</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">If</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">When</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(3)">Back</button>
+                <button class="nav-btn" onclick="goToPage(5)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 5: Hands-on Activities -->
+        <div class="page" id="page5">
+            <h2>✏️ Activities</h2>
+
+            <div class="interactive-section">
+                <h3>🎯 Build Your Own Complex Sentence</h3>
+                <p>Drag and drop the clauses and subordinators to create a correct complex sentence!</p>
+                
+                <div style="text-align: center; margin: 15px 0;">
+                    <span id="builderQuestionNumber" style="font-size: 1.2em; font-weight: bold; color: #667eea;">Question 1 of 3</span>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Hint:</strong> Remember the comma rule! If the dependent clause (with subordinator) comes FIRST, you need a comma. If it comes LAST, no comma.
+                </div>
+
+                <div class="sentence-builder">
+                    <h4>Available Clauses and Subordinators:</h4>
+                    <div class="clause-bank" id="clauseBank">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
+                    <h4>Build your sentence here (use exactly 3 pieces):</h4>
+                    <div class="drop-zone" id="dropZone">
+                        <span style="color: #999;">Drag exactly 3 items here...</span>
+                    </div>
+
+                    <button class="check-btn" onclick="checkSentenceBuilder()">Check Answer</button>
+                    <button class="reset-btn" onclick="resetBuilder()">Reset</button>
+                    <div class="feedback" id="builderFeedback"></div>
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <h3>🎯 Matching Exercise</h3>
+                <p>Complete each sentence by choosing the correct second half. Pay attention to punctuation!</p>
+                
+                <div class="score-display">
+                    <span id="matchingScore">Correct: 0/10</span>
+                </div>
+
+                <div id="matchingContainer">
+                    <!-- Matching items will be inserted here by JavaScript -->
+                </div>
+
+                <button class="reset-btn" onclick="resetMatching()" style="margin-top: 20px;">Reset All</button>
+            </div>
+
+            <div class="learning-objectives">
+                <h3>📝 Key Takeaways</h3>
+                <ul>
+                    <li>Complex sentences join <strong>one dependent clause</strong> with <strong>one independent clause</strong></li>
+                    <li>Use <strong>subordinating conjunctions</strong> (although, because, when, if, since, etc.)</li>
+                    <li>Comma AFTER dependent clause when it <strong>starts the sentence</strong></li>
+                    <li>Generally NO comma when dependent clause <strong>ends the sentence</strong></li>
+                    <li>Exceptions: Use comma with "whereas" for contrast and with non-defining relative clauses</li>
+                    <li>Complex sentences show <strong>relationships</strong> between ideas (cause, contrast, time, condition)</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <strong>🎯 Practice Tips:</strong><br>
+                1. Identify which clause can stand alone (independent) and which cannot (dependent)<br>
+                2. Choose a subordinator that matches the relationship between your ideas<br>
+                3. Remember: dependent clause first = comma; dependent clause last = no comma (usually)<br>
+                4. Mix simple, compound, AND complex sentences for the best writing!
+            </div>
+
+            <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f0f7ff; border-radius: 10px;">
+                <h3 style="color: #667eea;">🌟 Excellent Work!</h3>
+                <p>Keep practicing complex sentences in your writing. They'll help you express sophisticated ideas and relationships!</p>
+            </div>
+
+            <button class="back-btn" onclick="goToPage(4)" style="margin: 30px auto; display: block;">Back</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let score = 0;
+        let totalQuestions = 36; // 15 subordinator cards + 8 multiple choice + 3 sentence builder + 10 matching
+        let answeredQuestions = 0;
+        let totalCorrect = 0; // Track correct answers across all question types
+        let flippedCards = new Set(); // Track which cards have been flipped
+
+        function goToPage(pageNumber) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show the selected page
+            document.getElementById('page' + pageNumber).classList.add('active');
+            currentPage = pageNumber;
+            
+            // Scroll to top of container
+            window.scrollTo(0, 0);
+        }
+
+        function updateOverallTracker() {
+            const trackerFill = document.getElementById('trackerFill');
+            const trackerStats = document.getElementById('trackerStats');
+            
+            const percentage = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+            
+            // Add animation class
+            trackerFill.classList.add('updating');
+            setTimeout(() => trackerFill.classList.remove('updating'), 300);
+            
+            trackerFill.style.width = percentage + '%';
+            trackerFill.textContent = Math.round(percentage) + '%';
+            
+            // Update color based on percentage
+            trackerFill.className = 'tracker-fill';
+            if (percentage >= 90) {
+                trackerFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                trackerFill.classList.add('good');
+            } else if (percentage >= 50) {
+                trackerFill.classList.add('medium');
+            } else if (percentage > 0) {
+                trackerFill.classList.add('low');
+            }
+            
+            // Show celebration when 100% complete
+            if (percentage === 100) {
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% PERFECT SCORE! 🎉</span>`;
+            } else {
+                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% complete`;
+            }
+        }
+
+        const subordinatorExamples = {
+            'although': {
+                title: 'ALTHOUGH (Contrast/Despite)',
+                sentence: '<strong>Although</strong> the weather is bad, I love London. (Despite the bad weather, I love London.)'
+            },
+            'because': {
+                title: 'BECAUSE (Reason/Cause)',
+                sentence: '<strong>Because</strong> she studied hard, she passed the exam. (Shows the reason for passing.)'
+            },
+            'when': {
+                title: 'WHEN (Time)',
+                sentence: '<strong>When</strong> the bell rang, the students left the classroom. (Shows when the action happened.)'
+            },
+            'if': {
+                title: 'IF (Condition)',
+                sentence: '<strong>If</strong> you study hard, you will pass the test. (Shows a condition that must be met.)'
+            },
+            'since': {
+                title: 'SINCE (Reason/Time)',
+                sentence: '<strong>Since</strong> it was raining, we stayed inside. (Can mean "because" or "from that time".)'
+            },
+            'while': {
+                title: 'WHILE (Time/Contrast)',
+                sentence: '<strong>While</strong> I was cooking, the phone rang. (Shows two actions happening at the same time.)'
+            },
+            'after': {
+                title: 'AFTER (Time sequence)',
+                sentence: '<strong>After</strong> we finished dinner, we watched a movie. (Shows sequence of events.)'
+            },
+            'before': {
+                title: 'BEFORE (Time sequence)',
+                sentence: '<strong>Before</strong> you leave, please turn off the lights. (Shows order of actions.)'
+            },
+            'unless': {
+                title: 'UNLESS (Negative condition)',
+                sentence: '<strong>Unless</strong> it rains, we will go to the beach. (Means "if not" - if it doesn\'t rain.)'
+            },
+            'until': {
+                title: 'UNTIL (Time limit)',
+                sentence: 'I can\'t go out <strong>until</strong> I finish my homework. (Shows time limitation.)'
+            },
+            'wherever': {
+                title: 'WHEREVER (Place)',
+                sentence: '<strong>Wherever</strong> you go, I will follow. (Any place at all.)'
+            },
+            'whereas': {
+                title: 'WHEREAS (Contrast)',
+                sentence: 'Some people prefer chocolate, <strong>whereas</strong> others prefer vanilla. (Shows contrast between two groups.)'
+            },
+            'even though': {
+                title: 'EVEN THOUGH (Strong contrast)',
+                sentence: '<strong>Even though</strong> it was expensive, she bought it. (Emphasizes unexpected contrast.)'
+            },
+            'as': {
+                title: 'AS (Time/Reason)',
+                sentence: '<strong>As</strong> I was leaving, the phone rang. (Can show time or reason.)'
+            },
+            'so that': {
+                title: 'SO THAT (Purpose)',
+                sentence: 'She studies hard <strong>so that</strong> she can pass the exam. (Shows purpose or goal.)'
+            }
+        };
+
+        function showExample(subordinator) {
+            const exampleDiv = document.getElementById('subordinatorExample');
+            const titleElement = document.getElementById('exampleTitle');
+            const sentenceElement = document.getElementById('exampleSentence');
+
+            titleElement.textContent = subordinatorExamples[subordinator].title;
+            sentenceElement.innerHTML = subordinatorExamples[subordinator].sentence;
+            exampleDiv.style.display = 'block';
+            exampleDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function flipCard(cardElement, subordinator) {
+            // Toggle the flipped class
+            cardElement.classList.toggle('flipped');
+            
+            // Track if this card was flipped for the first time
+            if (cardElement.classList.contains('flipped') && !flippedCards.has(subordinator)) {
+                flippedCards.add(subordinator);
+                totalCorrect++; // Count as correct when flipped for first time
+                updateOverallTracker(); // Update the tracker bar
+            }
+            
+            // Show example after a brief delay to allow flip animation
+            setTimeout(() => {
+                if (cardElement.classList.contains('flipped')) {
+                    showExample(subordinator);
+                }
+            }, 300);
+        }
+
+        function checkAnswer(questionId, button, isCorrect) {
+            const question = document.getElementById(questionId);
+            const feedback = question.querySelector('.feedback');
+            const allButtons = question.querySelectorAll('.option-btn');
+
+            const feedbackMessages = {
+                'q1': 'A complex sentence has ONE dependent clause (cannot stand alone) + ONE independent clause (can stand alone).',
+                'q1b': 'Look for a dependent clause that starts with a subordinator (because, although, when, etc.).',
+                'q2': 'When the dependent clause (with subordinator) starts the sentence, add a comma after it.',
+                'q2b': 'When the dependent clause (with subordinator) starts the sentence, add a comma after it.',
+                'q3': 'Think about which subordinator explains WHY something happened. Try again!',
+                'q4': 'Think about which subordinator shows two opposite or unexpected ideas together. Try again!',
+                'q5': 'Think about the meaning: you cannot go out BEFORE you finish homework - up to what point in time? Try again!',
+                'q6': 'Think about which subordinator shows contrast - she bought it DESPITE it being expensive. Try again!'
+            };
+
+            if (isCorrect) {
+                allButtons.forEach(btn => {
+                    btn.classList.add('disabled');
+                    btn.disabled = true;
+                });
+                
+                button.classList.add('correct');
+                
+                // Add commas for punctuation questions with yellow highlighting
+                if (questionId === 'q2') {
+                    button.innerHTML = 'Although the weather was perfect<span style="color: #FFD700; font-weight: bold; font-size: 1.2em;">,</span> we decided to stay home.';
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Notice the comma is needed after the dependent clause.';
+                } else if (questionId === 'q2b') {
+                    button.innerHTML = 'When the bell rang<span style="color: #FFD700; font-weight: bold; font-size: 1.2em;">,</span> the students left the classroom.';
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Notice the comma is needed after the dependent clause.';
+                } else {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Great job!';
+                }
+                score++;
+                answeredQuestions++;
+                totalCorrect++; // Update overall tracker count
+                updateScore();
+                updateOverallTracker(); // Update the tracker bar
+            } else {
+                button.classList.add('incorrect');
+                button.classList.add('disabled');
+                button.disabled = true;
+                
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Not quite. ' + (feedbackMessages[questionId] || 'Try again!');
+            }
+        }
+
+        function updateScore() {
+            // Track score for internal use
+            const multipleChoiceTotal = 8; // Only for the multiple choice quizzes
+            
+            // Show celebration when all multiple choice questions are done
+            if (answeredQuestions === multipleChoiceTotal) {
+                if (score === multipleChoiceTotal) {
+                    console.log('Perfect score on multiple choice!');
+                } else if (score >= multipleChoiceTotal * 0.75) {
+                    console.log('Great work on multiple choice!');
+                }
+            }
+        }
+
+        // Drag and Drop functionality
+        let draggedElement = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('dropZone');
+
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+            dropZone.addEventListener('dragleave', handleDragLeave);
+            
+            initializeMatching();
+            loadBuilderQuestion(0);
+        });
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+            this.style.opacity = '0.4';
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            this.classList.add('drag-over');
+            return false;
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            this.classList.remove('drag-over');
+
+            if (draggedElement !== this) {
+                const existingItems = this.querySelectorAll('.clause-item, .subordinator-item');
+                
+                if (existingItems.length >= 3) {
+                    alert('You can only use 3 pieces to build your sentence!');
+                    return false;
+                }
+                
+                const clone = draggedElement.cloneNode(true);
+                clone.draggable = true;
+                clone.addEventListener('dragstart', handleDragStart);
+                clone.addEventListener('dragend', handleDragEnd);
+                clone.addEventListener('click', function() {
+                    this.remove();
+                });
+                
+                const placeholder = this.querySelector('span');
+                if (placeholder) {
+                    placeholder.remove();
+                }
+                
+                this.appendChild(clone);
+            }
+
+            return false;
+        }
+
+        // Sentence Builder Questions
+        let currentBuilderQuestion = 0;
+        
+        const builderQuestions = [
+            {
+                id: 1,
+                clauses: [
+                    "she studied hard",
+                    "she passed the exam",
+                    "she failed the exam"
+                ],
+                subordinators: ["Because, ", "Although, "],
+                correctAnswers: [
+                    {
+                        sentence: "Because,  she studied hard she passed the exam",
+                        explanation: 'You used "Because" to show cause - studying hard caused her to pass.'
+                    },
+                    {
+                        sentence: "Although,  she studied hard she failed the exam",
+                        explanation: 'You used "Although" to show contrast - she studied hard, but (surprisingly) failed.'
+                    }
+                ]
+            },
+            {
+                id: 2,
+                clauses: [
+                    "it was raining",
+                    "we went to the beach",
+                    "we stayed inside"
+                ],
+                subordinators: ["Although, ", "Because, "],
+                correctAnswers: [
+                    {
+                        sentence: "Although,  it was raining we went to the beach",
+                        explanation: 'You used "Although" to show contrast - despite the rain, you still went to the beach.'
+                    },
+                    {
+                        sentence: "Because,  it was raining we stayed inside",
+                        explanation: 'You used "Because" to show cause - the rain caused you to stay inside.'
+                    }
+                ]
+            },
+            {
+                id: 3,
+                clauses: [
+                    "the movie was boring",
+                    "I fell asleep",
+                    "I watched all of it"
+                ],
+                subordinators: ["Because, ", "Although, "],
+                correctAnswers: [
+                    {
+                        sentence: "Because,  the movie was boring I fell asleep",
+                        explanation: 'You used "Because" to show cause - the boring movie caused you to fall asleep.'
+                    },
+                    {
+                        sentence: "Although,  the movie was boring I watched all of it",
+                        explanation: 'You used "Although" to show contrast - despite being boring, you watched it all.'
+                    }
+                ]
+            }
+        ];
+
+        function loadBuilderQuestion(questionIndex) {
+            const question = builderQuestions[questionIndex];
+            const clauseBank = document.getElementById('clauseBank');
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            const questionNumber = document.getElementById('builderQuestionNumber');
+            
+            questionNumber.textContent = `Question ${questionIndex + 1} of ${builderQuestions.length}`;
+            
+            dropZone.innerHTML = '<span style="color: #999;">Drag exactly 3 items here...</span>';
+            feedback.className = 'feedback';
+            feedback.style.display = 'none';
+            feedback.innerHTML = '';
+            
+            clauseBank.innerHTML = '';
+            question.clauses.forEach(clause => {
+                const div = document.createElement('div');
+                div.className = 'clause-item';
+                div.draggable = true;
+                div.textContent = clause;
+                clauseBank.appendChild(div);
+            });
+            
+            question.subordinators.forEach(sub => {
+                const div = document.createElement('div');
+                div.className = 'subordinator-item';
+                div.draggable = true;
+                div.textContent = sub;
+                clauseBank.appendChild(div);
+            });
+            
+            const clauseItems = document.querySelectorAll('.clause-item, .subordinator-item');
+            clauseItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function checkSentenceBuilder() {
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            const resetBtn = document.querySelector('.reset-btn');
+            const items = Array.from(dropZone.querySelectorAll('.clause-item, .subordinator-item'));
+            
+            if (items.length < 3) {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = '✗ You need to use 3 pieces to build a complete complex sentence!<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+                return;
+            }
+
+            if (items.length > 3) {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = '✗ You used too many pieces! A complex sentence needs exactly 3 pieces: subordinator + dependent clause + independent clause.<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+                return;
+            }
+
+            const sentence = items.map(item => item.textContent).join(' ');
+            const normalizedSentence = sentence.replace(/\s+/g, ' ').trim();
+
+            const currentQuestion = builderQuestions[currentBuilderQuestion];
+            let isCorrect = false;
+            let correctAnswer = null;
+
+            for (let answer of currentQuestion.correctAnswers) {
+                const normalized = answer.sentence.replace(/\s+/g, ' ').trim();
+                if (normalizedSentence === normalized) {
+                    isCorrect = true;
+                    correctAnswer = answer;
+                    break;
+                }
+            }
+
+            if (isCorrect) {
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✓ Excellent! Perfect complex sentence!<br><strong>"${items[0].textContent}${items[1].textContent} ${items[2].textContent}."</strong><br><em>${correctAnswer.explanation}</em>`;
+                
+                totalCorrect++; // Update overall tracker count
+                updateOverallTracker(); // Update the tracker bar
+                
+                if (currentBuilderQuestion < builderQuestions.length - 1) {
+                    resetBtn.textContent = 'Next Question';
+                    resetBtn.onclick = nextBuilderQuestion;
+                } else {
+                    resetBtn.textContent = 'Reset';
+                    resetBtn.onclick = resetAllBuilder;
+                }
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = '✗ Not quite right. Remember: subordinator + dependent clause + independent clause. Which subordinator creates a logical relationship?<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+            }
+        }
+
+        function nextBuilderQuestion() {
+            currentBuilderQuestion++;
+            if (currentBuilderQuestion < builderQuestions.length) {
+                loadBuilderQuestion(currentBuilderQuestion);
+                
+                const resetBtn = document.querySelector('.reset-btn');
+                resetBtn.textContent = 'Reset';
+                resetBtn.onclick = resetBuilder;
+            }
+        }
+
+        function resetAllBuilder() {
+            currentBuilderQuestion = 0;
+            loadBuilderQuestion(currentBuilderQuestion);
+            
+            const resetBtn = document.querySelector('.reset-btn');
+            resetBtn.textContent = 'Reset';
+            resetBtn.onclick = resetBuilder;
+        }
+
+        function clearBuilderFeedback() {
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            
+            dropZone.innerHTML = '<span style="color: #999;">Drag exactly 3 items here...</span>';
+            feedback.className = 'feedback';
+            feedback.style.display = 'none';
+            feedback.innerHTML = '';
+        }
+
+        function resetBuilder() {
+            loadBuilderQuestion(currentBuilderQuestion);
+        }
+
+        // Matching Exercise Data
+        const sentencePairs = [
+            {
+                id: 1,
+                firstHalf: "Although it was expensive,",
+                secondHalf: "she bought the dress.",
+                subordinator: "although"
+            },
+            {
+                id: 2,
+                firstHalf: "I will call you",
+                secondHalf: "when I arrive home.",
+                subordinator: "when"
+            },
+            {
+                id: 3,
+                firstHalf: "Because she studied hard,",
+                secondHalf: "she passed the exam.",
+                subordinator: "because"
+            },
+            {
+                id: 4,
+                firstHalf: "If it rains tomorrow,",
+                secondHalf: "we will stay inside.",
+                subordinator: "if"
+            },
+            {
+                id: 5,
+                firstHalf: "He went to bed",
+                secondHalf: "after he finished his homework.",
+                subordinator: "after"
+            },
+            {
+                id: 6,
+                firstHalf: "While I was cooking,",
+                secondHalf: "the phone rang.",
+                subordinator: "while"
+            },
+            {
+                id: 7,
+                firstHalf: "Unless you hurry,",
+                secondHalf: "you will miss the bus.",
+                subordinator: "unless"
+            },
+            {
+                id: 8,
+                firstHalf: "She can't go out",
+                secondHalf: "until she finishes her chores.",
+                subordinator: "until"
+            },
+            {
+                id: 9,
+                firstHalf: "Since it was getting dark,",
+                secondHalf: "we decided to go home.",
+                subordinator: "since"
+            },
+            {
+                id: 10,
+                firstHalf: "Even though he was tired,",
+                secondHalf: "he continued working.",
+                subordinator: "even though"
+            }
+        ];
+
+        let correctMatches = 0;
+        let completedPairs = [];
+
+        function initializeMatching() {
+            const container = document.getElementById('matchingContainer');
+            container.innerHTML = '';
+            completedPairs = [];
+            correctMatches = 0;
+            updateMatchingScore();
+
+            sentencePairs.forEach((pair, index) => {
+                const matchItem = document.createElement('div');
+                matchItem.className = 'question';
+                matchItem.id = `match-${pair.id}`;
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.style.fontWeight = 'bold';
+                questionNumber.style.marginBottom = '10px';
+                questionNumber.style.color = '#667eea';
+                questionNumber.textContent = `${index + 1}. ${pair.firstHalf}`;
+                
+                const selectWrapper = document.createElement('div');
+                selectWrapper.style.display = 'flex';
+                selectWrapper.style.gap = '10px';
+                selectWrapper.style.alignItems = 'center';
+                selectWrapper.style.marginTop = '10px';
+                
+                const select = document.createElement('select');
+                select.className = 'practice-input';
+                select.id = `select-${pair.id}`;
+                select.style.flex = '1';
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = '-- Choose the second half --';
+                select.appendChild(defaultOption);
+                
+                const shuffledPairs = [...sentencePairs].sort(() => Math.random() - 0.5);
+                shuffledPairs.forEach(p => {
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.textContent = p.secondHalf;
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', function() {
+                    checkMatch(pair.id, parseInt(this.value));
+                });
+                
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'feedback';
+                feedbackDiv.id = `feedback-${pair.id}`;
+                
+                selectWrapper.appendChild(select);
+                matchItem.appendChild(questionNumber);
+                matchItem.appendChild(selectWrapper);
+                matchItem.appendChild(feedbackDiv);
+                container.appendChild(matchItem);
+            });
+        }
+
+        function checkMatch(questionId, selectedId) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            const matchItem = document.getElementById(`match-${questionId}`);
+            const select = document.getElementById(`select-${questionId}`);
+            
+            if (selectedId === questionId) {
+                const correctPair = sentencePairs.find(p => p.id === questionId);
+                const questionNumber = matchItem.querySelector('div[style*="font-weight: bold"]');
+                
+                questionNumber.innerHTML = questionNumber.textContent + ` <span style="color: #4caf50; font-size: 1.2em;">✓</span>`;
+                
+                // Create complete sentence without repeating the subordinator
+                let completeSentence = correctPair.firstHalf + ' ' + correctPair.secondHalf;
+                
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✓ Excellent! Perfect match!<br><strong>Complete sentence:</strong> ${completeSentence}`;
+                select.disabled = true;
+                select.style.opacity = '0.6';
+                matchItem.style.background = '#e8f5e9';
+                
+                if (!completedPairs.includes(questionId)) {
+                    completedPairs.push(questionId);
+                    correctMatches++;
+                    totalCorrect++; // Update overall tracker count
+                    updateMatchingScore();
+                    updateOverallTracker(); // Update the tracker bar
+                    
+                    removeOptionFromAllDropdowns(questionId);
+                }
+                
+                if (correctMatches === sentencePairs.length) {
+                    // All matches complete - no popup needed, score display shows completion
+                }
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✗ Not quite right. Think about the logical relationship the subordinator creates.<br><button class="check-btn" style="margin-top: 10px;" onclick="resetQuestion(${questionId})">Try Again</button>`;
+                select.disabled = true;
+            }
+        }
+
+        function resetQuestion(questionId) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            const select = document.getElementById(`select-${questionId}`);
+            
+            select.value = '';
+            select.disabled = false;
+            feedback.style.display = 'none';
+            feedback.className = 'feedback';
+            feedback.innerHTML = '';
+        }
+
+        function removeOptionFromAllDropdowns(completedId) {
+            sentencePairs.forEach(pair => {
+                const select = document.getElementById(`select-${pair.id}`);
+                if (select && !select.disabled) {
+                    const option = select.querySelector(`option[value="${completedId}"]`);
+                    if (option) {
+                        option.remove();
+                    }
+                }
+            });
+        }
+
+        function updateMatchingScore() {
+            const scoreDisplay = document.getElementById('matchingScore');
+            scoreDisplay.textContent = `Correct: ${correctMatches}/10`;
+            
+            if (correctMatches === sentencePairs.length) {
+                scoreDisplay.innerHTML += ' <span class="celebration">🎉</span>';
+            }
+        }
+
+        function resetMatching() {
+            initializeMatching();
+        }
+    </script>
+</body>
+</html>

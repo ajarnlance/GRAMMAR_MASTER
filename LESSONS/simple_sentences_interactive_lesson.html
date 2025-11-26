@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Simple Sentences Lesson for ESL Students</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .tracker-container {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+
+        .tracker-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tracker-bar {
+            width: 100%;
+            height: 35px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .tracker-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f44336 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #4caf50 100%);
+            transition: width 0.6s ease, background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tracker-fill.low {
+            background: linear-gradient(90deg, #f44336 0%, #ff5722 100%);
+        }
+
+        .tracker-fill.medium {
+            background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .tracker-fill.good {
+            background: linear-gradient(90deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .tracker-fill.excellent {
+            background: linear-gradient(90deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .tracker-stats {
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .learning-objectives {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .learning-objectives h3 {
+            margin-top: 0;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .learning-objectives li {
+            margin: 8px 0;
+        }
+
+        .definition-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .fanboys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .fanboys-card {
+            background: transparent;
+            perspective: 1000px;
+            height: 180px;
+            cursor: pointer;
+        }
+
+        .fanboys-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .fanboys-card.flipped .fanboys-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .fanboys-card-front, .fanboys-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .fanboys-card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .fanboys-card-back {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .fanboys-card:hover .fanboys-card-front,
+        .fanboys-card:hover .fanboys-card-back {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .fanboys-letter {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .fanboys-letter-small {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .fanboys-word {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .fanboys-meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .interactive-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .option-btn.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+
+        .sentence-builder {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .clause-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            min-height: 80px;
+        }
+
+        .word-item {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .punctuation-item {
+            background: #ffc107;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .word-item:hover, .punctuation-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .drop-zone {
+            border: 3px dashed #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 80px;
+            margin: 15px 0;
+            background: #f9f9f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .drop-zone.drag-over {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #d32f2f;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .tip-box {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+        }
+
+        .practice-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            margin: 10px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        select.practice-input {
+            cursor: pointer;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        select.practice-input:disabled {
+            cursor: not-allowed;
+            background-color: #f5f5f5;
+        }
+
+        .comma {
+            color: #f44336;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .highlight-subject {
+            background: #e3f2fd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .highlight-verb {
+            background: #fff9c4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #f57f17;
+        }
+
+        .highlight-object {
+            background: #f3e5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        /* Page Navigation Styles */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .fanboys-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .fanboys-card {
+                height: 150px;
+            }
+
+            .fanboys-letter {
+                font-size: 3em;
+            }
+
+            .fanboys-letter-small {
+                font-size: 1.5em;
+            }
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .tracker-fill.updating {
+            animation: pulse 0.3s ease;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .completion-message {
+            display: none;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 10px;
+        }
+
+        .completion-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="dashboard-btn">🏠 Dashboard</a>
+        <h1>📚 Simple Sentences</h1>
+        <p class="subtitle">An Interactive Lesson for ESL Students</p>
+
+        <div class="tracker-container">
+            <div class="tracker-label">Overall Progress Tracker</div>
+            <div class="tracker-bar">
+                <div class="tracker-fill" id="trackerFill">0%</div>
+            </div>
+            <div class="tracker-stats">
+                <span id="trackerStats">0 correct out of 21 questions | 0% complete</span>
+            </div>
+        </div>
+
+        <!-- PAGE 1: Introduction and Basic Concepts -->
+        <div class="page active" id="page1">
+            <div class="learning-objectives">
+                <h3>📚 Learning Objectives</h3>
+                <ul>
+                    <li>Understand what a simple sentence is and its essential components</li>
+                    <li>Identify subjects, verbs, and complete ideas in sentences</li>
+                    <li>Learn how coordinating conjunctions work in simple sentences</li>
+                    <li>Master punctuation rules for simple sentences</li>
+                    <li>Practice building and identifying correct simple sentences</li>
+                </ul>
+            </div>
+
+            <h2>What is a Sentence?</h2>
+            
+            <div class="definition-box">
+                <h3>Basic Definition:</h3>
+                <p>A sentence is a complete set of words that conveys meaning.</p>
+                
+                <h3 style="margin-top: 15px;">A sentence MUST have:</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>a <strong>subject</strong> (who or what the sentence is about)</li>
+                    <li>a <strong>verb</strong> (action or state of being)</li>
+                    <li>a <strong>complete idea</strong> (makes sense on its own)</li>
+                </ul>
+
+                <h3 style="margin-top: 15px;">A sentence MUST:</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>begin with a <strong>capital letter</strong></li>
+                    <li>end with <strong>punctuation</strong> (. ! ?)</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>✅ Complete Sentences:</h4>
+                <p><span class="highlight-subject">I</span> <span class="highlight-verb">smiled</span>.</p>
+                <p><span class="highlight-subject">The students</span> <span class="highlight-verb">studied</span> <span class="highlight-object">for the test</span>.</p>
+                <p><span class="highlight-subject">She</span> <span class="highlight-verb">is</span> <span class="highlight-object">a talented musician</span>.</p>
+                
+                <h4 style="margin-top: 15px;">❌ NOT Complete Sentences:</h4>
+                <p>I like. <em>(Missing: what do you like? Incomplete idea)</em></p>
+                <p>Running in the park. <em>(Missing: who is running? No subject)</em></p>
+                <p>The tall building. <em>(Missing: verb - what about the building?)</em></p>
+            </div>
+
+            <h2>What is a Simple Sentence?</h2>
+
+            <div class="definition-box">
+                <h3>Definition:</h3>
+                <p>A <strong>simple sentence</strong> contains ONE independent clause with ONE subject-verb combination expressing ONE complete thought.</p>
+                <p style="margin-top: 10px;"><strong>Independent Clause:</strong> A group of words that has a subject and a verb and expresses a complete thought. It can stand alone as a sentence.</p>
+                <p style="margin-top: 10px;"><strong>Important:</strong> Simple sentences can be quite long. They can have two or more subjects, two or more verbs, or multiple phrases, but they still express just ONE main idea.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Examples of Simple Sentences:</h4>
+                <p><strong>Basic:</strong> I like vanilla ice cream.</p>
+                <p><strong>With compound subject:</strong> Ice cream and gelato are popular desserts.</p>
+                <p><strong>With compound verb:</strong> The ice cream melted and turned sour.</p>
+                <p><strong>With added phrases:</strong> On hot days throughout summer, many people like to eat different brands and flavors of ice cream.</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Key Point:</strong> Even with added words and phrases, if there's only ONE subject-verb relationship expressing ONE complete thought, it's still a simple sentence!
+            </div>
+
+            <button class="nav-btn" onclick="goToPage(2)">Next</button>
+        </div>
+
+        <!-- PAGE 2: Coordinating Conjunctions in Simple Sentences -->
+        <div class="page" id="page2">
+            <h2>Coordinating Conjunctions (FANBOYS)</h2>
+
+            <p>In simple sentences, coordinating conjunctions connect equal parts like nouns, verbs, adjectives, or phrases - but NOT independent clauses.</p>
+
+            <div class="tip-box" style="background: #e3f2fd; border-left: 5px solid #2196f3;">
+                <strong>👆 Click on each FANBOYS card below to flip it and see examples!</strong>
+            </div>
+
+            <div class="fanboys-grid" id="fanboysGrid">
+                <div class="fanboys-card" onclick="flipCard(this, 'for')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">F</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">F</div>
+                            <div class="fanboys-word">For</div>
+                            <div class="fanboys-meaning">Joins nouns/phrases</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'and')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">A</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">A</div>
+                            <div class="fanboys-word">And</div>
+                            <div class="fanboys-meaning">Addition</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'nor')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">N</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">N</div>
+                            <div class="fanboys-word">Nor</div>
+                            <div class="fanboys-meaning">Negative addition</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'but')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">B</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">B</div>
+                            <div class="fanboys-word">But</div>
+                            <div class="fanboys-meaning">Contrast</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'or')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">O</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">O</div>
+                            <div class="fanboys-word">Or</div>
+                            <div class="fanboys-meaning">Choice</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'yet')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">Y</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">Y</div>
+                            <div class="fanboys-word">Yet</div>
+                            <div class="fanboys-meaning">Contrast/However</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fanboys-card" onclick="flipCard(this, 'so')">
+                    <div class="fanboys-card-inner">
+                        <div class="fanboys-card-front">
+                            <div class="fanboys-letter">S</div>
+                        </div>
+                        <div class="fanboys-card-back">
+                            <div class="fanboys-letter-small">S</div>
+                            <div class="fanboys-word">So</div>
+                            <div class="fanboys-meaning">Result/Purpose</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="fanboyExample" class="example-box" style="display: none;">
+                <h4 id="exampleTitle"></h4>
+                <p id="exampleSentence"></p>
+            </div>
+
+            <h2>What FANBOYS Connect in Simple Sentences</h2>
+
+            <div class="example-box">
+                <h4>Coordinating conjunctions can join:</h4>
+                
+                <p><strong>Nouns:</strong> Would you like toast <strong>or</strong> cereal for breakfast?</p>
+                <p><strong>Verbs:</strong> The children ran <strong>and</strong> jumped all over the playground.</p>
+                <p><strong>Adjectives:</strong> The old castle seemed grand <strong>yet</strong> mysterious.</p>
+                <p><strong>Phrases:</strong> Ali is saving money to pay for his education <strong>and</strong> to buy a home.</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>⚠️ Key Rule:</strong> When FANBOYS join words or phrases (NOT complete sentences) in a simple sentence, generally NO comma is needed before the conjunction!
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(1)">Back</button>
+                <button class="nav-btn" onclick="goToPage(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Punctuation Rules -->
+        <div class="page" id="page3">
+            <h2>Punctuation Rules for Simple Sentences</h2>
+
+            <div class="definition-box">
+                <h3>Rule 1: Conjunctions Joining Two Items</h3>
+                <p>When joining TWO nouns, verbs, adjectives, or phrases with FANBOYS: <strong>NO comma</strong></p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> Ice cream and gelato are popular desserts.</p>
+                    <p><strong>✅ Correct:</strong> The ice cream melted and turned sour.</p>
+                    <p><strong>❌ Incorrect:</strong> Ice cream, and gelato are popular desserts.</p>
+                </div>
+            </div>
+
+            <div class="definition-box">
+                <h3>Rule 2: Lists of Three or More Items</h3>
+                <p>When listing THREE or more items: <strong>use commas between items</strong>, including before the final conjunction (Oxford comma)</p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> I like chocolate<span class="comma">,</span> vanilla<span class="comma">,</span> and strawberry-flavored ice cream.</p>
+                    <p><strong>✅ Correct:</strong> The children ran<span class="comma">,</span> jumped<span class="comma">,</span> and played on the playground.</p>
+                    <p><strong>❌ Incorrect:</strong> I like chocolate vanilla and strawberry-flavored ice cream.</p>
+                </div>
+
+                <p style="margin-top: 10px;"><em>Note: British English sometimes omits the comma before "and" in lists, but American academic English typically includes it.</em></p>
+            </div>
+
+            <div class="definition-box">
+                <h3>Rule 3: Introductory Phrases</h3>
+                <p>Use a comma AFTER introductory phrases or words at the beginning of a sentence</p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> In summer<span class="comma">,</span> sales at Baskin Robbins significantly increase.</p>
+                    <p><strong>✅ Correct:</strong> Ideally<span class="comma">,</span> ice cream should be kept at 0 degrees Fahrenheit.</p>
+                    <p><strong>✅ Correct:</strong> On hot days throughout summer<span class="comma">,</span> many people eat ice cream.</p>
+                    <p><strong>❌ Incorrect:</strong> In summer sales at Baskin Robbins significantly increase.</p>
+                </div>
+
+                <p style="margin-top: 10px;"><strong>However:</strong> When the phrase comes at the END, usually NO comma:</p>
+                <p>Sales at Baskin Robbins significantly increase in summer.</p>
+            </div>
+
+            <div class="definition-box">
+                <h3>Rule 4: Transitional Expressions</h3>
+                <p>Use commas to set off expressions like "such as," "especially," "for example," "including"</p>
+                
+                <div style="margin-top: 15px;">
+                    <p><strong>✅ Correct:</strong> I like ice cream<span class="comma">,</span> such as Baskin Robbins and Haagen-Dazs.</p>
+                    <p><strong>✅ Correct:</strong> I like ice cream<span class="comma">,</span> especially Baskin Robbins and Haagen-Dazs.</p>
+                    <p><strong>✅ Correct:</strong> In summer<span class="comma">,</span> especially June and July<span class="comma">,</span> sales for ice cream increase.</p>
+                </div>
+            </div>
+
+
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(2)">Back</button>
+                <button class="nav-btn" onclick="goToPage(4)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Practice Quizzes -->
+        <div class="page" id="page4">
+            <h2>🎮 Practice Quizzes</h2>
+
+            <div class="interactive-section">
+                <h3>Quiz 1: Identify Simple Sentences</h3>
+                <p>Click on the sentence that is a simple sentence:</p>
+
+                <div class="question" id="q1">
+                    <div class="question-text">Which is a simple sentence?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q1', this, true)">Ice cream and gelato are popular desserts.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">I like ice cream, but Ali prefers gelato.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">Although Ali likes ice cream, he prefers gelato.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1', this, false)">She studied hard, so she passed the exam.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q1b">
+                    <div class="question-text">Which is a simple sentence?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">When I arrived home, I made dinner.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, true)">The children ran and jumped on the playground.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">He wanted to go, but he was too tired.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1b', this, false)">Because it was raining, we stayed inside.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q1c">
+                    <div class="question-text">Which is NOT a simple sentence?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q1c', this, false)">On hot days throughout summer, many people eat ice cream.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1c', this, false)">The ice cream melted and turned sour.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1c', this, true)">I wanted ice cream, but the store was closed.</button>
+                        <button class="option-btn" onclick="checkAnswer('q1c', this, false)">Students can study in the library, at home, or in the cafeteria.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <h3>Quiz 2: Comma Punctuation</h3>
+                <p>Identify which sentence NEEDS a comma added:</p>
+
+                <div class="question" id="q2">
+                    <div class="question-text">Which sentence needs a comma?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">The students studied hard and passed the exam.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, true)">In summer sales at ice cream shops increase significantly.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">She likes chocolate and vanilla ice cream.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2', this, false)">My brother plays soccer and basketball.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q2b">
+                    <div class="question-text">Which sentence needs commas?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">I enjoy reading and writing in my free time.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, true)">I like chocolate vanilla and strawberry ice cream.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">The movie was long but interesting.</button>
+                        <button class="option-btn" onclick="checkAnswer('q2b', this, false)">Students can study in the library or at home.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q4">
+                    <div class="question-text">Which sentence is correctly punctuated?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">I like ice cream such as, Baskin Robbins and Haagen-Dazs.</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, true)">I like ice cream, such as Baskin Robbins and Haagen-Dazs.</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">I like ice cream such as Baskin Robbins, and Haagen-Dazs.</button>
+                        <button class="option-btn" onclick="checkAnswer('q4', this, false)">I like, ice cream such as Baskin Robbins and Haagen-Dazs.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="question" id="q6">
+                    <div class="question-text">Which sentence correctly uses a coordinating conjunction?</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">The students studied, and prepared for the exam.</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, true)">The students studied and prepared for the exam.</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">The students studied and, prepared for the exam.</button>
+                        <button class="option-btn" onclick="checkAnswer('q6', this, false)">The students, studied and prepared for the exam.</button>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="back-btn" onclick="goToPage(3)">Back</button>
+                <button class="nav-btn" onclick="goToPage(5)">Next</button>
+            </div>
+        </div>
+
+        <!-- PAGE 5: Hands-on Activities -->
+        <div class="page" id="page5">
+            <h2>🎯 Hands-on Activities</h2>
+
+            <div class="interactive-section">
+                <h3>🎯 Build Your Own Simple Sentence</h3>
+                <p>Drag and drop the words and punctuation to create correctly punctuated simple sentences!</p>
+                
+                <div style="text-align: center; margin: 15px 0;">
+                    <span id="builderQuestionNumber" style="font-size: 1.2em; font-weight: bold; color: #667eea;">Question 1 of 3</span>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Hint:</strong> Remember: commas after introductory phrases, commas between items in lists of 3+, but NO commas with just two items joined by FANBOYS!
+                </div>
+
+                <div class="sentence-builder">
+                    <h4>Available Words and Punctuation:</h4>
+                    <div class="clause-bank" id="clauseBank">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
+                    <h4>Build your sentence here:</h4>
+                    <div class="drop-zone" id="dropZone">
+                        <span style="color: #999;">Drag items here to build your sentence...</span>
+                    </div>
+
+                    <button class="check-btn" onclick="checkSentenceBuilder()">Check Answer</button>
+                    <button class="reset-btn" onclick="resetBuilder()">Reset</button>
+                    <div class="feedback" id="builderFeedback"></div>
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <h3>🎯 Matching Exercise</h3>
+                <p>Match each sentence fragment with the correct ending and punctuation!</p>
+                
+                <div class="score-display">
+                    <span id="matchingScore">Correct: 0/10</span>
+                </div>
+
+                <div id="matchingContainer">
+                    <!-- Matching items will be inserted here by JavaScript -->
+                </div>
+
+                <button class="reset-btn" onclick="resetMatching()" style="margin-top: 20px;">Reset All</button>
+            </div>
+
+            <div class="learning-objectives">
+                <h3>📝 Key Takeaways</h3>
+                <ul>
+                    <li>Simple sentences have <strong>ONE subject-verb relationship</strong> expressing ONE complete thought</li>
+                    <li>Must have a <strong>subject, verb, and complete idea</strong></li>
+                    <li>Begin with a <strong>capital letter</strong> and end with <strong>punctuation</strong></li>
+                    <li>FANBOYS conjunctions join equal parts (nouns, verbs, phrases) - <strong>no comma with two items</strong></li>
+                    <li>Use <strong>commas in lists of 3+ items</strong> (including before final "and")</li>
+                    <li>Use <strong>comma after introductory phrases</strong> at the start of sentences</li>
+                    <li>Use commas to set off expressions like <strong>"such as," "especially," "for example"</strong></li>
+                    <li>In academic writing, <strong>avoid starting with "And," "But," or "So"</strong> (except "Yet")</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <strong>🎯 Practice Tips:</strong><br>
+                1. Read your sentences out loud to check if they're complete<br>
+                2. Identify the subject and verb - every sentence needs both!<br>
+                3. Count items in lists - 2 items = no comma before "and"; 3+ items = commas needed<br>
+                4. Look for introductory words/phrases and add commas after them<br>
+                5. Simple doesn't mean short - sentences can be long and still be simple!
+            </div>
+
+            <div id="completionMessage" class="completion-message">
+                <h3 style="color: #667eea;">🌟 Excellent Work!</h3>
+                <p>You've mastered simple sentences! These are the building blocks of all good writing. Keep practicing to make them even stronger!</p>
+            </div>
+
+            <button class="back-btn" onclick="goToPage(4)" style="margin: 30px auto; display: block;">Back</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let score = 0;
+        let totalQuestions = 21; // 7 FANBOYS cards + 8 multiple choice + 3 sentence builder + 10 matching = 28, but we'll count 21 for parity
+        let answeredQuestions = 0;
+        let totalCorrect = 0;
+        let flippedCards = new Set();
+
+        function goToPage(pageNumber) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            document.getElementById('page' + pageNumber).classList.add('active');
+            currentPage = pageNumber;
+            
+            window.scrollTo(0, 0);
+        }
+
+        function updateOverallTracker() {
+            const trackerFill = document.getElementById('trackerFill');
+            const trackerStats = document.getElementById('trackerStats');
+            
+            const percentage = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+            
+            trackerFill.classList.add('updating');
+            setTimeout(() => trackerFill.classList.remove('updating'), 300);
+            
+            trackerFill.style.width = percentage + '%';
+            trackerFill.textContent = Math.round(percentage) + '%';
+            
+            trackerFill.className = 'tracker-fill';
+            if (percentage >= 90) {
+                trackerFill.classList.add('excellent');
+            } else if (percentage >= 70) {
+                trackerFill.classList.add('good');
+            } else if (percentage >= 50) {
+                trackerFill.classList.add('medium');
+            } else if (percentage > 0) {
+                trackerFill.classList.add('low');
+            }
+            
+            if (percentage === 100) {
+                trackerStats.innerHTML = `<span style="color: #4caf50; font-weight: bold;">🎉 ${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% PERFECT SCORE! 🎉</span>`;
+                // Show the completion message
+                const completionMsg = document.getElementById('completionMessage');
+                if (completionMsg) {
+                    completionMsg.classList.add('show');
+                }
+            } else {
+                trackerStats.textContent = `${totalCorrect} correct out of ${totalQuestions} questions | ${Math.round(percentage)}% complete`;
+            }
+        }
+
+        const fanboyExamples = {
+            'for': {
+                title: 'FOR - Joining phrases',
+                sentence: 'Ali is saving money <strong>for</strong> his education and <strong>for</strong> buying a home. (Shows purpose)'
+            },
+            'and': {
+                title: 'AND - Addition',
+                sentence: 'Ice cream <strong>and</strong> gelato are popular desserts. (Joins two nouns)<br>The children ran <strong>and</strong> jumped all over the playground. (Joins two verbs)'
+            },
+            'nor': {
+                title: 'NOR - Negative Addition',
+                sentence: 'He doesn\'t like coffee <strong>nor</strong> tea. (Both negative - rarely used in simple sentences)'
+            },
+            'but': {
+                title: 'BUT - Contrast',
+                sentence: 'The castle seemed grand <strong>but</strong> mysterious. (Joins two contrasting adjectives)<br><em>Note: In compound sentences, "but" joins two complete thoughts.</em>'
+            },
+            'or': {
+                title: 'OR - Choice',
+                sentence: 'Would you like toast <strong>or</strong> cereal for breakfast? (Shows options between two nouns)'
+            },
+            'yet': {
+                title: 'YET - Contrast',
+                sentence: 'The old castle seemed grand <strong>yet</strong> mysterious. (Similar to "but" - shows contrast)'
+            },
+            'so': {
+                title: 'SO - Purpose/Result',
+                sentence: 'I need to study <strong>so</strong> I can pass the exam. (Shows purpose - less common in simple sentences)<br><em>More commonly used in compound sentences.</em>'
+            }
+        };
+
+        function showExample(conjunction) {
+            const exampleDiv = document.getElementById('fanboyExample');
+            const titleElement = document.getElementById('exampleTitle');
+            const sentenceElement = document.getElementById('exampleSentence');
+
+            titleElement.textContent = fanboyExamples[conjunction].title;
+            sentenceElement.innerHTML = fanboyExamples[conjunction].sentence;
+            exampleDiv.style.display = 'block';
+            exampleDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function flipCard(cardElement, conjunction) {
+            cardElement.classList.toggle('flipped');
+            
+            if (cardElement.classList.contains('flipped') && !flippedCards.has(conjunction)) {
+                flippedCards.add(conjunction);
+                totalCorrect++;
+                updateOverallTracker();
+            }
+            
+            setTimeout(() => {
+                if (cardElement.classList.contains('flipped')) {
+                    showExample(conjunction);
+                }
+            }, 300);
+        }
+
+        function checkAnswer(questionId, button, isCorrect) {
+            const question = document.getElementById(questionId);
+            const feedback = question.querySelector('.feedback');
+            const allButtons = question.querySelectorAll('.option-btn');
+
+            const feedbackMessages = {
+                'q1': 'Try again!',
+                'q1b': 'Try again!',
+                'q1c': 'Try again!',
+                'q2': 'Try again!',
+                'q2b': 'Try again!',
+                'q4': 'Try again!',
+                'q6': 'Try again!'
+            };
+
+            if (isCorrect) {
+                allButtons.forEach(btn => {
+                    btn.classList.add('disabled');
+                    btn.disabled = true;
+                });
+                
+                button.classList.add('correct');
+                
+                if (questionId === 'q2') {
+                    button.innerHTML = 'In summer<span style="color: #FFD700; font-weight: bold; font-size: 1.2em;">,</span> sales at ice cream shops increase significantly.';
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Notice the comma after the introductory phrase.';
+                } else if (questionId === 'q2b') {
+                    button.innerHTML = 'I like chocolate<span style="color: #FFD700; font-weight: bold; font-size: 1.2em;">,</span> vanilla<span style="color: #FFD700; font-weight: bold; font-size: 1.2em;">,</span> and strawberry ice cream.';
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Three items need commas, including before "and".';
+                } else {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✓ Correct! Great job!';
+                }
+                
+                score++;
+                answeredQuestions++;
+                totalCorrect++;
+                updateOverallTracker();
+            } else {
+                button.classList.add('incorrect');
+                button.classList.add('disabled');
+                button.disabled = true;
+                
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Not quite. ' + (feedbackMessages[questionId] || 'Try again!');
+            }
+        }
+
+        // Drag and Drop functionality
+        let draggedElement = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('dropZone');
+
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+            dropZone.addEventListener('dragleave', handleDragLeave);
+            
+            initializeMatching();
+            loadBuilderQuestion(0);
+        });
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+            this.style.opacity = '0.4';
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            this.classList.add('drag-over');
+            return false;
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            this.classList.remove('drag-over');
+
+            if (draggedElement !== this) {
+                const clone = draggedElement.cloneNode(true);
+                clone.draggable = true;
+                clone.addEventListener('dragstart', handleDragStart);
+                clone.addEventListener('dragend', handleDragEnd);
+                clone.addEventListener('click', function() {
+                    this.remove();
+                });
+                
+                const placeholder = this.querySelector('span');
+                if (placeholder) {
+                    placeholder.remove();
+                }
+                
+                this.appendChild(clone);
+            }
+
+            return false;
+        }
+
+        // Sentence Builder Questions
+        let currentBuilderQuestion = 0;
+        
+        const builderQuestions = [
+            {
+                id: 1,
+                words: ["In summer", "sales at ice cream shops", "increase significantly"],
+                punctuation: [", "],
+                correctAnswer: "In summer ,  sales at ice cream shops increase significantly",
+                explanation: 'The introductory phrase "In summer" needs a comma after it.'
+            },
+            {
+                id: 2,
+                words: ["I like", "chocolate", "vanilla", "and strawberry ice cream"],
+                punctuation: [", ", ", "],
+                correctAnswer: "I like chocolate ,  vanilla ,  and strawberry ice cream",
+                explanation: 'Three items in a list need commas between them, including before "and".'
+            },
+            {
+                id: 3,
+                words: ["The children", "ran", "and jumped", "on the playground"],
+                punctuation: [", ", ", "],
+                correctAnswer: "The children ran and jumped on the playground",
+                explanation: 'No comma needed when joining two verbs ("ran and jumped") with the same subject.'
+            }
+        ];
+
+        function loadBuilderQuestion(questionIndex) {
+            const question = builderQuestions[questionIndex];
+            const clauseBank = document.getElementById('clauseBank');
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            const questionNumber = document.getElementById('builderQuestionNumber');
+            
+            questionNumber.textContent = `Question ${questionIndex + 1} of ${builderQuestions.length}`;
+            
+            dropZone.innerHTML = '<span style="color: #999;">Drag items here to build your sentence...</span>';
+            feedback.className = 'feedback';
+            feedback.style.display = 'none';
+            feedback.innerHTML = '';
+            
+            clauseBank.innerHTML = '';
+            question.words.forEach(word => {
+                const div = document.createElement('div');
+                div.className = 'word-item';
+                div.draggable = true;
+                div.textContent = word;
+                clauseBank.appendChild(div);
+            });
+            
+            question.punctuation.forEach(punct => {
+                const div = document.createElement('div');
+                div.className = 'punctuation-item';
+                div.draggable = true;
+                div.textContent = punct;
+                clauseBank.appendChild(div);
+            });
+            
+            const allItems = document.querySelectorAll('.word-item, .punctuation-item');
+            allItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function checkSentenceBuilder() {
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            const resetBtn = document.querySelector('.reset-btn');
+            const items = Array.from(dropZone.querySelectorAll('.word-item, .punctuation-item'));
+            
+            if (items.length === 0) {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = '✗ Please drag some words to build your sentence!<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+                return;
+            }
+
+            const sentence = items.map(item => item.textContent).join(' ');
+            const normalizedSentence = sentence.replace(/\s+/g, ' ').trim();
+
+            const currentQuestion = builderQuestions[currentBuilderQuestion];
+            const normalized = currentQuestion.correctAnswer.replace(/\s+/g, ' ').trim();
+
+            if (normalizedSentence === normalized) {
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✓ Excellent! Perfect punctuation!<br><strong>"${sentence}."</strong><br><em>${currentQuestion.explanation}</em>`;
+                
+                totalCorrect++;
+                updateOverallTracker();
+                
+                if (currentBuilderQuestion < builderQuestions.length - 1) {
+                    resetBtn.textContent = 'Next Question';
+                    resetBtn.onclick = nextBuilderQuestion;
+                } else {
+                    resetBtn.textContent = 'Reset';
+                    resetBtn.onclick = resetAllBuilder;
+                }
+            } else {
+                // Check if the user included commas in question 3
+                const hasCommas = normalizedSentence.includes(',');
+                const isQuestion3 = currentBuilderQuestion === 2; // Question 3 is index 2
+                
+                if (isQuestion3 && hasCommas) {
+                    feedback.className = 'feedback incorrect';
+                    feedback.style.display = 'block';
+                    feedback.innerHTML = '✗ Not quite right. Check your punctuation. Are commas needed?<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+                } else {
+                    feedback.className = 'feedback incorrect';
+                    feedback.style.display = 'block';
+                    feedback.innerHTML = '✗ Not quite right. Check your punctuation.<br><button class="check-btn" style="margin-top: 10px;" onclick="clearBuilderFeedback()">Try Again</button>';
+                }
+            }
+        }
+
+        function nextBuilderQuestion() {
+            currentBuilderQuestion++;
+            if (currentBuilderQuestion < builderQuestions.length) {
+                loadBuilderQuestion(currentBuilderQuestion);
+                
+                const resetBtn = document.querySelector('.reset-btn');
+                resetBtn.textContent = 'Reset';
+                resetBtn.onclick = resetBuilder;
+            }
+        }
+
+        function resetAllBuilder() {
+            currentBuilderQuestion = 0;
+            loadBuilderQuestion(currentBuilderQuestion);
+            
+            const resetBtn = document.querySelector('.reset-btn');
+            resetBtn.textContent = 'Reset';
+            resetBtn.onclick = resetBuilder;
+        }
+
+        function clearBuilderFeedback() {
+            const dropZone = document.getElementById('dropZone');
+            const feedback = document.getElementById('builderFeedback');
+            
+            dropZone.innerHTML = '<span style="color: #999;">Drag items here to build your sentence...</span>';
+            feedback.className = 'feedback';
+            feedback.style.display = 'none';
+            feedback.innerHTML = '';
+        }
+
+        function resetBuilder() {
+            loadBuilderQuestion(currentBuilderQuestion);
+        }
+
+        // Matching Exercise Data
+        const sentencePairs = [
+            {
+                id: 1,
+                firstHalf: "The ice cream melted",
+                secondHalf: "and turned sour.",
+                explanation: "No comma - joining two verbs with same subject"
+            },
+            {
+                id: 2,
+                firstHalf: "In summer,",
+                secondHalf: "ice cream sales increase.",
+                explanation: "Comma after introductory phrase"
+            },
+            {
+                id: 3,
+                firstHalf: "I like ice cream,",
+                secondHalf: "especially Baskin Robbins.",
+                explanation: "Comma before 'especially'"
+            },
+            {
+                id: 4,
+                firstHalf: "Would you like toast",
+                secondHalf: "or cereal for breakfast?",
+                explanation: "No comma - joining two nouns"
+            },
+            {
+                id: 5,
+                firstHalf: "The students studied, prepared,",
+                secondHalf: "and took the exam.",
+                explanation: "Commas in list of three verbs"
+            },
+            {
+                id: 6,
+                firstHalf: "Ice cream",
+                secondHalf: "and gelato are popular.",
+                explanation: "No comma - compound subject"
+            },
+            {
+                id: 7,
+                firstHalf: "Ideally,",
+                secondHalf: "ice cream should be kept frozen.",
+                explanation: "Comma after introductory word"
+            },
+            {
+                id: 8,
+                firstHalf: "She laughed",
+                secondHalf: "and cried at the movie.",
+                explanation: "No comma - compound verbs with same subject"
+            },
+            {
+                id: 9,
+                firstHalf: "I enjoy reading, writing,",
+                secondHalf: "and studying.",
+                explanation: "Commas in list of three activities"
+            },
+            {
+                id: 10,
+                firstHalf: "My brother and sister",
+                secondHalf: "laughed and cried at the movie.",
+                explanation: "No comma - compound subject (brother and sister) with compound verbs (laughed and cried)"
+            }
+        ];
+
+        let correctMatches = 0;
+        let completedPairs = [];
+
+        function initializeMatching() {
+            const container = document.getElementById('matchingContainer');
+            container.innerHTML = '';
+            completedPairs = [];
+            correctMatches = 0;
+            updateMatchingScore();
+
+            sentencePairs.forEach((pair, index) => {
+                const matchItem = document.createElement('div');
+                matchItem.className = 'question';
+                matchItem.id = `match-${pair.id}`;
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.style.fontWeight = 'bold';
+                questionNumber.style.marginBottom = '10px';
+                questionNumber.style.color = '#667eea';
+                questionNumber.textContent = `${index + 1}. ${pair.firstHalf}`;
+                
+                const selectWrapper = document.createElement('div');
+                selectWrapper.style.display = 'flex';
+                selectWrapper.style.gap = '10px';
+                selectWrapper.style.alignItems = 'center';
+                selectWrapper.style.marginTop = '10px';
+                
+                const select = document.createElement('select');
+                select.className = 'practice-input';
+                select.id = `select-${pair.id}`;
+                select.style.flex = '1';
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = '-- Choose the ending --';
+                select.appendChild(defaultOption);
+                
+                const shuffledPairs = [...sentencePairs].sort(() => Math.random() - 0.5);
+                shuffledPairs.forEach(p => {
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.textContent = p.secondHalf;
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', function() {
+                    checkMatch(pair.id, parseInt(this.value));
+                });
+                
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'feedback';
+                feedbackDiv.id = `feedback-${pair.id}`;
+                
+                selectWrapper.appendChild(select);
+                matchItem.appendChild(questionNumber);
+                matchItem.appendChild(selectWrapper);
+                matchItem.appendChild(feedbackDiv);
+                container.appendChild(matchItem);
+            });
+        }
+
+        function checkMatch(questionId, selectedId) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            const matchItem = document.getElementById(`match-${questionId}`);
+            const select = document.getElementById(`select-${questionId}`);
+            
+            if (selectedId === questionId) {
+                const correctPair = sentencePairs.find(p => p.id === questionId);
+                const questionNumber = matchItem.querySelector('div[style*="font-weight: bold"]');
+                
+                questionNumber.innerHTML = questionNumber.textContent + ` <span style="color: #4caf50; font-size: 1.2em;">✓</span>`;
+                
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✓ Excellent! Perfect match!<br><strong>Complete sentence:</strong> ${correctPair.firstHalf} ${correctPair.secondHalf}<br><em>${correctPair.explanation}</em>`;
+                select.disabled = true;
+                select.style.opacity = '0.6';
+                matchItem.style.background = '#e8f5e9';
+                
+                if (!completedPairs.includes(questionId)) {
+                    completedPairs.push(questionId);
+                    correctMatches++;
+                    totalCorrect++;
+                    updateMatchingScore();
+                    updateOverallTracker();
+                    
+                    removeOptionFromAllDropdowns(questionId);
+                }
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                feedback.innerHTML = `✗ Not quite right. Think about punctuation rules.<br><button class="check-btn" style="margin-top: 10px;" onclick="resetQuestion(${questionId})">Try Again</button>`;
+                select.disabled = true;
+            }
+        }
+
+        function resetQuestion(questionId) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            const select = document.getElementById(`select-${questionId}`);
+            
+            select.value = '';
+            select.disabled = false;
+            feedback.style.display = 'none';
+            feedback.className = 'feedback';
+            feedback.innerHTML = '';
+        }
+
+        function removeOptionFromAllDropdowns(completedId) {
+            sentencePairs.forEach(pair => {
+                const select = document.getElementById(`select-${pair.id}`);
+                if (select && !select.disabled) {
+                    const option = select.querySelector(`option[value="${completedId}"]`);
+                    if (option) {
+                        option.remove();
+                    }
+                }
+            });
+        }
+
+        function updateMatchingScore() {
+            const scoreDisplay = document.getElementById('matchingScore');
+            scoreDisplay.textContent = `Correct: ${correctMatches}/10`;
+            
+            if (correctMatches === sentencePairs.length) {
+                scoreDisplay.innerHTML += ' <span class="celebration">🎉</span>';
+            }
+        }
+
+        function resetMatching() {
+            initializeMatching();
+        }
+    </script>
+</body>
+</html>

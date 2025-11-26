@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments & Run-ons Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-align: left;
+            position: relative;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #1b5e20;
+            display: block;
+            border-left: 5px solid #4caf50;
+        }
+
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #b71c1c;
+            display: block;
+            border-left: 5px solid #f44336;
+        }
+
+        .feedback strong {
+            display: inline;
+            margin-right: 5px;
+            font-size: 1.1em;
+        }
+
+        .highlight {
+            background: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .results-container {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: #f0f7ff;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .final-score {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3em;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .exit-btn {
+            background: #9e9e9e;
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 8px;
+            cursor: not-allowed;
+            font-size: 1.3em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 40px auto;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .exit-btn.active {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            cursor: pointer;
+            opacity: 1;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .exit-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            }
+            50% { 
+                box-shadow: 0 4px 20px rgba(76, 175, 80, 0.6);
+            }
+        }
+
+        .emoji {
+            font-size: 2em;
+            display: block;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .question-number {
+                font-size: 1.1em;
+            }
+
+            .question-text {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Fragments & Run-ons Review Quiz</h1>
+        <p class="subtitle">Test Your Understanding of Sentence Fragments and Run-on Sentences</p>
+
+        <div class="instructions">
+            <h3>📚 Instructions</h3>
+            <p style="margin-top: 10px; font-size: 1.1em;">
+                <strong>You must complete ALL the questions to progress.</strong> Try your best on the first attempt - you can only answer each question once!
+            </p>
+        </div>
+
+        <div id="quizContainer">
+            <!-- Questions will be inserted here by JavaScript -->
+        </div>
+
+        <button class="exit-btn" id="exitBtn" disabled>Exit Quiz</button>
+
+        <div class="results-container" id="resultsContainer">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div class="score-message" id="scoreMessage"></div>
+            <div class="emoji" id="scoreEmoji"></div>
+            <button class="retry-btn" onclick="location.reload()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                concept: "Complete Sentence Definition",
+                question: "What makes a complete sentence?",
+                options: [
+                    "A group of words with a capital letter and period",
+                    "A group of words with a subject, verb, and complete thought",
+                    "Any group of words longer than five words",
+                    "A group of words with descriptive adjectives"
+                ],
+                correct: 1,
+                explanation: "A complete sentence must have THREE things: <span class='highlight'>a subject (who or what), a verb (action or state), and a complete thought</span>. For example, 'The dog barked' is complete because it has all three elements and makes sense on its own."
+            },
+            {
+                id: 2,
+                concept: "Fragment Definition",
+                question: "What is a sentence fragment?",
+                options: [
+                    "A very short sentence",
+                    "An incomplete sentence missing a subject, verb, or complete thought",
+                    "A sentence with difficult vocabulary",
+                    "Two sentences joined together"
+                ],
+                correct: 1,
+                explanation: "A fragment is <span class='highlight'>an incomplete sentence that is missing a subject, verb, or complete thought</span>. Examples: 'Running down the street' (no subject), 'The tall building' (no verb), 'Because I was tired' (incomplete thought). Fragments cannot stand alone as sentences."
+            },
+            {
+                id: 3,
+                concept: "Identifying Fragments",
+                question: "Which of the following is a fragment?",
+                options: [
+                    "The cat slept on the couch.",
+                    "She runs every morning.",
+                    "Because it was raining outside.",
+                    "They finished their homework."
+                ],
+                correct: 2,
+                explanation: "<span class='highlight'>'Because it was raining outside'</span> is a fragment because it's an incomplete thought. When you read it, you're left wondering: 'What happened because it was raining?' It has a subject (it) and verb (was raining), but the word 'because' makes it dependent - it needs more information to be complete."
+            },
+            {
+                id: 4,
+                concept: "Fragment Types - Missing Subject",
+                question: "Which fragment is missing a subject?",
+                options: [
+                    "Although she studied hard.",
+                    "Ran quickly to the store.",
+                    "The old red car.",
+                    "When the bell rang."
+                ],
+                correct: 1,
+                explanation: "<span class='highlight'>'Ran quickly to the store'</span> is missing a subject. We have the verb 'ran' and we know where (to the store), but we don't know WHO ran. To fix it, add a subject: 'She ran quickly to the store' or 'The boy ran quickly to the store.'"
+            },
+            {
+                id: 5,
+                concept: "Fragment Types - Missing Verb",
+                question: "Which fragment is missing a verb?",
+                options: [
+                    "The students in the classroom.",
+                    "After we finished dinner.",
+                    "Walking down the street.",
+                    "Because the weather was bad."
+                ],
+                correct: 0,
+                explanation: "<span class='highlight'>'The students in the classroom'</span> is missing a verb. We know WHO (the students) and WHERE (in the classroom), but we don't know what they DID or WERE. To fix it, add a verb: 'The students in the classroom were studying' or 'The students in the classroom finished their test.'"
+            },
+            {
+                id: 6,
+                concept: "Run-on Sentence Definition",
+                question: "What is a run-on sentence?",
+                options: [
+                    "A sentence that is too long",
+                    "Two or more complete sentences joined incorrectly without proper punctuation or conjunctions",
+                    "A sentence with too many commas",
+                    "A sentence about running"
+                ],
+                correct: 1,
+                explanation: "A run-on sentence occurs when <span class='highlight'>two or more complete sentences are joined together without proper punctuation or connecting words</span>. Example: 'I went to the store I bought milk' - these are two complete thoughts that need to be separated or connected properly."
+            },
+            {
+                id: 7,
+                concept: "Comma Splice",
+                question: "What is a comma splice?",
+                options: [
+                    "Using too many commas in a sentence",
+                    "A type of run-on where two complete sentences are joined with only a comma",
+                    "Forgetting to use commas in a list",
+                    "Using a comma before 'and'"
+                ],
+                correct: 1,
+                explanation: "A comma splice is <span class='highlight'>a type of run-on sentence where two complete sentences are incorrectly joined with only a comma</span>. Example: 'I love pizza, my sister prefers pasta.' This is wrong because you need more than just a comma to join two complete sentences. Fix it by adding a conjunction: 'I love pizza, but my sister prefers pasta.'"
+            },
+            {
+                id: 8,
+                concept: "Identifying Run-ons",
+                question: "Which sentence is a run-on?",
+                options: [
+                    "The movie was long, but it was interesting.",
+                    "I finished my homework and went to bed.",
+                    "She studied hard she passed the test.",
+                    "Although it was raining, we went outside."
+                ],
+                correct: 2,
+                explanation: "<span class='highlight'>'She studied hard she passed the test'</span> is a run-on sentence (fused sentence). These are two complete sentences joined together with nothing separating them. Fix it by: (1) adding a period: 'She studied hard. She passed the test.' (2) adding a comma and conjunction: 'She studied hard, so she passed the test.' or (3) using a semicolon: 'She studied hard; she passed the test.'"
+            },
+            {
+                id: 9,
+                concept: "Fixing Fragments",
+                question: "How can you fix the fragment 'When I arrived at school'?",
+                options: [
+                    "Add a capital letter at the beginning",
+                    "Add a period at the end",
+                    "Add a complete independent clause: 'When I arrived at school, the bell had already rung.'",
+                    "Make it shorter"
+                ],
+                correct: 2,
+                explanation: "The fragment 'When I arrived at school' needs <span class='highlight'>a complete independent clause to finish the thought</span>. The word 'when' creates a dependent clause that leaves you wondering 'What happened when you arrived?' Complete it by adding what happened: 'When I arrived at school, the bell had already rung' or 'When I arrived at school, I saw my friends.'"
+            },
+            {
+                id: 10,
+                concept: "Fixing Run-ons",
+                question: "Which is the BEST way to fix this run-on: 'The test was difficult I studied all night'?",
+                options: [
+                    "The test was difficult, I studied all night.",
+                    "The test was difficult I, studied all night.",
+                    "The test was difficult, so I studied all night.",
+                    "The test was difficult I studied, all night."
+                ],
+                correct: 2,
+                explanation: "<span class='highlight'>'The test was difficult, so I studied all night'</span> is correct because it uses a comma + coordinating conjunction (FANBOYS) to properly join the two complete sentences. Option A is a comma splice (just a comma without a conjunction). The conjunction 'so' shows the relationship between the ideas - the difficult test caused the studying."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let answeredQuestions = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.id = `question-${q.id}`;
+
+                questionDiv.innerHTML = `
+                    <div class="question-number">Question ${index + 1}: ${q.concept}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options" id="options-${q.id}">
+                        ${q.options.map((option, i) => `
+                            <button class="option-btn" onclick="checkAnswer(${q.id}, ${i})">${option}</button>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${q.id}"></div>
+                `;
+
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswer(questionId, selectedIndex) {
+            const question = questions.find(q => q.id === questionId);
+            const optionsDiv = document.getElementById(`options-${questionId}`);
+            const buttons = optionsDiv.querySelectorAll('.option-btn');
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            const selectedButton = buttons[selectedIndex];
+
+            // Prevent multiple answers
+            if (selectedButton.classList.contains('disabled')) {
+                return;
+            }
+
+            // Disable all buttons for this question
+            buttons.forEach(btn => {
+                btn.classList.add('disabled');
+                btn.style.cursor = 'not-allowed';
+            });
+
+            answeredQuestions++;
+
+            if (selectedIndex === question.correct) {
+                // Correct answer
+                selectedButton.classList.add('correct');
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `<strong>✓ Correct!</strong> ${question.explanation}`;
+                correctAnswers++;
+            } else {
+                // Incorrect answer
+                selectedButton.classList.add('incorrect');
+                buttons[question.correct].classList.add('correct');
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `<strong>✗ Not quite.</strong> ${question.explanation}`;
+            }
+
+            updateProgress();
+
+            // Show results when all questions are answered
+            if (answeredQuestions === questions.length) {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function updateProgress() {
+            // Progress tracker removed - tracking internally only
+        }
+
+        function showResults() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const scoreEmoji = document.getElementById('scoreEmoji');
+            const exitBtn = document.getElementById('exitBtn');
+
+            resultsContainer.classList.add('show');
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+
+            const percentage = (correctAnswers / questions.length) * 100;
+            finalScore.textContent = `${correctAnswers}/10 (${Math.round(percentage)}%)`;
+
+            if (percentage === 100) {
+                scoreMessage.textContent = "Perfect Score! You've mastered fragments and run-ons!";
+                scoreEmoji.textContent = "🏆🎉";
+            } else if (percentage >= 90) {
+                scoreMessage.textContent = "Excellent work! You have a strong understanding of fragments and run-ons!";
+                scoreEmoji.textContent = "⭐😊";
+            } else if (percentage >= 80) {
+                scoreMessage.textContent = "Great job! You understand most concepts well!";
+                scoreEmoji.textContent = "👍😊";
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "Good effort! Review the explanations to strengthen your understanding.";
+                scoreEmoji.textContent = "📚💪";
+            } else if (percentage >= 60) {
+                scoreMessage.textContent = "You're making progress! Review the concepts and try again.";
+                scoreEmoji.textContent = "📖";
+            } else {
+                scoreMessage.textContent = "Keep practicing! Review the lesson materials and try the quiz again.";
+                scoreEmoji.textContent = "💪📝";
+            }
+
+            // Activate exit button
+            exitBtn.disabled = false;
+            exitBtn.classList.add('active');
+            exitBtn.style.cursor = 'pointer';
+        }
+
+        // Initialize quiz on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuiz();
+        });
+    </script>
+</body>
+</html>
