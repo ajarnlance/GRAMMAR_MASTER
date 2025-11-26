@@ -1287,7 +1287,6 @@
             lessonCards.forEach(function(card) {
                 var lessonKey = card.getAttribute('data-lesson');
                 var lessonData = allProgress[lessonKey];
-                console.log("Lesson:", lessonKey, "Data:", JSON.stringify(lessonData));
                 
                 // Update Progress bar
                 var progressFill = card.querySelector('.lesson-progress-fill');
