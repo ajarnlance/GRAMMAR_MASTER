@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git push origin main --force)"
     ],
     "deny": [],
     "ask": []
