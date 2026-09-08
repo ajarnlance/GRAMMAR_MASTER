@@ -1,0 +1,8 @@
+{
+  "name": "ESL Grammar Master",
+  "description": "A comprehensive interactive learning hub for ESL students to master sentence structures, grammar rules, track module progress, and review scores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
