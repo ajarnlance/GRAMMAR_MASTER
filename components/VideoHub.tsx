@@ -8,12 +8,19 @@ import {
   AlertCircle
 } from 'lucide-react';
 
+export const getAssetUrl = (path: string): string => {
+  const base = import.meta.env.BASE_URL || './';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${cleanBase}${cleanPath}`;
+};
+
 export const GRAMMAR_VIDEOS: VideoInfo[] = [
   {
     id: ModuleType.VIDEO_SENTENCE_STRUCTURE,
     title: 'Sentence Structure',
     description: 'Learn about subjects, predicates, independent & dependent clauses, and compound structures.',
-    videoSrc: '/videos/sentence_structure.mp4',
+    videoSrc: getAssetUrl('videos/sentence_structure.mp4'),
     duration: '6:48',
     quizType: ModuleType.VIDEO_SENTENCE_STRUCTURE,
     quizTitle: 'Sentence Structure Quiz',
@@ -23,7 +30,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_SVA,
     title: 'Subject-Verb Agreement',
     description: 'Master the S-Switch rule, compound subjects, indefinite pronouns, and tricky singular nouns.',
-    videoSrc: '/videos/subject_verb_agreement.mp4',
+    videoSrc: getAssetUrl('videos/subject_verb_agreement.mp4'),
     duration: '6:18',
     quizType: ModuleType.VIDEO_SVA,
     quizTitle: 'Subject-Verb Quiz',
@@ -33,7 +40,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_RELATIVE_CLAUSES,
     title: 'Relative Clauses',
     description: 'Connect ideas seamlessly using who, which, that, whose, and where in defining & non-defining clauses.',
-    videoSrc: '/videos/relative_clauses.mp4',
+    videoSrc: getAssetUrl('videos/relative_clauses.mp4'),
     duration: '7:01',
     quizType: ModuleType.VIDEO_RELATIVE_CLAUSES,
     quizTitle: 'Relative Clauses Quiz',
@@ -43,7 +50,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_FRAGMENTS,
     title: 'Fragments & Run-ons',
     description: 'Identify and fix incomplete sentences, comma splices, and fused run-on sentences.',
-    videoSrc: '/videos/fragments_runons.mp4',
+    videoSrc: getAssetUrl('videos/fragments_runons.mp4'),
     duration: '5:17',
     quizType: ModuleType.VIDEO_FRAGMENTS,
     quizTitle: 'Fragments & Run-ons Quiz',
@@ -53,7 +60,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_CONDITIONALS,
     title: 'Conditionals & If Clauses',
     description: 'Explore zero, first, second, and third conditionals with hypothetical and real scenarios.',
-    videoSrc: '/videos/conditionals.mp4',
+    videoSrc: getAssetUrl('videos/conditionals.mp4'),
     duration: '6:02',
     category: 'advanced'
   },
@@ -61,7 +68,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_PRESENT_PERFECT,
     title: 'Present Perfect vs Past Simple',
     description: 'Understand time markers, ongoing experiences vs finished past actions in context.',
-    videoSrc: '/videos/present_perfect_vs.mp4',
+    videoSrc: getAssetUrl('videos/present_perfect_vs.mp4'),
     duration: '6:39',
     category: 'advanced'
   },
@@ -69,7 +76,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_PAST_MODALS,
     title: 'Decoding Past Modals',
     description: 'Master could have, should have, and would have to express regret, missed possibilities, and hypothetical past outcomes.',
-    videoSrc: '/videos/past_modals.mp4',
+    videoSrc: getAssetUrl('videos/past_modals.mp4'),
     duration: '6:30',
     quizType: ModuleType.VIDEO_PAST_MODALS,
     quizTitle: 'Past Modals Quiz',
@@ -79,7 +86,7 @@ export const GRAMMAR_VIDEOS: VideoInfo[] = [
     id: ModuleType.VIDEO_PARALLEL_STRUCTURE,
     title: 'Parallel Structure',
     description: 'Master structural balance across matching word forms, consistent clauses, lists after colons, and thesis statements.',
-    videoSrc: '/videos/parallel_structure.mp4',
+    videoSrc: getAssetUrl('videos/parallel_structure.mp4'),
     duration: '7:50',
     quizType: ModuleType.VIDEO_PARALLEL_STRUCTURE,
     quizTitle: 'Parallel Structure Quiz',
